@@ -313,14 +313,14 @@ PUT    /admin/orders/{id}   Actualizar estado (admin)
 <div align="center">
   <img src="https://github.com/Carlos-Tchipia.png" width="80" style="border-radius: 50%"/>
   <br/>
-  <strong>Teu Nome Aqui</strong>
+  <strong>Carlos Tchípia</strong>
   <br/>
   Licenciatura em Engenharia Informática — ISPTEC
   <br/>
   <br/>
   <a href="https://github.com/Carlos-Tchipia">GitHub</a> •
   <a href="mailto:nevescarlos930@gmail.com">Email</a> •
-  <a href="https://linkedin.com/in/Carlos-Tchipia">LinkedIn</a>
+  <a href="https://linkedin.com/in/Carlos Tchípia">LinkedIn</a>
 </div>
 
 ---
