@@ -6,25 +6,34 @@
 <div class="flex items-center gap-lg">
 <span class="font-hero-title text-section-title font-black text-primary-container dark:text-primary-fixed uppercase tracking-widest cursor-pointer">Ondjilacommerce</span>
 <nav class="hidden md:flex gap-md font-body-main text-body-main">
-<a class="text-primary-container dark:text-primary-fixed border-b-2 border-primary-container font-bold pb-1 transition-colors duration-200" routerLink="/">Categories</a>
-<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200" routerLink="/">Deals</a>
-<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200" routerLink="/">What's New</a>
-<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200" routerLink="/">Delivery</a>
+<a class="text-primary-container dark:text-primary-fixed border-b-2 border-primary-container font-bold pb-1 transition-colors duration-200" routerLink="/">Início</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200" routerLink="/catalog">Categorias</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200" routerLink="/">Ofertas</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200" routerLink="/admin">A minha conta</a>
 </nav>
 </div>
 <div class="flex items-center gap-md">
 <div class="relative hidden lg:block">
-<input class="bg-[#F9F8F6] border border-[#E8E4DC] rounded-[6px] py-xs px-md pr-xl focus:border-primary-container outline-none text-sm w-64" placeholder="Search Product" type="text"/>
+<input class="bg-[#F9F8F6] border border-[#E8E4DC] rounded-[6px] py-xs px-md pr-xl focus:border-primary-container outline-none text-sm w-64" placeholder="Pesquisar produtos..." type="text"/>
 <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-sm" data-icon="search">search</span>
 </div>
 <div class="flex items-center gap-sm">
+<div class="relative group hidden md:flex items-center cursor-pointer mr-sm">
+  <span class="text-[12px] text-on-surface-variant flex items-center">
+    [<span class="material-symbols-outlined text-[14px] mx-1">language</span> PT <span class="material-symbols-outlined text-[14px]">arrow_drop_down</span>]
+  </span>
+  <div class="absolute right-0 top-full mt-1 hidden group-hover:block bg-surface shadow-md rounded-md py-1 min-w-[120px] text-[12px] text-on-surface border border-outline-variant z-50">
+    <div class="px-3 py-2 hover:bg-surface-container-high cursor-pointer font-medium text-primary-container">Português</div>
+    <div class="px-3 py-2 hover:bg-surface-container-high cursor-pointer">English</div>
+  </div>
+</div>
 <button class="flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200">
 <span class="material-symbols-outlined" data-icon="person">person</span>
-<span class="hidden md:inline font-label-caps uppercase text-[10px]">Account</span>
+<span class="hidden md:inline font-label-caps uppercase text-[10px]">A minha conta</span>
 </button>
 <button class="flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200">
 <span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
-<span class="hidden md:inline font-label-caps uppercase text-[10px]">Cart</span>
+<span class="hidden md:inline font-label-caps uppercase text-[10px]">Carrinho</span>
 </button>
 </div>
 </div>
@@ -41,12 +50,10 @@
 <p class="text-on-surface-variant text-body-main max-w-lg">
                         Descubra a elegância em cada detalhe. O Ondjila Gold traz até si o luxo e a sofisticação que definem o seu estilo.
                     </p>
-<button class="bg-primary-container text-white px-xl py-sm font-bold transition-all hover:bg-[#A87A09] active:scale-95">
-                        Shop Now
-                    </button>
+<button class="bg-primary-container text-white px-xl py-sm font-bold transition-all hover:bg-[#A87A09] active:scale-95">Comprar agora</button>
 </div>
 <div class="relative h-[400px] md:h-[500px]">
-<img alt="Premium Headphones Hero" class="w-full h-full object-cover rounded-card shadow-gold" data-alt="A side profile of a stylish woman wearing professional studio headphones, set against a warm minimalist studio background with soft golden-hour lighting. The image captures a serene, high-end editorial mood with a clean composition. Warm tones and premium finishes highlight the sophisticated luxury aesthetic of the brand Ondjila Gold." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVqB2Zgu9WSmwsNkFDrsLCPgGZusAAryvgSZWfif_i9hGBwI0jaBOAynafeSIfzqEikwELTg5tuway4MwnAt3Mt6144akNpIWLTOYFi2wciro5hEvyTDMFaW7NedbdUcFbR6XVltexkfVJKlPKCYOKvy83Vahbl-A7HAZg17bmCi_906CKaJI7megGgc2a7FaUUJ0CJv9ljXlepYcvLwkiYPeMF0sX_G6Q3dwSlerJ7nNhL3uPL2qLXBdA6iRqYxwZQ3KHQcBW5I8"/>
+<img alt="Premium Headphones Hero" class="w-full h-full object-cover rounded-card shadow-gold" src="assets/hero_boy_headphones.png"/>
 </div>
 </div>
 </section>
@@ -55,14 +62,13 @@
 <div class="max-w-container_max mx-auto px-gutter overflow-x-auto">
 <div class="flex gap-lg items-center whitespace-nowrap">
 <button class="flex items-center gap-xs font-label-caps text-primary-container">
-<span class="material-symbols-outlined" data-icon="tune">tune</span> Filters
-                    </button>
+<span class="material-symbols-outlined" data-icon="tune">tune</span>Filtros</button>
 <div class="flex gap-md">
-<span class="px-md py-xs rounded-full bg-surface-container-high font-label-caps cursor-pointer hover:bg-primary-container hover:text-white transition-colors">Headphones</span>
-<span class="px-md py-xs rounded-full bg-surface-container-low font-label-caps cursor-pointer hover:bg-primary-container hover:text-white transition-colors">Smartwatches</span>
-<span class="px-md py-xs rounded-full bg-surface-container-low font-label-caps cursor-pointer hover:bg-primary-container hover:text-white transition-colors">Speakers</span>
-<span class="px-md py-xs rounded-full bg-surface-container-low font-label-caps cursor-pointer hover:bg-primary-container hover:text-white transition-colors">Accessories</span>
-<span class="px-md py-xs rounded-full bg-surface-container-low font-label-caps cursor-pointer hover:bg-primary-container hover:text-white transition-colors">Cameras</span>
+<span class="px-md py-xs rounded-full bg-surface-container-high font-label-caps cursor-pointer hover:bg-primary-container hover:text-white transition-colors">Auscultadores</span>
+<span class="px-md py-xs rounded-full bg-surface-container-low font-label-caps cursor-pointer hover:bg-primary-container hover:text-white transition-colors">Relógios Inteligentes</span>
+<span class="px-md py-xs rounded-full bg-surface-container-low font-label-caps cursor-pointer hover:bg-primary-container hover:text-white transition-colors">Colunas</span>
+<span class="px-md py-xs rounded-full bg-surface-container-low font-label-caps cursor-pointer hover:bg-primary-container hover:text-white transition-colors">Acessórios</span>
+<span class="px-md py-xs rounded-full bg-surface-container-low font-label-caps cursor-pointer hover:bg-primary-container hover:text-white transition-colors">Câmaras</span>
 </div>
 </div>
 </div>
@@ -77,16 +83,16 @@
 <!-- Product Card 1 -->
 <div class="bg-white rounded-card shadow-gold group cursor-pointer overflow-hidden transition-all hover:-translate-y-1">
 <div class="h-64 relative bg-[#F9F8F6] p-md">
-<span class="absolute top-3 left-3 bg-error text-white text-[10px] font-bold px-2 py-1 rounded-sm">20% OFF</span>
+<span class="absolute top-3 left-3 bg-error text-white text-[10px] font-bold px-2 py-1 rounded-sm">-20%</span>
 <span class="absolute top-3 right-3 material-symbols-outlined text-outline-variant hover:text-error transition-colors" data-icon="favorite">favorite</span>
 <img alt="Wireless Headphones" class="w-full h-full object-contain mix-blend-multiply" data-alt="Close-up studio photograph of premium black wireless headphones on a clean, light-colored background. The lighting is soft and professional, emphasizing the sleek textures and metallic accents. The overall mood is sophisticated and minimal, consistent with high-end technology product photography in a warm white studio setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXbTuD3WWsyEnTsieBaUQjgqcpokqPAicHkz_xMPIBh9NEtT7IRQsSPvRqClQoQ4TMnm4l22d12mVKPNHTIbtZv65pKXvZ5JhmtCK_EuPo1y3yPxfpszs5RsDZgLHpXnFEI6zxQgDnRhC9N_k5r-pmiLJDA0Sn4rnLDse7Da9NUOyNCExlIzPC5DH7w0u5JBjuc4pkEnXAjEXc1L8kNePXND7E6eR4cHYLqbkfRBKh2FmlFDBBsLKF-xHVzmlkTFjTUbz0ZIMwG58"/>
 </div>
 <div class="p-md space-y-2">
 <div class="flex justify-between items-start">
 <h3 class="font-body-main text-body-main font-medium">Bose QuietComfort</h3>
-<span class="font-price-display text-price-display text-on-surface">$299.00</span>
+<span class="font-price-display text-price-display text-primary-container font-bold">45.990,00 <span class="text-sm font-normal">Kz</span></span>
 </div>
-<p class="text-xs text-on-surface-variant">Noise Cancelling Wireless Over-Ear</p>
+<p class="text-xs text-on-surface-variant">Over-Ear Sem Fios com Cancelamento de Ruído</p>
 <div class="flex items-center gap-xs">
 <div class="flex text-primary-container text-[12px]">
 <span class="material-symbols-outlined !text-[14px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
@@ -97,22 +103,22 @@
 </div>
 <span class="text-[10px] text-on-surface-variant">(121)</span>
 </div>
-<button class="w-full border border-primary-container py-2 font-label-caps text-primary-container hover:bg-primary-container hover:text-white transition-all mt-md">Add to Cart</button>
+<button class="w-full border border-primary-container py-2 font-label-caps text-primary-container hover:bg-primary-container hover:text-white transition-all mt-md">Adicionar ao carrinho</button>
 </div>
 </div>
 <!-- Product Card 2 -->
 <div class="bg-white rounded-card shadow-gold group cursor-pointer overflow-hidden transition-all hover:-translate-y-1">
 <div class="h-64 relative bg-[#F9F8F6] p-md">
-<span class="absolute top-3 left-3 bg-error text-white text-[10px] font-bold px-2 py-1 rounded-sm">15% OFF</span>
+<span class="absolute top-3 left-3 bg-error text-white text-[10px] font-bold px-2 py-1 rounded-sm">-15%</span>
 <span class="absolute top-3 right-3 material-symbols-outlined text-outline-variant hover:text-error transition-colors" data-icon="favorite">favorite</span>
 <img alt="Earbuds" class="w-full h-full object-contain mix-blend-multiply" data-alt="A pair of sleek, modern white wireless earbuds displayed in their charging case against a clean, minimalist background. The photography uses high-key lighting to create a bright, luxury-tech feel. Accents of soft gold shadows provide depth and elegance, mirroring the Ondjila Gold brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPJz3d4Wx7hLp5cl1vSCBzBfsVsxMVMUsXBYyicPYMzLczYjyX99U36fL6YBrgrViH-SNK63u5rJMkD0urX9FJwqpEh2HDK3I_EHPBevIeFseZcZ13yT_2uD1FjOWV4UaTBG3iDARJWc48RvYnd1MY3cZhlLjKGCIN19Vw94dqeiB6CvEULrXpTFN4RB62pB33ys3VFVZZzqnTSM0zVO_OXqIn9vrZCw5Qv6zz4FLNA3EOQu78J_z9YwT3Biupd6p7VUer5xXRqZo"/>
 </div>
 <div class="p-md space-y-2">
 <div class="flex justify-between items-start">
 <h3 class="font-body-main text-body-main font-medium">AirPods Pro</h3>
-<span class="font-price-display text-price-display text-on-surface">$249.00</span>
+<span class="font-price-display text-price-display text-primary-container font-bold">38.500,00 <span class="text-sm font-normal">Kz</span></span>
 </div>
-<p class="text-xs text-on-surface-variant">MagSafe Charging Case</p>
+<p class="text-xs text-on-surface-variant">Caixa de Carregamento MagSafe</p>
 <div class="flex items-center gap-xs">
 <div class="flex text-primary-container text-[12px]">
 <span class="material-symbols-outlined !text-[14px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
@@ -123,22 +129,22 @@
 </div>
 <span class="text-[10px] text-on-surface-variant">(458)</span>
 </div>
-<button class="w-full border border-primary-container py-2 font-label-caps text-primary-container hover:bg-primary-container hover:text-white transition-all mt-md">Add to Cart</button>
+<button class="w-full border border-primary-container py-2 font-label-caps text-primary-container hover:bg-primary-container hover:text-white transition-all mt-md">Adicionar ao carrinho</button>
 </div>
 </div>
 <!-- Product Card 3 -->
 <div class="bg-white rounded-card shadow-gold group cursor-pointer overflow-hidden transition-all hover:-translate-y-1">
 <div class="h-64 relative bg-[#F9F8F6] p-md">
-<span class="absolute top-3 left-3 bg-error text-white text-[10px] font-bold px-2 py-1 rounded-sm">30% OFF</span>
+<span class="absolute top-3 left-3 bg-error text-white text-[10px] font-bold px-2 py-1 rounded-sm">-30%</span>
 <span class="absolute top-3 right-3 material-symbols-outlined text-outline-variant hover:text-error transition-colors" data-icon="favorite">favorite</span>
 <img alt="Studio Headphones" class="w-full h-full object-contain mix-blend-multiply" data-alt="Professional over-ear studio headphones in charcoal gray, featuring premium leather cushions. The product is shot in a minimalist layout with soft side-lighting that highlights the high-quality materials and construction. The aesthetic is clean, technical, and expensive, fitting for a curated premium collection." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbzUo3rUt7Rk1uuE8If7FmzbYSAVPwhy5DVd5vjS1N03YlGIZJidv3pBcpNo3vHk_FIzF0AibHQvebRFEDb6CzK-wUJDhPoMPhCTqw_VqnRTRg0ytCQAUYI93exucSscfR9_DWmXKxRX_5Ns8zdple1qJmGEgTjWlwREysEPIFpu1E9-pAZGHQzRdAFY7ZD8pC6hhGO3BPkEyr89jUFWdCzmw72Ka0TU16X36UiZystMWcUyAQHymhVsausNgvf3YIhDfGSFQZ4-0"/>
 </div>
 <div class="p-md space-y-2">
 <div class="flex justify-between items-start">
 <h3 class="font-body-main text-body-main font-medium">Sony WH-1000XM5</h3>
-<span class="font-price-display text-price-display text-on-surface">$399.00</span>
+<span class="font-price-display text-price-display text-primary-container font-bold">61.500,00 <span class="text-sm font-normal">Kz</span></span>
 </div>
-<p class="text-xs text-on-surface-variant">Industry-leading noise cancelation</p>
+<p class="text-xs text-on-surface-variant">Cancelamento de ruído líder de mercado</p>
 <div class="flex items-center gap-xs">
 <div class="flex text-primary-container text-[12px]">
 <span class="material-symbols-outlined !text-[14px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
@@ -149,22 +155,22 @@
 </div>
 <span class="text-[10px] text-on-surface-variant">(892)</span>
 </div>
-<button class="w-full border border-primary-container py-2 font-label-caps text-primary-container hover:bg-primary-container hover:text-white transition-all mt-md">Add to Cart</button>
+<button class="w-full border border-primary-container py-2 font-label-caps text-primary-container hover:bg-primary-container hover:text-white transition-all mt-md">Adicionar ao carrinho</button>
 </div>
 </div>
 <!-- Product Card 4 -->
 <div class="bg-white rounded-card shadow-gold group cursor-pointer overflow-hidden transition-all hover:-translate-y-1">
 <div class="h-64 relative bg-[#F9F8F6] p-md">
-<span class="absolute top-3 left-3 bg-error text-white text-[10px] font-bold px-2 py-1 rounded-sm">10% OFF</span>
+<span class="absolute top-3 left-3 bg-error text-white text-[10px] font-bold px-2 py-1 rounded-sm">-10%</span>
 <span class="absolute top-3 right-3 material-symbols-outlined text-outline-variant hover:text-error transition-colors" data-icon="favorite">favorite</span>
 <img alt="Gaming Headset" class="w-full h-full object-contain mix-blend-multiply" data-alt="High-performance gaming headset with an integrated microphone, showcased in a crisp product photography style. The image features neutral, high-key tones and precise focus on the textural details of the earcups. The composition is balanced and airy, emphasizing the premium quality and modern design of the peripheral." src="https://lh3.googleusercontent.com/aida-public/AB6AXuABqvj6gSDnk3P3B_dZAM097bJdB-t1ep9MaknV9nAqTK3MC5u43wE8j9h1yEi1ZWYsVYoCaHHoQEk78O2GdgKxE3kvSTCeT-7OtyZOD6HyKr0yNaiusufYMVokiFOXTEvCtpAyzBuA4nTGAU2c6dobC8ry_nhmqF4T8mdUt1YPHOMb854gygbkuL1YE6LlgYsqq1300xrcMzz6AR15O71zCgsk-pl5_VIB_u5D3JA981RikNvPFWwZ4gRr829jrW8UwbguTdSYLaA"/>
 </div>
 <div class="p-md space-y-2">
 <div class="flex justify-between items-start">
 <h3 class="font-body-main text-body-main font-medium">SteelSeries Arctis</h3>
-<span class="font-price-display text-price-display text-on-surface">$179.00</span>
+<span class="font-price-display text-price-display text-primary-container font-bold">27.500,00 <span class="text-sm font-normal">Kz</span></span>
 </div>
-<p class="text-xs text-on-surface-variant">Lossless Wireless + Bluetooth</p>
+<p class="text-xs text-on-surface-variant">Sem Fios Lossless + Bluetooth</p>
 <div class="flex items-center gap-xs">
 <div class="flex text-primary-container text-[12px]">
 <span class="material-symbols-outlined !text-[14px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
@@ -175,7 +181,7 @@
 </div>
 <span class="text-[10px] text-on-surface-variant">(65)</span>
 </div>
-<button class="w-full border border-primary-container py-2 font-label-caps text-primary-container hover:bg-primary-container hover:text-white transition-all mt-md">Add to Cart</button>
+<button class="w-full border border-primary-container py-2 font-label-caps text-primary-container hover:bg-primary-container hover:text-white transition-all mt-md">Adicionar ao carrinho</button>
 </div>
 </div>
 </div>
@@ -217,7 +223,7 @@
 </div>
 </div>
 <div>
-<h5 class="font-label-caps mb-md text-primary-fixed">SHOP</h5>
+<h5 class="font-label-caps mb-md text-primary-fixed">LOJA</h5>
 <ul class="space-y-sm text-surface-variant dark:text-outline-variant text-sm">
 <li class="hover:text-primary-fixed transition-colors cursor-pointer">Novidades</li>
 <li class="hover:text-primary-fixed transition-colors cursor-pointer">Best Sellers</li>
@@ -226,7 +232,7 @@
 </ul>
 </div>
 <div>
-<h5 class="font-label-caps mb-md text-primary-fixed">SUPPORT</h5>
+<h5 class="font-label-caps mb-md text-primary-fixed">SUPORTE</h5>
 <ul class="space-y-sm text-surface-variant dark:text-outline-variant text-sm">
 <li class="hover:text-primary-fixed transition-colors cursor-pointer">Centro de Ajuda</li>
 <li class="hover:text-primary-fixed transition-colors cursor-pointer">Envio e Entrega</li>
@@ -246,9 +252,9 @@
 <div class="border-t border-outline-variant/20 mt-xl pt-lg flex flex-col md:flex-row justify-between items-center gap-md">
 <p class="text-xs text-surface-variant">© 2024 Ondjila Gold. All rights reserved.</p>
 <div class="flex gap-lg text-xs text-surface-variant">
-<span class="hover:text-white cursor-pointer">Privacy Policy</span>
-<span class="hover:text-white cursor-pointer">Terms of Service</span>
-<span class="hover:text-white cursor-pointer">Shipping Policy</span>
+<span class="hover:text-white cursor-pointer">Política de Privacidade</span>
+<span class="hover:text-white cursor-pointer">Termos de Serviço</span>
+<span class="hover:text-white cursor-pointer">Política de Envio</span>
 </div>
 </div>
 </div>
