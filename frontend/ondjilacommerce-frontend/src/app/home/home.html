@@ -18,6 +18,9 @@
 <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-sm" data-icon="search" translate="no">search</span>
 </div>
 <div class="flex items-center gap-sm">
+<button (click)="toggleTheme()" class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary-container transition-colors duration-200">
+  <span class="material-symbols-outlined" translate="no">{{ themeService.isDarkMode() ? 'light_mode' : 'dark_mode' }}</span>
+</button>
 <div class="relative group hidden md:flex items-center cursor-pointer mr-sm">
   <span class="text-[12px] text-on-surface-variant flex items-center">
     [<span class="material-symbols-outlined text-[14px] mx-1" translate="no">language</span> PT <span class="material-symbols-outlined text-[14px]" translate="no">arrow_drop_down</span>]
@@ -62,7 +65,7 @@
                 Tecnologia de Elite. <br/><span class="text-primary-container">Confiança Ondjila.</span>
             </h1>
             <p class="text-on-surface-variant text-body-main max-w-lg leading-relaxed">
-                Selecionamos apenas o topo da eletrónica mundial. Com a Ondjila, você garante produtos 100% originais, entrega segura em Luanda e um suporte dedicado ao seu sucesso.
+                Selecionamos apenas o topo da eletrónica mundial. Com a ONDJILA, garante produtos 100% originais, entrega segura em todo o país e um suporte dedicado ao seu sucesso.
             </p>
             <div class="flex flex-wrap gap-md mt-sm">
                 <button routerLink="/categories" class="bg-primary-container text-white px-xl py-md font-label-caps text-label-caps uppercase tracking-widest hover:bg-[#A87A09] transition-all gold-shadow flex items-center gap-sm">
@@ -79,7 +82,7 @@
                 </div>
                 <div class="flex items-center gap-xs">
                     <span class="material-symbols-outlined text-primary-container text-[18px]" translate="no">local_shipping</span>
-                    <span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Entrega Luanda</span>
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Entrega Angola</span>
                 </div>
                 <div class="flex items-center gap-xs">
                     <span class="material-symbols-outlined text-primary-container text-[18px]" translate="no">lock</span>
@@ -289,7 +292,7 @@
 </div>
 </div>
 <div class="border-t border-outline-variant/20 mt-xl pt-lg flex flex-col md:flex-row justify-between items-center gap-md">
-<p class="text-xs text-surface-variant">© 2024 Ondjila Gold. All rights reserved.</p>
+<p class="text-surface-variant text-[11px] uppercase tracking-widest">© {{ '2026' }} ONDJILA. Todos os direitos reservados.</p>
 <div class="flex gap-lg text-xs text-surface-variant">
 <span class="hover:text-white cursor-pointer">Política de Privacidade</span>
 <span class="hover:text-white cursor-pointer">Termos de Serviço</span>

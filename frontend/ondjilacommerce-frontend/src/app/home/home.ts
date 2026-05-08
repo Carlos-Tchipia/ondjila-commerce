@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { CartService } from '../services/cart/cart';
 import { SearchService } from '../services/search/search.service';
 import { UserService } from '../services/user/user.service';
+import { ThemeService } from '../services/theme/theme.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -15,6 +16,7 @@ export class Home {
   cartService = inject(CartService);
   searchService = inject(SearchService);
   userService = inject(UserService);
+  themeService = inject(ThemeService);
 
   onSearch(event: any) {
     const query = event.target.value;
@@ -23,5 +25,9 @@ export class Home {
 
   logout() {
     this.userService.logout();
+  }
+
+  toggleTheme() {
+    this.themeService.toggleTheme();
   }
 }

@@ -3,6 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CartService } from '../services/cart/cart';
 import { ProductService, Product } from '../services/product/product.service';
 import { SearchService } from '../services/search/search.service';
+import { UserService } from '../services/user/user.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { combineLatest, map } from 'rxjs';

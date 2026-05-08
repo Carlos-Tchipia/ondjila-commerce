@@ -12,7 +12,7 @@
 </div>
 <div class="flex items-center gap-md">
 <div class="relative hidden lg:block">
-<input class="bg-[#F9F8F6] border border-[#E8E4DC] rounded-[6px] py-xs px-md pr-xl focus:border-primary-container outline-none text-sm w-64" placeholder="Pesquisar produtos..." type="text"/>
+<input (input)="onSearch($event)" class="bg-[#F9F8F6] border border-[#E8E4DC] rounded-[6px] py-xs px-md pr-xl focus:border-primary-container outline-none text-sm w-64" placeholder="Pesquisar produtos..." type="text"/>
 <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-sm" data-icon="search" translate="no">search</span>
 </div>
 <div class="flex items-center gap-sm">

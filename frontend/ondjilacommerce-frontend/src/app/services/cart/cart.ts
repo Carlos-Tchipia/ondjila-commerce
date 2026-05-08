@@ -22,7 +22,11 @@ export class CartService {
 
   constructor() { }
 
-  addToCart(product: Product) {
+  addToCart(product?: Product) {
+    if (!product) {
+      // Fallback for old components
+      return;
+    }
     const currentItems = this.cartItems.value;
     const existingItem = currentItems.find(item => item.product.id === product.id);
 

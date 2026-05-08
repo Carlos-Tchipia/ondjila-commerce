@@ -12,4 +12,9 @@ import { CartService } from './services/cart/cart';
 export class App {
   protected readonly title = signal('ondjilacommerce-frontend');
   cartService = inject(CartService);
+  isChatOpen = signal(false);
+
+  toggleChat() {
+    this.isChatOpen.set(!this.isChatOpen());
+  }
 }
