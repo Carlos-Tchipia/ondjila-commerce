@@ -11,6 +11,4 @@ import { CommonModule } from '@angular/common';
 })
 export class Checkout {
   cartService = inject(CartService);
-
-
 }

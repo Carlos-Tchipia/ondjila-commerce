@@ -1,238 +1,113 @@
-<!DOCTYPE html>
+<div class="bg-background text-on-background font-body-main selection:bg-primary-container selection:text-white min-h-screen flex flex-col">
 
-<html lang="pt"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Ondjila Gold - Login &amp; Registro</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">
-        tailwind.config = {
-          darkMode: "class",
-          theme: {
-            extend: {
-              "colors": {
-                      "surface-container": "#f7ecde",
-                      "primary-container": "#c8960c",
-                      "on-primary": "#ffffff",
-                      "on-primary-fixed-variant": "#5c4300",
-                      "on-secondary-fixed-variant": "#5d4200",
-                      "secondary-fixed": "#ffdea6",
-                      "on-error-container": "#93000a",
-                      "on-tertiary-fixed-variant": "#00468a",
-                      "inverse-on-surface": "#faefe1",
-                      "on-surface": "#201b12",
-                      "surface-variant": "#ebe1d3",
-                      "secondary": "#7b5800",
-                      "on-secondary-container": "#735200",
-                      "surface-container-low": "#fdf2e4",
-                      "on-tertiary-fixed": "#001b3d",
-                      "surface-container-lowest": "#ffffff",
-                      "secondary-container": "#fec658",
-                      "error": "#ba1a1a",
-                      "on-background": "#201b12",
-                      "secondary-fixed-dim": "#f5be50",
-                      "outline": "#817662",
-                      "surface-bright": "#fff8f2",
-                      "on-surface-variant": "#4f4634",
-                      "primary": "#795900",
-                      "inverse-primary": "#f5be3c",
-                      "surface-tint": "#795900",
-                      "on-tertiary-container": "#00356b",
-                      "tertiary-fixed-dim": "#a8c8ff",
-                      "primary-fixed": "#ffdfa0",
-                      "surface-dim": "#e3d9cb",
-                      "on-primary-fixed": "#261a00",
-                      "tertiary-fixed": "#d6e3ff",
-                      "on-secondary": "#ffffff",
-                      "on-error": "#ffffff",
-                      "surface-container-high": "#f1e7d8",
-                      "surface-container-highest": "#ebe1d3",
-                      "error-container": "#ffdad6",
-                      "on-tertiary": "#ffffff",
-                      "on-secondary-fixed": "#271900",
-                      "inverse-surface": "#353026",
-                      "tertiary": "#1c5ead",
-                      "on-primary-container": "#463200",
-                      "primary-fixed-dim": "#f5be3c",
-                      "outline-variant": "#d3c5ae",
-                      "tertiary-container": "#699ff2",
-                      "background": "#fff8f2",
-                      "surface": "#fff8f2"
-              },
-              "borderRadius": {
-                      "DEFAULT": "0.125rem",
-                      "lg": "0.25rem",
-                      "xl": "0.5rem",
-                      "full": "0.75rem"
-              },
-              "spacing": {
-                      "xs": "8px",
-                      "sm": "16px",
-                      "md": "24px",
-                      "base": "4px",
-                      "lg": "48px",
-                      "xl": "80px",
-                      "gutter": "24px",
-                      "container_max": "1440px"
-              },
-              "fontFamily": {
-                      "label-caps": ["Inter"],
-                      "section-title": ["Inter"],
-                      "hero-title": ["Inter"],
-                      "price-display": ["Inter"],
-                      "body-main": ["Inter"]
-              },
-              "fontSize": {
-                      "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "500"}],
-                      "section-title": ["32px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "400"}],
-                      "hero-title": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "300"}],
-                      "price-display": ["18px", {"lineHeight": "1.0", "fontWeight": "500"}],
-                      "body-main": ["16px", {"lineHeight": "1.7", "letterSpacing": "0em", "fontWeight": "400"}]
-              }
-            },
-          },
-        }
-    </script>
-<style>
-        body {
-            background-color: #F5F2EC; /* Light Sand from prompt */
-            font-family: 'Inter', sans-serif;
-        }
-        .signature-shadow {
-            box-shadow: 0 2px 12px rgba(200, 150, 12, 0.06);
-        }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
-        }
-    </style>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
-  </head>
-<body class="min-h-screen flex flex-col items-center justify-between overflow-x-hidden">
-<!-- Header Section (Suppressed Shell as per Transactional rule, but keeping brand identity) -->
-<header class="w-full h-[68px] flex justify-center items-center px-gutter pt-xl">
-<div class="font-hero-title text-section-title font-black text-primary-container uppercase tracking-widest">
-            Ondjila Gold
-        </div>
+<header class="bg-surface dark:bg-surface border-b border-outline-variant dark:border-outline shadow-sm docked full-width top-0 sticky h-[68px] z-50">
+<div class="flex justify-between items-center w-full px-gutter max-w-container_max mx-auto h-full">
+<div class="flex items-center gap-lg">
+<span class="font-hero-title text-section-title font-black text-primary-container dark:text-primary-fixed uppercase tracking-widest cursor-pointer" routerLink="/">Ondjilacommerce</span>
+<nav class="hidden md:flex gap-md font-body-main text-body-main">
+<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/">Início</a>
+<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/categories">Categorias</a>
+<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/about">Sobre Nós</a>
+<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/contact">Contactos</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-sm">
+<div class="relative group hidden md:flex items-center cursor-pointer mr-sm">
+  <span class="text-[12px] text-on-surface-variant flex items-center">
+    [<span class="material-symbols-outlined text-[14px] mx-1" translate="no">language</span> PT <span class="material-symbols-outlined text-[14px]" translate="no">arrow_drop_down</span>]
+  </span>
+</div>
+<button class="flex items-center gap-xs text-primary-container" routerLink="/login">
+<span class="material-symbols-outlined" data-icon="person" translate="no">person</span>
+<span class="hidden md:inline font-label-caps uppercase text-[10px]">A minha conta</span>
+</button>
+<div class="relative cursor-pointer flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/cart">
+  <span class="material-symbols-outlined text-[24px]" translate="no">shopping_cart</span>
+  <span class="hidden md:inline font-label-caps uppercase text-[10px]">Carrinho</span>
+  <div *ngIf="(cartService.cartCount$ | async) as count" class="absolute -top-2 -right-2 bg-error text-on-error text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full">
+    {{ count }}
+  </div>
+</div>
+</div>
+</div>
+</div>
 </header>
-<!-- Main Canvas -->
-<main class="flex-1 flex items-center justify-center w-full px-gutter py-xl">
-<div class="bg-surface-container-lowest w-full max-w-[480px] rounded-xl signature-shadow overflow-hidden border border-outline-variant/30">
+
+<main class="flex-grow flex items-center justify-center w-full px-gutter py-xl">
+<div class="bg-white w-full max-w-[480px] rounded-card shadow-gold overflow-hidden border border-outline-variant/30">
 <!-- Tab Switcher -->
-<div class="flex border-b border-outline-variant">
-<button class="flex-1 py-md font-label-caps text-label-caps text-primary-container border-b-2 border-primary-container transition-all">
+<div class="flex border-b border-outline-variant/30">
+<button (click)="isLoginMode = true" [class.border-primary-container]="isLoginMode" [class.text-primary-container]="isLoginMode" class="flex-1 py-md font-label-caps text-label-caps text-on-surface-variant border-b-2 border-transparent transition-all uppercase tracking-widest">
                     Entrar
                 </button>
-<button class="flex-1 py-md font-label-caps text-label-caps text-on-surface-variant hover:text-primary-container transition-all">
+<button (click)="isLoginMode = false" [class.border-primary-container]="!isLoginMode" [class.text-primary-container]="!isLoginMode" class="flex-1 py-md font-label-caps text-label-caps text-on-surface-variant border-b-2 border-transparent transition-all uppercase tracking-widest">
                     Criar Conta
                 </button>
 </div>
-<!-- Login Content -->
-<div class="p-lg md:p-xl space-y-md">
-<div class="text-center space-y-xs">
-<h1 class="font-hero-title text-section-title text-on-background">Bem-vindo</h1>
-<p class="font-body-main text-body-main text-on-surface-variant">Aceda à sua conta exclusiva Ondjila Gold.</p>
+
+<!-- Form Content -->
+<div class="p-xl space-y-md">
+<div class="text-center space-y-xs mb-md">
+<h1 class="font-section-title text-[24px] text-on-background">{{ isLoginMode ? 'Bem-vindo de volta' : 'Junte-se a nós' }}</h1>
+<p class="font-body-main text-sm text-on-surface-variant">{{ isLoginMode ? 'Aceda à sua conta exclusiva Ondjila.' : 'Crie a sua conta para uma experiência personalizada.' }}</p>
 </div>
-<form action="#" class="space-y-sm" method="POST">
+
+<form class="space-y-md">
+<div *ngIf="!isLoginMode" class="space-y-base">
+<label class="font-label-caps text-[10px] text-on-surface-variant block uppercase tracking-widest">Nome Completo</label>
+<input class="w-full h-12 px-md bg-surface-container-lowest border border-outline-variant rounded-lg focus:outline-none focus:border-primary-container transition-colors text-sm" placeholder="Seu nome" type="text"/>
+</div>
+
 <div class="space-y-base">
-<label class="font-label-caps text-label-caps text-on-surface-variant block uppercase" for="email">Email</label>
-<input class="w-full h-12 px-sm bg-[#F9F8F6] border border-[#E8E4DC] rounded-lg focus:outline-none focus:border-primary-container transition-colors font-body-main text-body-main" id="email" placeholder="exemplo@ondjila.com" type="email"/>
+<label class="font-label-caps text-[10px] text-on-surface-variant block uppercase tracking-widest">Email</label>
+<input class="w-full h-12 px-md bg-surface-container-lowest border border-outline-variant rounded-lg focus:outline-none focus:border-primary-container transition-colors text-sm" placeholder="exemplo@ondjila.com" type="email"/>
 </div>
+
 <div class="space-y-base">
 <div class="flex justify-between items-center">
-<label class="font-label-caps text-label-caps text-on-surface-variant block uppercase" for="password">Palavra-passe</label>
-<a class="text-[11px] font-label-caps text-primary-container uppercase tracking-wider hover:opacity-80" routerLink="">Esqueci a palavra-passe</a>
+<label class="font-label-caps text-[10px] text-on-surface-variant block uppercase tracking-widest">Palavra-passe</label>
+<a *ngIf="isLoginMode" class="text-[10px] font-label-caps text-primary-container uppercase tracking-wider hover:underline cursor-pointer">Esqueci a senha</a>
 </div>
-<input class="w-full h-12 px-sm bg-[#F9F8F6] border border-[#E8E4DC] rounded-lg focus:outline-none focus:border-primary-container transition-colors font-body-main text-body-main" id="password" placeholder="••••••••" type="password"/>
+<input class="w-full h-12 px-md bg-surface-container-lowest border border-outline-variant rounded-lg focus:outline-none focus:border-primary-container transition-colors text-sm" placeholder="••••••••" type="password"/>
 </div>
-<div class="pt-sm">
-<button class="w-full h-[56px] bg-primary-container text-on-primary font-label-caps text-label-caps uppercase tracking-widest hover:bg-[#A87A09] active:scale-[0.98] transition-all" type="submit">
-                            ENTRAR
+
+<div class="pt-md">
+<button class="w-full h-[56px] bg-primary-container text-white font-label-caps text-label-caps uppercase tracking-widest hover:bg-[#A87A09] transition-all gold-shadow" type="submit">
+                            {{ isLoginMode ? 'ENTRAR' : 'CRIAR CONTA' }}
                         </button>
 </div>
 </form>
-<!-- Divider -->
-<div class="relative py-sm">
+
+<!-- Social Login -->
+<div class="relative py-md">
 <div class="absolute inset-0 flex items-center">
-<div class="w-full border-t border-outline-variant"></div>
+<div class="w-full border-t border-outline-variant/30"></div>
 </div>
-<div class="relative flex justify-center text-xs">
-<span class="bg-surface-container-lowest px-sm text-outline font-label-caps uppercase">Ou continuar com</span>
+<div class="relative flex justify-center text-[10px]">
+<span class="bg-white px-sm text-on-surface-variant font-label-caps uppercase tracking-widest">Ou continuar com</span>
 </div>
 </div>
-<div class="grid grid-cols-2 gap-sm">
-<button class="flex items-center justify-center gap-xs h-12 border border-outline-variant hover:bg-surface-container-low transition-colors font-label-caps text-[10px] uppercase">
-<span class="material-symbols-outlined text-[18px]" data-icon="google" translate="no">google</span> Google
-                    </button>
-<button class="flex items-center justify-center gap-xs h-12 border border-outline-variant hover:bg-surface-container-low transition-colors font-label-caps text-[10px] uppercase">
-<span class="material-symbols-outlined text-[18px]" data-icon="apple" translate="no">ios</span> Apple
-                    </button>
+
+<div class="grid grid-cols-2 gap-md">
+<button class="flex items-center justify-center gap-xs h-12 border border-outline-variant hover:bg-surface-container-low transition-colors font-label-caps text-[10px] uppercase tracking-wider">
+<span class="material-symbols-outlined text-[18px]" translate="no">mail</span> Google
+</button>
+<button class="flex items-center justify-center gap-xs h-12 border border-outline-variant hover:bg-surface-container-low transition-colors font-label-caps text-[10px] uppercase tracking-wider">
+<span class="material-symbols-outlined text-[18px]" translate="no">smartphone</span> Apple
+</button>
 </div>
 </div>
 </div>
 </main>
-<!-- Content Separation (Visual Anchor) -->
-<div class="w-full max-w-container_max mx-auto px-gutter mb-xl">
-<div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
-<div class="p-md space-y-xs text-center md:text-left">
-<span class="material-symbols-outlined text-primary-container text-[32px]" data-icon="lock" translate="no">lock</span>
-<h3 class="font-label-caps text-label-caps text-on-background uppercase">Segurança Total</h3>
-<p class="font-body-main text-[13px] text-on-surface-variant">Seus dados e transações protegidos pelos mais altos padrões de criptografia bancária.</p>
-</div>
-<div class="p-md space-y-xs text-center md:text-left">
-<span class="material-symbols-outlined text-primary-container text-[32px]" data-icon="verified" translate="no">verified</span>
-<h3 class="font-label-caps text-label-caps text-on-background uppercase">Autenticidade</h3>
-<p class="font-body-main text-[13px] text-on-surface-variant">Cada grama de ouro vendida na Ondjila Gold possui certificação internacional de pureza.</p>
-</div>
-<div class="p-md space-y-xs text-center md:text-left">
-<span class="material-symbols-outlined text-primary-container text-[32px]" data-icon="support_agent" translate="no">support_agent</span>
-<h3 class="font-label-caps text-label-caps text-on-background uppercase">Suporte Premium</h3>
-<p class="font-body-main text-[13px] text-on-surface-variant">Consultores especializados disponíveis para auxiliar em sua jornada de investimento.</p>
-</div>
-</div>
-</div>
-<!-- Footer Shell -->
-<footer class="w-full bg-inverse-surface dark:bg-on-background py-xl">
-<div class="grid grid-cols-1 md:grid-cols-4 gap-lg px-gutter max-w-container_max mx-auto">
-<div class="space-y-md">
-<div class="font-hero-title text-[24px] text-primary-container uppercase tracking-tighter">Ondjila Gold</div>
-<p class="text-surface-variant text-[12px] leading-relaxed">
-                    A excelência em metais preciosos. Tradição e inovação unidas para o seu património.
-                </p>
-</div>
-<div class="space-y-sm">
-<h4 class="font-label-caps text-label-caps text-primary-container uppercase">Institucional</h4>
-<ul class="space-y-xs">
-<li><a class="font-body-main text-surface-variant text-[13px] hover:text-primary-fixed transition-colors" routerLink="/about">Sobre Nós</a></li>
-<li><a class="font-body-main text-surface-variant text-[13px] hover:text-primary-fixed transition-colors" routerLink="/help-center">Segurança</a></li>
-<li><a class="font-body-main text-surface-variant text-[13px] hover:text-primary-fixed transition-colors" routerLink="/discover">Imprensa</a></li>
-</ul>
-</div>
-<div class="space-y-sm">
-<h4 class="font-label-caps text-label-caps text-primary-container uppercase">Apoio ao Cliente</h4>
-<ul class="space-y-xs">
-<li><a class="font-body-main text-surface-variant text-[13px] hover:text-primary-fixed transition-colors" routerLink="/contact">Contactos</a></li>
-<li><a class="font-body-main text-surface-variant text-[13px] hover:text-primary-fixed transition-colors" routerLink="/help-center">Termos de Serviço</a></li>
-<li><a class="font-body-main text-surface-variant text-[13px] hover:text-primary-fixed transition-colors" routerLink="/shipping-delivery">Envios</a></li>
-</ul>
-</div>
-<div class="space-y-sm">
-<h4 class="font-label-caps text-label-caps text-primary-container uppercase">NEWSLETTER</h4>
-<div class="flex gap-0 h-10">
-<input class="bg-surface-variant/10 border border-outline-variant/30 text-white text-[12px] px-sm w-full focus:outline-none" placeholder="Email" type="email"/>
-<button class="bg-primary-container text-white px-md font-label-caps text-[10px] uppercase">OK</button>
-</div>
-</div>
-</div>
-<div class="max-w-container_max mx-auto px-gutter mt-xl pt-md border-t border-outline-variant/20 flex flex-col md:flex-row justify-between items-center gap-sm">
-<p class="text-surface-variant text-[11px] uppercase tracking-widest">© 2024 Ondjila Gold. All rights reserved.</p>
-<div class="flex gap-md">
-<span class="material-symbols-outlined text-surface-variant text-[20px] cursor-pointer hover:text-primary-container transition-colors" data-icon="facebook" translate="no">Notebook</span>
-<span class="material-symbols-outlined text-surface-variant text-[20px] cursor-pointer hover:text-primary-container transition-colors" data-icon="photo_camera" translate="no">photo_camera</span>
-<span class="material-symbols-outlined text-surface-variant text-[20px] cursor-pointer hover:text-primary-container transition-colors" data-icon="language" translate="no">language</span>
+
+<footer class="bg-inverse-surface dark:bg-on-background text-white py-xl">
+<div class="max-w-container_max mx-auto px-gutter grid grid-cols-1 md:grid-cols-3 gap-lg text-center md:text-left">
+<div>
+<h4 class="font-hero-title text-[20px] text-primary-container uppercase tracking-tighter mb-md">Ondjilacommerce</h4>
+<p class="text-surface-variant text-[12px]">Excelência e sofisticação em cada detalhe.</p>
 </div>
 </div>
 </footer>
-</body></html>
+
+</div>
