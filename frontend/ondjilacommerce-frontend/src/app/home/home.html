@@ -4,7 +4,7 @@
 <header class="bg-surface dark:bg-surface border-b border-outline-variant dark:border-outline shadow-sm docked full-width top-0 sticky h-[68px] z-50">
 <div class="flex justify-between items-center w-full px-gutter max-w-container_max mx-auto h-full">
 <div class="flex items-center gap-lg">
-<span class="font-hero-title text-section-title font-black text-primary-container dark:text-primary-fixed uppercase tracking-widest cursor-pointer">Ondjilacommerce</span>
+<span class="font-hero-title text-section-title font-black text-primary-container dark:text-primary-fixed uppercase tracking-[0.2em] cursor-pointer" routerLink="/">ONDJILA</span>
 <nav class="hidden md:flex gap-md font-body-main text-body-main">
 <a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/">Início</a>
 <a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/categories">Categorias</a>
@@ -14,7 +14,7 @@
 </div>
 <div class="flex items-center gap-md">
 <div class="relative hidden lg:block">
-<input class="bg-[#F9F8F6] border border-[#E8E4DC] rounded-[6px] py-xs px-md pr-xl focus:border-primary-container outline-none text-sm w-64" placeholder="Pesquisar produtos..." type="text"/>
+<input (input)="onSearch($event)" class="bg-[#F9F8F6] border border-[#E8E4DC] rounded-[6px] py-xs px-md pr-xl focus:border-primary-container outline-none text-sm w-64" placeholder="Pesquisar produtos..." type="text"/>
 <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-sm" data-icon="search" translate="no">search</span>
 </div>
 <div class="flex items-center gap-sm">
@@ -27,10 +27,15 @@
     <div class="px-3 py-2 hover:bg-surface-container-high cursor-pointer">English</div>
   </div>
 </div>
-<button class="flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/login">
+<button *ngIf="!(userService.currentUser$ | async)" class="flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/login">
 <span class="material-symbols-outlined" data-icon="person" translate="no">person</span>
 <span class="hidden md:inline font-label-caps uppercase text-[10px]">A minha conta</span>
 </button>
+<div *ngIf="userService.currentUser$ | async as user" class="flex items-center gap-xs text-primary-container">
+  <span class="material-symbols-outlined" translate="no">account_circle</span>
+  <span class="hidden md:inline font-label-caps uppercase text-[10px]">{{ user.name }}</span>
+  <button (click)="logout()" class="material-symbols-outlined text-[16px] text-error ml-1" translate="no">logout</button>
+</div>
 <div class="relative cursor-pointer flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/cart">
   <span class="material-symbols-outlined text-[24px]" translate="no">shopping_cart</span>
   <span class="hidden md:inline font-label-caps uppercase text-[10px]">Carrinho</span>
@@ -44,21 +49,52 @@
 </header>
 <main>
 <!-- Hero Section -->
-<section class="bg-[#F5F2EC] w-full py-xl">
-<div class="max-w-container_max mx-auto px-gutter grid grid-cols-1 md:grid-cols-2 items-center gap-lg">
-<div class="flex flex-col items-start gap-md">
-<h1 class="font-hero-title text-hero-title text-on-surface leading-tight">
-                        A tua jornada de compras <br/>começa aqui
-                    </h1>
-<p class="text-on-surface-variant text-body-main max-w-lg">
-                        Descubra a elegância em cada detalhe. O Ondjila Gold traz até si o luxo e a sofisticação que definem o seu estilo.
-                    </p>
-<button class="bg-primary-container text-white px-xl py-sm font-bold transition-all hover:bg-[#A87A09] active:scale-95">Comprar agora</button>
-</div>
-<div class="relative h-[400px] md:h-[500px]">
-<img alt="Premium Headphones Hero" class="w-full h-full object-cover rounded-card shadow-gold" src="assets/hero_boy_headphones.png"/>
-</div>
-</div>
+<section class="bg-[#F5F2EC] w-full py-24 relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-1/3 h-full bg-primary-container/5 -skew-x-12 translate-x-1/2"></div>
+    
+    <div class="max-w-container_max mx-auto px-gutter grid grid-cols-1 md:grid-cols-2 items-center gap-xl relative z-10">
+        <div class="flex flex-col items-start gap-md">
+            <div class="inline-flex items-center gap-xs px-sm py-1 bg-primary-container/10 rounded-full">
+                <span class="w-2 h-2 bg-primary-container rounded-full animate-pulse"></span>
+                <span class="font-label-caps text-[10px] text-primary-container uppercase tracking-widest font-bold">Excelência em Tecnologia Premium em Angola</span>
+            </div>
+            <h1 class="font-hero-title text-hero-title text-on-surface leading-[1.1] tracking-tighter">
+                Tecnologia de Elite. <br/><span class="text-primary-container">Confiança Ondjila.</span>
+            </h1>
+            <p class="text-on-surface-variant text-body-main max-w-lg leading-relaxed">
+                Selecionamos apenas o topo da eletrónica mundial. Com a Ondjila, você garante produtos 100% originais, entrega segura em Luanda e um suporte dedicado ao seu sucesso.
+            </p>
+            <div class="flex flex-wrap gap-md mt-sm">
+                <button routerLink="/categories" class="bg-primary-container text-white px-xl py-md font-label-caps text-label-caps uppercase tracking-widest hover:bg-[#A87A09] transition-all gold-shadow flex items-center gap-sm">
+                    Ver Todos os Produtos
+                    <span class="material-symbols-outlined text-sm" translate="no">arrow_forward</span>
+                </button>
+            </div>
+            
+            <!-- Mini Trust Signs -->
+            <div class="flex items-center gap-lg mt-md pt-md border-t border-outline-variant w-full">
+                <div class="flex items-center gap-xs">
+                    <span class="material-symbols-outlined text-primary-container text-[18px]" translate="no">verified</span>
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Original</span>
+                </div>
+                <div class="flex items-center gap-xs">
+                    <span class="material-symbols-outlined text-primary-container text-[18px]" translate="no">local_shipping</span>
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Entrega Luanda</span>
+                </div>
+                <div class="flex items-center gap-xs">
+                    <span class="material-symbols-outlined text-primary-container text-[18px]" translate="no">lock</span>
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Pagamento Seguro</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="relative group hidden md:block">
+            <div class="absolute inset-0 bg-primary-container/10 rounded-[40px] rotate-3 scale-105 group-hover:rotate-0 transition-transform duration-700"></div>
+            <div class="relative h-[500px] bg-white rounded-[40px] shadow-gold overflow-hidden border border-outline-variant/30">
+                <img alt="Premium Electronics Hero" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="assets/hero_boy_headphones.png"/>
+            </div>
+        </div>
+    </div>
 </section>
 <!-- Category Bar -->
 <section class="bg-white py-md border-b border-outline-variant">

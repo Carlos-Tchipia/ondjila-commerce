@@ -53,7 +53,7 @@
 <p class="font-body-main text-sm text-on-surface-variant">{{ isLoginMode ? 'Aceda à sua conta exclusiva Ondjila.' : 'Crie a sua conta para uma experiência personalizada.' }}</p>
 </div>
 
-<form class="space-y-md">
+<form (submit)="onSubmit()" class="space-y-md">
 <div *ngIf="!isLoginMode" class="space-y-base">
 <label class="font-label-caps text-[10px] text-on-surface-variant block uppercase tracking-widest">Nome Completo</label>
 <input class="w-full h-12 px-md bg-surface-container-lowest border border-outline-variant rounded-lg focus:outline-none focus:border-primary-container transition-colors text-sm" placeholder="Seu nome" type="text"/>
@@ -61,7 +61,7 @@
 
 <div class="space-y-base">
 <label class="font-label-caps text-[10px] text-on-surface-variant block uppercase tracking-widest">Email</label>
-<input class="w-full h-12 px-md bg-surface-container-lowest border border-outline-variant rounded-lg focus:outline-none focus:border-primary-container transition-colors text-sm" placeholder="exemplo@ondjila.com" type="email"/>
+<input name="email" [(ngModel)]="email" class="w-full h-12 px-md bg-surface-container-lowest border border-outline-variant rounded-lg focus:outline-none focus:border-primary-container transition-colors text-sm" placeholder="exemplo@ondjila.com" type="email"/>
 </div>
 
 <div class="space-y-base">
