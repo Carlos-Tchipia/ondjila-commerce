@@ -1,0 +1,114 @@
+<div class="min-h-screen bg-[#F5F2EC] flex flex-col font-['Inter']">
+<header class="bg-surface dark:bg-surface border-b border-outline-variant dark:border-outline shadow-sm docked full-width top-0 sticky h-[68px] z-50">
+<div class="flex justify-between items-center w-full px-gutter max-w-container_max mx-auto h-full">
+<div class="flex items-center gap-lg">
+<span class="font-hero-title text-section-title font-black text-primary-container dark:text-primary-fixed uppercase tracking-widest cursor-pointer">Ondjilacommerce</span>
+<nav class="hidden md:flex gap-md font-body-main text-body-main">
+<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/">Início</a>
+<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/categories">Categorias</a>
+<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/about">Sobre Nós</a>
+<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/contact">Contactos</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<div class="relative hidden lg:block">
+<input class="bg-[#F9F8F6] border border-[#E8E4DC] rounded-[6px] py-xs px-md pr-xl focus:border-primary-container outline-none text-sm w-64" placeholder="Pesquisar produtos..." type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-sm" data-icon="search" translate="no">search</span>
+</div>
+<div class="flex items-center gap-sm">
+<div class="relative group hidden md:flex items-center cursor-pointer mr-sm">
+  <span class="text-[12px] text-on-surface-variant flex items-center">
+    [<span class="material-symbols-outlined text-[14px] mx-1" translate="no">language</span> PT <span class="material-symbols-outlined text-[14px]" translate="no">arrow_drop_down</span>]
+  </span>
+  <div class="absolute right-0 top-full mt-1 hidden group-hover:block bg-surface shadow-md rounded-md py-1 min-w-[120px] text-[12px] text-on-surface border border-outline-variant z-50">
+    <div class="px-3 py-2 hover:bg-surface-container-high cursor-pointer font-medium text-primary-container">Português</div>
+    <div class="px-3 py-2 hover:bg-surface-container-high cursor-pointer">English</div>
+  </div>
+</div>
+<button class="flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/login">
+<span class="material-symbols-outlined" data-icon="person" translate="no">person</span>
+<span class="hidden md:inline font-label-caps uppercase text-[10px]">A minha conta</span>
+</button>
+<div class="relative cursor-pointer flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/cart">
+  <span class="material-symbols-outlined text-[24px]" translate="no">shopping_cart</span>
+  <span class="hidden md:inline font-label-caps uppercase text-[10px]">Carrinho</span>
+  <div *ngIf="(cartService.cartCount$ | async) as count" class="absolute -top-2 -right-2 bg-error text-on-error text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full">
+    {{ count }}
+  </div>
+</div>
+</div>
+</div>
+</div>
+</header>
+
+  <main class="flex-grow max-w-7xl mx-auto w-full px-8 py-24">
+    <div class="text-center mb-16">
+      <h1 class="font-light text-5xl text-[#201b12] mb-4">Fale Connosco</h1>
+      <p class="text-[#4f4634] max-w-2xl mx-auto">Estamos aqui para garantir que a sua experiência com a Ondjila Gold seja tão impecável quanto os nossos produtos.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+      <!-- Contact Info -->
+      <div class="space-y-12">
+        <div class="flex items-start gap-6">
+          <div class="w-12 h-12 bg-white rounded flex items-center justify-center shadow-[0_2px_12px_rgba(200,150,12,0.06)]">
+            <span class="material-symbols-outlined text-[#C8960C]" translate="no">location_on</span>
+          </div>
+          <div>
+            <h3 class="text-sm uppercase tracking-widest text-[#201b12] mb-2">Sede Luanda</h3>
+            <p class="text-[#4f4634]">Edifício Ondjila Tower, 15º Andar<br>Talatona, Luanda<br>Angola</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start gap-6">
+          <div class="w-12 h-12 bg-white rounded flex items-center justify-center shadow-[0_2px_12px_rgba(200,150,12,0.06)]">
+            <span class="material-symbols-outlined text-[#C8960C]" translate="no">mail</span>
+          </div>
+          <div>
+            <h3 class="text-sm uppercase tracking-widest text-[#201b12] mb-2">E-mail</h3>
+            <p class="text-[#C8960C]">suporte@ondjila.ao<br>press@ondjila.ao</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-6">
+          <div class="w-12 h-12 bg-white rounded flex items-center justify-center shadow-[0_2px_12px_rgba(200,150,12,0.06)]">
+            <span class="material-symbols-outlined text-[#C8960C]" translate="no">call</span>
+          </div>
+          <div>
+            <h3 class="text-sm uppercase tracking-widest text-[#201b12] mb-2">Telefone</h3>
+            <p class="text-[#4f4634]">+244 923 000 000<br><span class="text-xs opacity-70">Seg-Sex, 09:00 - 18:00</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="bg-white p-10 rounded-lg shadow-[0_2px_12px_rgba(200,150,12,0.06)] border border-[#E8E4DC]">
+        <h3 class="text-xl text-[#201b12] font-light mb-8">Envie uma mensagem</h3>
+        <form class="space-y-6">
+          <div class="space-y-2">
+            <label class="text-xs uppercase tracking-widest text-[#4f4634]">Nome Completo</label>
+            <input type="text" class="w-full bg-[#F9F8F6] border border-[#E8E4DC] rounded p-3 text-sm focus:border-[#C8960C] outline-none" />
+          </div>
+          <div class="space-y-2">
+            <label class="text-xs uppercase tracking-widest text-[#4f4634]">Email</label>
+            <input type="email" class="w-full bg-[#F9F8F6] border border-[#E8E4DC] rounded p-3 text-sm focus:border-[#C8960C] outline-none" />
+          </div>
+          <div class="space-y-2">
+            <label class="text-xs uppercase tracking-widest text-[#4f4634]">Mensagem</label>
+            <textarea rows="4" class="w-full bg-[#F9F8F6] border border-[#E8E4DC] rounded p-3 text-sm focus:border-[#C8960C] outline-none resize-none"></textarea>
+          </div>
+          <button type="button" class="w-full bg-[#C8960C] text-white py-4 text-xs uppercase tracking-widest hover:bg-[#A87A09] transition-colors mt-4">
+            ENVIAR MENSAGEM
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-[#201b12] text-white py-16 px-8 mt-12">
+    <div class="max-w-7xl mx-auto text-center">
+      <h3 class="text-xl text-[#C8960C] uppercase tracking-widest mb-4">Ondjila Gold</h3>
+      <p class="text-sm opacity-70">© 2026 Todos os direitos reservados.</p>
+    </div>
+  </footer>
+</div>

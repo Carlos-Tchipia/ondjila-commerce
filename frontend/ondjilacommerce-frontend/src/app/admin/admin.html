@@ -6,7 +6,7 @@
 <aside class="flex flex-col h-screen fixed left-0 top-0 overflow-y-auto bg-inverse-surface dark:bg-on-background docked left-0 h-full w-64 shadow-lg z-50">
 <div class="p-md flex items-center gap-sm">
 <div class="w-10 h-10 bg-primary-container flex items-center justify-center">
-<span class="material-symbols-outlined text-white" data-icon="dashboard">dashboard</span>
+<span class="material-symbols-outlined text-white" data-icon="dashboard" translate="no">dashboard</span>
 </div>
 <div>
 <h1 class="font-label-caps text-label-caps text-primary-fixed block">Admin Panel</h1>
@@ -14,10 +14,10 @@
 </div>
 </div>
 <nav class="hidden md:flex gap-md font-body-main text-body-main">
-<a class="text-primary-container dark:text-primary-fixed border-b-2 border-primary-container font-bold pb-1 transition-colors duration-200" routerLink="/">Início</a>
-<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200" routerLink="/catalog">Categorias</a>
-<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200" routerLink="/">Ofertas</a>
-<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary-container dark:hover:text-primary-fixed transition-colors duration-200" routerLink="/admin">A minha conta</a>
+<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/">Início</a>
+<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/categories">Categorias</a>
+<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/about">Sobre Nós</a>
+<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/contact">Contactos</a>
 </nav>
 <div class="p-md border-t border-white/5 flex items-center gap-sm">
 <img alt="Admin User Profile" class="w-10 h-10 rounded-full grayscale brightness-125" data-alt="A professional headshot of a mature executive in a black turtleneck, set against a dark, minimalist charcoal background with subtle rim lighting. The style is cinematic and high-contrast, reflecting a premium corporate identity. The overall aesthetic is clean, sharp, and authoritative, aligning with the dark administrative interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1czlisWBg5KFbB6t8iNxpP5_ea0_ZtNYgNvmTbUdXkk-qfERCoYFWZJMRVTlHJoTP4VF7bhCaWeE_nxZVw-2y27o_Uy1Yqfzy-xpfG7fL1O-SW2uY6ceYYRbWnO7BdNTRetOxh-y31F9GigGU6N4vVDFlLwpMcG2T1iuQb9_I2EC5RfiXH4pL9yf91zF7KHMxvcwnIlvKj4nu0JuognyqGs71lloiGbbo5kCRQQ2hFd2EhIOZ0YHyqGlGofUbL_E2h03R_ajvjho"/>
@@ -37,7 +37,7 @@
 </div>
 <div class="flex gap-sm">
 <button class="bg-surface border border-outline-variant text-on-surface px-sm py-2 flex items-center gap-xs hover:bg-surface-container transition-colors">
-<span class="material-symbols-outlined text-sm" data-icon="calendar_today">calendar_today</span>
+<span class="material-symbols-outlined text-sm" data-icon="calendar_today" translate="no">calendar_today</span>
 <span class="text-xs font-bold uppercase tracking-widest">Filtrar Data</span>
 </button>
 <button class="bg-primary-container text-white px-md py-2 text-xs font-bold uppercase tracking-widest hover:bg-[#A87A09] transition-colors">
@@ -50,7 +50,7 @@
 <!-- Card 1 -->
 <div class="bg-white p-md gold-shadow rounded-xl border border-outline-variant/30 flex flex-col justify-between">
 <div class="flex justify-between items-start mb-md">
-<span class="material-symbols-outlined text-primary-container" data-icon="payments">payments</span>
+<span class="material-symbols-outlined text-primary-container" data-icon="payments" translate="no">payments</span>
 <span class="text-xs font-bold text-tertiary px-2 py-1 bg-tertiary-container/10 rounded-lg">+12.4%</span>
 </div>
 <div>
@@ -61,7 +61,7 @@
 <!-- Card 2 -->
 <div class="bg-white p-md gold-shadow rounded-xl border border-outline-variant/30 flex flex-col justify-between">
 <div class="flex justify-between items-start mb-md">
-<span class="material-symbols-outlined text-primary-container" data-icon="shopping_cart">shopping_cart</span>
+<span class="material-symbols-outlined text-primary-container" data-icon="shopping_cart" translate="no">shopping_cart</span>
 <span class="text-xs font-bold text-tertiary px-2 py-1 bg-tertiary-container/10 rounded-lg">+8.1%</span>
 </div>
 <div>
@@ -72,7 +72,7 @@
 <!-- Card 3 -->
 <div class="bg-white p-md gold-shadow rounded-xl border border-outline-variant/30 flex flex-col justify-between">
 <div class="flex justify-between items-start mb-md">
-<span class="material-symbols-outlined text-primary-container" data-icon="person_add">person_add</span>
+<span class="material-symbols-outlined text-primary-container" data-icon="person_add" translate="no">person_add</span>
 <span class="text-xs font-bold text-tertiary px-2 py-1 bg-tertiary-container/10 rounded-lg">+4.5%</span>
 </div>
 <div>
@@ -83,7 +83,7 @@
 <!-- Card 4 -->
 <div class="bg-white p-md gold-shadow rounded-xl border border-outline-variant/30 flex flex-col justify-between">
 <div class="flex justify-between items-start mb-md">
-<span class="material-symbols-outlined text-primary-container" data-icon="trending_up">trending_up</span>
+<span class="material-symbols-outlined text-primary-container" data-icon="trending_up" translate="no">trending_up</span>
 <span class="text-xs font-bold text-error px-2 py-1 bg-error-container/10 rounded-lg">-2.3%</span>
 </div>
 <div>
@@ -168,7 +168,7 @@
 <div class="p-md border-b border-outline-variant flex justify-between items-center">
 <h3 class="font-section-title text-xl font-bold">Pedidos Recentes</h3>
 <div class="relative">
-<span class="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant text-sm" data-icon="search">search</span>
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant text-sm" data-icon="search" translate="no">search</span>
 <input class="bg-[#F9F8F6] border border-outline-variant rounded-md pl-10 pr-4 py-2 text-xs focus:ring-1 focus:ring-primary-container focus:border-primary-container outline-none w-64" placeholder="Procurar pedido..." type="text"/>
 </div>
 </div>
@@ -200,7 +200,7 @@
 <td class="px-md py-4 font-bold">45.000 Kz</td>
 <td class="px-md py-4 text-right">
 <button class="text-on-surface-variant hover:text-primary-container transition-colors">
-<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+<span class="material-symbols-outlined" data-icon="more_vert" translate="no">more_vert</span>
 </button>
 </td>
 </tr>
@@ -219,7 +219,7 @@
 <td class="px-md py-4 font-bold">128.500 Kz</td>
 <td class="px-md py-4 text-right">
 <button class="text-on-surface-variant hover:text-primary-container transition-colors">
-<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+<span class="material-symbols-outlined" data-icon="more_vert" translate="no">more_vert</span>
 </button>
 </td>
 </tr>
@@ -238,7 +238,7 @@
 <td class="px-md py-4 font-bold">12.000 Kz</td>
 <td class="px-md py-4 text-right">
 <button class="text-on-surface-variant hover:text-primary-container transition-colors">
-<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+<span class="material-symbols-outlined" data-icon="more_vert" translate="no">more_vert</span>
 </button>
 </td>
 </tr>
@@ -257,7 +257,7 @@
 <td class="px-md py-4 font-bold">340.000 Kz</td>
 <td class="px-md py-4 text-right">
 <button class="text-on-surface-variant hover:text-primary-container transition-colors">
-<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+<span class="material-symbols-outlined" data-icon="more_vert" translate="no">more_vert</span>
 </button>
 </td>
 </tr>
@@ -268,13 +268,13 @@
 <p class="text-xs text-on-surface-variant">Mostrando 4 de 1.250 pedidos</p>
 <div class="flex gap-base">
 <button class="w-8 h-8 border border-outline-variant flex items-center justify-center hover:bg-white transition-colors">
-<span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
+<span class="material-symbols-outlined text-sm" data-icon="chevron_left" translate="no">chevron_left</span>
 </button>
 <button class="w-8 h-8 bg-primary-container text-white flex items-center justify-center text-xs font-bold">1</button>
 <button class="w-8 h-8 border border-outline-variant flex items-center justify-center hover:bg-white transition-colors text-xs">2</button>
 <button class="w-8 h-8 border border-outline-variant flex items-center justify-center hover:bg-white transition-colors text-xs">3</button>
 <button class="w-8 h-8 border border-outline-variant flex items-center justify-center hover:bg-white transition-colors">
-<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right" translate="no">chevron_right</span>
 </button>
 </div>
 </div>

@@ -1,0 +1,119 @@
+<div class="min-h-screen bg-[#F5F2EC] flex flex-col font-['Inter']">
+<header class="bg-surface dark:bg-surface border-b border-outline-variant dark:border-outline shadow-sm docked full-width top-0 sticky h-[68px] z-50">
+<div class="flex justify-between items-center w-full px-gutter max-w-container_max mx-auto h-full">
+<div class="flex items-center gap-lg">
+<span class="font-hero-title text-section-title font-black text-primary-container dark:text-primary-fixed uppercase tracking-widest cursor-pointer">Ondjilacommerce</span>
+<nav class="hidden md:flex gap-md font-body-main text-body-main">
+<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/">Início</a>
+<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/categories">Categorias</a>
+<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/about">Sobre Nós</a>
+<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/contact">Contactos</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<div class="relative hidden lg:block">
+<input class="bg-[#F9F8F6] border border-[#E8E4DC] rounded-[6px] py-xs px-md pr-xl focus:border-primary-container outline-none text-sm w-64" placeholder="Pesquisar produtos..." type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-sm" data-icon="search" translate="no">search</span>
+</div>
+<div class="flex items-center gap-sm">
+<div class="relative group hidden md:flex items-center cursor-pointer mr-sm">
+  <span class="text-[12px] text-on-surface-variant flex items-center">
+    [<span class="material-symbols-outlined text-[14px] mx-1" translate="no">language</span> PT <span class="material-symbols-outlined text-[14px]" translate="no">arrow_drop_down</span>]
+  </span>
+  <div class="absolute right-0 top-full mt-1 hidden group-hover:block bg-surface shadow-md rounded-md py-1 min-w-[120px] text-[12px] text-on-surface border border-outline-variant z-50">
+    <div class="px-3 py-2 hover:bg-surface-container-high cursor-pointer font-medium text-primary-container">Português</div>
+    <div class="px-3 py-2 hover:bg-surface-container-high cursor-pointer">English</div>
+  </div>
+</div>
+<button class="flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/login">
+<span class="material-symbols-outlined" data-icon="person" translate="no">person</span>
+<span class="hidden md:inline font-label-caps uppercase text-[10px]">A minha conta</span>
+</button>
+<div class="relative cursor-pointer flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/cart">
+  <span class="material-symbols-outlined text-[24px]" translate="no">shopping_cart</span>
+  <span class="hidden md:inline font-label-caps uppercase text-[10px]">Carrinho</span>
+  <div *ngIf="(cartService.cartCount$ | async) as count" class="absolute -top-2 -right-2 bg-error text-on-error text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full">
+    {{ count }}
+  </div>
+</div>
+</div>
+</div>
+</div>
+</header>
+
+  <main class="flex-grow">
+    <!-- Hero Section -->
+    <section class="relative w-full h-[600px] overflow-hidden flex items-center justify-center">
+      <div class="absolute inset-0 z-0">
+        <img src="serra_da_leba.jpg" alt="Serra da Leba, Angola" class="w-full h-full object-cover brightness-75" />
+      </div>
+      <div class="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
+        <h1 class="font-light text-5xl md:text-7xl uppercase tracking-widest mb-6">A Nossa Origem</h1>
+        <p class="text-lg md:text-xl font-light opacity-90 max-w-2xl mx-auto leading-relaxed">
+          Nascida no coração de Angola, a Ondjila Gold funde a majestade da nossa terra com a precisão tecnológica do futuro. Inspirados pelas curvas intemporais da Serra da Leba, criamos tecnologia que eleva os sentidos.
+        </p>
+      </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="w-full max-w-7xl mx-auto px-8 py-24 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+      <div>
+        <h2 class="text-3xl font-light text-[#201b12] mb-6">O Caminho do Ouro</h2>
+        <p class="text-[#4f4634] leading-relaxed mb-6">
+          "Ondjila" significa "Caminho" na nossa língua mãe. A Ondjila Gold não é apenas uma marca de produtos eletrónicos premium; é uma jornada sonora e visual. Os nossos auscultadores e smartwatches são desenhados para aqueles que exigem a excelência.
+        </p>
+        <p class="text-[#4f4634] leading-relaxed">
+          Cada produto carrega o calor da estética "Warm Minimalism", utilizando materiais de ponta, finalizados com o nosso icónico tom dourado, representando a riqueza cultural e natural do nosso país.
+        </p>
+      </div>
+      <div class="bg-white p-12 rounded-lg shadow-[0_2px_12px_rgba(200,150,12,0.06)] border border-[#E8E4DC]">
+        <h3 class="text-xl text-[#C8960C] mb-4 uppercase tracking-widest">Os Nossos Valores</h3>
+        <ul class="space-y-6">
+          <li class="flex items-start gap-4">
+            <span class="material-symbols-outlined text-[#C8960C]" translate="no">diamond</span>
+            <div>
+              <strong class="block text-[#201b12]">Luxo Silencioso</strong>
+              <span class="text-sm text-[#4f4634]">Design minimalista que fala através da qualidade, não do volume.</span>
+            </div>
+          </li>
+          <li class="flex items-start gap-4">
+            <span class="material-symbols-outlined text-[#C8960C]" translate="no">public</span>
+            <div>
+              <strong class="block text-[#201b12]">Orgulho Nacional</strong>
+              <span class="text-sm text-[#4f4634]">A essência de Angola exportada para o mundo com padrão de topo.</span>
+            </div>
+          </li>
+          <li class="flex items-start gap-4">
+            <span class="material-symbols-outlined text-[#C8960C]" translate="no">memory</span>
+            <div>
+              <strong class="block text-[#201b12]">Precisão Tecnológica</strong>
+              <span class="text-sm text-[#4f4634]">Componentes áudio e sensores de classe mundial.</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-[#201b12] text-white py-16 px-8 mt-12">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
+      <div>
+        <h3 class="text-2xl text-[#C8960C] uppercase tracking-widest mb-4">Ondjila Gold</h3>
+        <p class="text-sm opacity-70">A excelência em eletrónica premium. O som do nosso caminho.</p>
+      </div>
+      <div class="flex flex-col gap-2">
+        <a routerLink="/catalog" class="hover:text-[#C8960C] text-sm">Catálogo</a>
+        <a routerLink="/about" class="text-[#C8960C] text-sm">Sobre Nós</a>
+        <a routerLink="/contact" class="hover:text-[#C8960C] text-sm">Contactos</a>
+      </div>
+      <div>
+        <h4 class="text-sm uppercase tracking-widest text-[#C8960C] mb-4">NEWSLETTER</h4>
+        <div class="flex">
+          <input type="email" placeholder="Email" class="bg-white/10 px-4 py-2 outline-none w-full text-sm" />
+          <button class="bg-[#C8960C] px-6 text-sm uppercase tracking-widest hover:bg-[#A87A09]">OK</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>

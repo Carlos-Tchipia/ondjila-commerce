@@ -1,0 +1,286 @@
+<div  class="bg-surface font-body-main text-on-surface min-h-screen flex flex-col">
+
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface border-b border-outline-variant dark:border-outline shadow-sm docked full-width top-0 sticky h-[68px] z-50">
+<div class="flex justify-between items-center w-full px-gutter max-w-container_max mx-auto h-full">
+<div class="flex items-center gap-lg">
+<span class="font-hero-title text-section-title font-black text-primary-container dark:text-primary-fixed uppercase tracking-widest cursor-pointer">Ondjilacommerce</span>
+<nav class="hidden md:flex gap-md font-body-main text-body-main">
+<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/">Início</a>
+<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/categories">Categorias</a>
+<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/about">Sobre Nós</a>
+<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/contact">Contactos</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<div class="relative hidden lg:block">
+<input class="bg-[#F9F8F6] border border-[#E8E4DC] rounded-[6px] py-xs px-md pr-xl focus:border-primary-container outline-none text-sm w-64" placeholder="Pesquisar produtos..." type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-sm" data-icon="search" translate="no">search</span>
+</div>
+<div class="flex items-center gap-sm">
+<div class="relative group hidden md:flex items-center cursor-pointer mr-sm">
+  <span class="text-[12px] text-on-surface-variant flex items-center">
+    [<span class="material-symbols-outlined text-[14px] mx-1" translate="no">language</span> PT <span class="material-symbols-outlined text-[14px]" translate="no">arrow_drop_down</span>]
+  </span>
+  <div class="absolute right-0 top-full mt-1 hidden group-hover:block bg-surface shadow-md rounded-md py-1 min-w-[120px] text-[12px] text-on-surface border border-outline-variant z-50">
+    <div class="px-3 py-2 hover:bg-surface-container-high cursor-pointer font-medium text-primary-container">Português</div>
+    <div class="px-3 py-2 hover:bg-surface-container-high cursor-pointer">English</div>
+  </div>
+</div>
+<button class="flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/login">
+<span class="material-symbols-outlined" data-icon="person" translate="no">person</span>
+<span class="hidden md:inline font-label-caps uppercase text-[10px]">A minha conta</span>
+</button>
+<div class="relative cursor-pointer flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/cart">
+  <span class="material-symbols-outlined text-[24px]" translate="no">shopping_cart</span>
+  <span class="hidden md:inline font-label-caps uppercase text-[10px]">Carrinho</span>
+  <div *ngIf="(cartService.cartCount$ | async) as count" class="absolute -top-2 -right-2 bg-error text-on-error text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full">
+    {{ count }}
+  </div>
+</div>
+</div>
+</div>
+</div>
+</header>
+
+<main class="max-w-container_max mx-auto px-gutter py-md flex-grow">
+<!-- Breadcrumb Section -->
+<nav class="flex items-center gap-xs mb-lg text-label-caps font-label-caps uppercase text-on-surface-variant/60">
+<a class="hover:text-primary-container transition-colors" routerLink="/">Início</a>
+<span class="material-symbols-outlined text-[14px]" translate="no">chevron_right</span>
+<span class="text-on-surface-variant">Electrónica</span>
+</nav>
+<div class="flex flex-col md:flex-row gap-lg">
+<!-- Sidebar Filters (280px) -->
+<aside class="w-full md:w-[280px] shrink-0">
+<div class="space-y-xl sticky top-[100px]">
+<div>
+<h3 class="font-label-caps text-label-caps uppercase tracking-widest text-on-background mb-md">Categorias</h3>
+<div class="space-y-sm">
+<label class="flex items-center gap-sm cursor-pointer group" routerLink="">
+<input checked="" class="w-5 h-5 border-outline-variant text-primary focus:ring-primary rounded-sm transition-all" type="checkbox"/>
+<span class="text-body-main group-hover:text-primary transition-colors">Smartphones</span>
+</label>
+<label class="flex items-center gap-sm cursor-pointer group" routerLink="">
+<input class="w-5 h-5 border-outline-variant text-primary focus:ring-primary rounded-sm transition-all" type="checkbox"/>
+<span class="text-body-main group-hover:text-primary transition-colors">Laptops</span>
+</label>
+<label class="flex items-center gap-sm cursor-pointer group" routerLink="">
+<input class="w-5 h-5 border-outline-variant text-primary focus:ring-primary rounded-sm transition-all" type="checkbox"/>
+<span class="text-body-main group-hover:text-primary transition-colors">Áudio & Sound</span>
+</label>
+<label class="flex items-center gap-sm cursor-pointer group" routerLink="">
+<input class="w-5 h-5 border-outline-variant text-primary focus:ring-primary rounded-sm transition-all" type="checkbox"/>
+<span class="text-body-main group-hover:text-primary transition-colors">Acessórios</span>
+</label>
+</div>
+</div>
+<div>
+<h3 class="font-label-caps text-label-caps uppercase tracking-widest text-on-background mb-md">Preço</h3>
+<div class="px-2">
+<input class="w-full h-1 bg-surface-container-highest appearance-none rounded-full" max="500000" min="0" type="range"/>
+<div class="flex justify-between mt-sm text-label-caps text-on-surface-variant">
+<span>0 Kz</span>
+<span>500.000 Kz</span>
+</div>
+</div>
+</div>
+<div>
+<h3 class="font-label-caps text-label-caps uppercase tracking-widest text-on-background mb-md">Marca</h3>
+<div class="space-y-sm">
+<label class="flex items-center gap-sm cursor-pointer group" routerLink="">
+<input class="w-5 h-5 border-outline-variant text-primary focus:ring-primary rounded-sm transition-all" type="checkbox"/>
+<span class="text-body-main group-hover:text-primary transition-colors">GoldTech</span>
+</label>
+<label class="flex items-center gap-sm cursor-pointer group" routerLink="">
+<input class="w-5 h-5 border-outline-variant text-primary focus:ring-primary rounded-sm transition-all" type="checkbox"/>
+<span class="text-body-main group-hover:text-primary transition-colors">Ondjila Prime</span>
+</label>
+<label class="flex items-center gap-sm cursor-pointer group" routerLink="">
+<input class="w-5 h-5 border-outline-variant text-primary focus:ring-primary rounded-sm transition-all" type="checkbox"/>
+<span class="text-body-main group-hover:text-primary transition-colors">Nexus Luxe</span>
+</label>
+</div>
+</div>
+</div>
+</aside>
+<!-- Product Grid -->
+<div class="flex-1">
+<div class="flex justify-between items-end mb-lg">
+<h1 class="font-section-title text-section-title">Electrónica Premium</h1>
+<span class="text-label-caps text-on-surface-variant">Exibindo 12 de 48 resultados</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-md">
+<!-- Product Card 1 -->
+<div class="bg-white rounded-card shadow-gold group cursor-pointer overflow-hidden transition-all hover:-translate-y-1 p-xs" routerLink="/product/smartvibe-pro">
+<div class="relative aspect-[4/5] bg-surface-container overflow-hidden rounded-lg mb-sm">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDz7XmJVn20H0CRhuWmX400i0Xow5TTS-L0-Q4qO_6flaxSjcim9XQnWSc7by2IzQSNYEUbwaYoR-LIFYdNVrCTYvRC8Zpe-mX3DVQMoX8fXkRCOMGAYJN9zzip0KjOwk7QYuUt2NSeDb9F0jVanYg7aWtAoYEEOApFTlVL22-ygbB9VrVx5Z9XggMC4TjT00mZDXzNxhAWSbW97gqeYtPtBu-INwz2eDuHNQpPuS9QdlvA7u1KEurKTzI3eGKPv7XvIUXg8sAKfSo"/>
+<div class="absolute top-sm right-sm">
+<button class="w-10 h-10 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center text-primary-container shadow-sm hover:bg-primary-container hover:text-white transition-colors">
+<span class="material-symbols-outlined" translate="no">favorite</span>
+</button>
+</div>
+</div>
+<div class="px-sm pb-sm">
+<span class="font-label-caps text-label-caps text-primary-container mb-xs block">SÉRIE GOLD</span>
+<h3 class="font-body-main text-body-main font-medium text-on-background mb-base">SmartVibe Pro Gold Edition</h3>
+<p class="font-price-display text-price-display text-primary-container">450.000 Kz</p>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-white rounded-card shadow-gold group cursor-pointer overflow-hidden transition-all hover:-translate-y-1 p-xs" routerLink="/product/acoustics-pure">
+<div class="relative aspect-[4/5] bg-surface-container overflow-hidden rounded-lg mb-sm">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9Jjdw7Ge_OGZ3CEkGUpu_dXnfC3maaVd3Q19DiejM0CzpaxI-hit_g59fe3qyY3-Yxht46xI2xkcgGiCXEabQxBQAJhcW7PW9MonqGcExi7nIp0QAIIlv-NrZYfIvifghuKPuP68pWe82arLoqt_mqHaPBHfLBLBOCCTxmoKBHYP6l5eRr-RD1DC9mN5RM52ItqdbcO7zHm5R_Mi4x9e1vGWFZxaXBH7BHVLuDEnIbH1STLxRfP7hYqptEAZqQASmHKo1a8A1u3E"/>
+<div class="absolute top-sm left-sm">
+<span class="bg-primary-container text-white px-sm py-1 font-label-caps text-label-caps rounded-sm">NOVO</span>
+</div>
+<div class="absolute top-sm right-sm">
+<button class="w-10 h-10 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center text-primary-container shadow-sm hover:bg-primary-container hover:text-white transition-colors">
+<span class="material-symbols-outlined" translate="no">favorite</span>
+</button>
+</div>
+</div>
+<div class="px-sm pb-sm">
+<span class="font-label-caps text-label-caps text-primary-container mb-xs block">ÁUDIO PREMIUM</span>
+<h3 class="font-body-main text-body-main font-medium text-on-background mb-base">Acoustics Pure Gold 3</h3>
+<p class="font-price-display text-price-display text-primary-container">125.000 Kz</p>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-white rounded-card shadow-gold group cursor-pointer overflow-hidden transition-all hover:-translate-y-1 p-xs" routerLink="/product/novabook-air">
+<div class="relative aspect-[4/5] bg-surface-container overflow-hidden rounded-lg mb-sm">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBljm2Uj-dY4m-XsSKIlr_m1jdaGwz-pl9pfYy1tunk42mrcmYf9soSFeOmOLwKIrvnTRzuyR-nHmmldnznPvy8HaX4HlKVKyRTcvnPMmK9v61pBsP0yovnH86vTLrDte9HerkPzYT5f6gt19e_qg80KvxuPWtggFFdbRyR1_-Ek1kYpCloA5IWZMaLrDO6Kh3hf9BOk3q8U_zNjqeZ_LBqZUtYoxc3fGONh4Nmnq21cGa6D41yjFlVquOqvqmu_U6A1zyF1j4-cas"/>
+<div class="absolute top-sm right-sm">
+<button class="w-10 h-10 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center text-primary-container shadow-sm hover:bg-primary-container hover:text-white transition-colors">
+<span class="material-symbols-outlined" translate="no">favorite</span>
+</button>
+</div>
+</div>
+<div class="px-sm pb-sm">
+<span class="font-label-caps text-label-caps text-primary-container mb-xs block">ULTRA-BOOK</span>
+<h3 class="font-body-main text-body-main font-medium text-on-background mb-base">NovaBook Air Titanium</h3>
+<p class="font-price-display text-price-display text-primary-container">890.000 Kz</p>
+</div>
+</div>
+<!-- Row 2 -->
+<!-- Product Card 4 -->
+<div class="bg-white rounded-card shadow-gold group cursor-pointer overflow-hidden transition-all hover:-translate-y-1 p-xs" routerLink="/product/chronos-gold">
+<div class="relative aspect-[4/5] bg-surface-container overflow-hidden rounded-lg mb-sm">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9OHAJRw7EYV21lhU9i7QKUn1sGKY-6jDRUn9FwRUHryAnGTlL9VGHnI7qmQXD19OSYfJltmsOmEymIXdXYsFlNYefhR4bRFnUyekTnabRtCrK0SL9g2CFb8NSs2XHuw8Fock0NO5AGhmfxbVQO29KwDan7q4Z988H5RWD4y4cGfDdtJbMKDvMGY0WTbABek3aWgGTt_6pKLAPaIU2dluY4NBop0tmMH78GB5CyBg937iWUJPrvjruVNJNLsyhrPKaI4zpExv0m3Y"/>
+<div class="absolute top-sm right-sm">
+<button class="w-10 h-10 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center text-primary-container shadow-sm hover:bg-primary-container hover:text-white transition-colors">
+<span class="material-symbols-outlined" translate="no">favorite</span>
+</button>
+</div>
+</div>
+<div class="px-sm pb-sm">
+<span class="font-label-caps text-label-caps text-primary-container mb-xs block">WEARABLES</span>
+<h3 class="font-body-main text-body-main font-medium text-on-background mb-base">Chronos Gold Smart</h3>
+<p class="font-price-display text-price-display text-primary-container">195.000 Kz</p>
+</div>
+</div>
+<!-- Product Card 5 -->
+<div class="bg-white rounded-card shadow-gold group cursor-pointer overflow-hidden transition-all hover:-translate-y-1 p-xs" routerLink="/product/lensmaster-gold">
+<div class="relative aspect-[4/5] bg-surface-container overflow-hidden rounded-lg mb-sm">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnjhZWz6Ro0WKYFHb8h9yuMa80oxV5rhs7mp3LrcFx1KbMPElbLOw9G0rG8s2zON1tFdjCc73v2ZhowhWDCZV7DaEU_5X9gil_3iWmm3z3iEJX1NR-kpHh52VRyWJKyk_q3yHPyou4MuyD4PkQ5gwSaXeZ1hXnrYVDnymYIdlgh4LnzxN1ldL9PXwEG-0S50F7EeqxKmu8xDTfcr2okpK8eH_HrlnRmqytVHEhswoIuh0lzlH2iI-XvrM7blMjXkaczlDywSjPccM"/>
+<div class="absolute top-sm right-sm">
+<button class="w-10 h-10 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center text-primary-container shadow-sm hover:bg-primary-container hover:text-white transition-colors">
+<span class="material-symbols-outlined" translate="no">favorite</span>
+</button>
+</div>
+</div>
+<div class="px-sm pb-sm">
+<span class="font-label-caps text-label-caps text-primary-container mb-xs block">FOTOGRAFIA</span>
+<h3 class="font-body-main text-body-main font-medium text-on-background mb-base">LensMaster X-Gold 50mm</h3>
+<p class="font-price-display text-price-display text-primary-container">320.000 Kz</p>
+</div>
+</div>
+<!-- Product Card 6 -->
+<div class="bg-white rounded-card shadow-gold group cursor-pointer overflow-hidden transition-all hover:-translate-y-1 p-xs" routerLink="/product/sonicpods-gold">
+<div class="relative aspect-[4/5] bg-surface-container overflow-hidden rounded-lg mb-sm">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3YhfJGKQ1jbeRM6jlQFvtl4p5z79bt2QbbrZ2Is2uMLJ9qF2yTkZdDV7o572dlnn4uhSCpR56B0nSKfoFOsQJ5kWo1Jit4H1nH5KT6610aC1EbLQsA8o5eVdGjj1t7lstwUUTNT9SiwDog418ThS5UDadG84aQXeerswB5hQ5j9-tvFL0d78CAv2S0tmoOLkHa0TqzNqtkUxueZvyRSykqp0ydMIG0ftj_wBZWgcptrc4N3pgM8DlKL8QscwWGWnirRggS0i6Y4U"/>
+<div class="absolute top-sm right-sm">
+<button class="w-10 h-10 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center text-primary-container shadow-sm hover:bg-primary-container hover:text-white transition-colors">
+<span class="material-symbols-outlined" translate="no">favorite</span>
+</button>
+</div>
+</div>
+<div class="px-sm pb-sm">
+<span class="font-label-caps text-label-caps text-primary-container mb-xs block">ÁUDIO</span>
+<h3 class="font-body-main text-body-main font-medium text-on-background mb-base">SonicPods Gold-Noise</h3>
+<p class="font-price-display text-price-display text-primary-container">85.000 Kz</p>
+</div>
+</div>
+</div>
+<!-- Pagination Section -->
+<div class="mt-xl flex justify-center items-center gap-sm">
+<button class="w-12 h-12 flex items-center justify-center border border-outline-variant hover:border-primary-container transition-colors">
+<span class="material-symbols-outlined" translate="no">chevron_left</span>
+</button>
+<button class="w-12 h-12 flex items-center justify-center bg-primary-container text-white font-bold">1</button>
+<button class="w-12 h-12 flex items-center justify-center border border-outline-variant hover:border-primary-container transition-colors">2</button>
+<button class="w-12 h-12 flex items-center justify-center border border-outline-variant hover:border-primary-container transition-colors">3</button>
+<span class="px-sm text-on-surface-variant">...</span>
+<button class="w-12 h-12 flex items-center justify-center border border-outline-variant hover:border-primary-container transition-colors">8</button>
+<button class="w-12 h-12 flex items-center justify-center border border-outline-variant hover:border-primary-container transition-colors">
+<span class="material-symbols-outlined" translate="no">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-inverse-surface dark:bg-on-background text-white mt-xl">
+<div class="max-w-container_max mx-auto px-gutter py-xl">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-lg">
+<div class="col-span-1 md:col-span-1">
+<h4 class="font-hero-title text-section-title text-primary-container dark:text-primary-fixed uppercase tracking-tighter mb-md">Ondjila Gold</h4>
+<p class="text-surface-variant dark:text-outline-variant text-sm">
+                        Excelência e sofisticação em cada detalhe. A sua referência em compras premium.
+                    </p>
+<div class="flex gap-md mt-lg">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary-container" data-icon="facebook" translate="no">social_leaderboard</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary-container" data-icon="language" translate="no">language</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary-container" data-icon="alternate_email" translate="no">alternate_email</span>
+</div>
+</div>
+<div>
+<h5 class="font-label-caps mb-md text-primary-fixed">LOJA</h5>
+<ul class="space-y-sm text-surface-variant dark:text-outline-variant text-sm">
+<li class="hover:text-primary-fixed transition-colors cursor-pointer" routerLink="/new-arrivals">Novidades</li>
+<li class="hover:text-primary-fixed transition-colors cursor-pointer" routerLink="/best-sellers">Best Sellers</li>
+<li class="hover:text-primary-fixed transition-colors cursor-pointer" routerLink="/categories">Categorias</li>
+<li class="hover:text-primary-fixed transition-colors cursor-pointer" routerLink="/brands">Marcas</li>
+</ul>
+</div>
+<div>
+<h5 class="font-label-caps mb-md text-primary-fixed">SUPORTE</h5>
+<ul class="space-y-sm text-surface-variant dark:text-outline-variant text-sm">
+<li class="hover:text-primary-fixed transition-colors cursor-pointer" routerLink="/help-center">Centro de Ajuda</li>
+<li class="hover:text-primary-fixed transition-colors cursor-pointer" routerLink="/shipping-delivery">Envio e Entrega</li>
+<li class="hover:text-primary-fixed transition-colors cursor-pointer" routerLink="/returns">Devoluções</li>
+<li class="hover:text-primary-fixed transition-colors cursor-pointer" routerLink="/contact">Contactos</li>
+</ul>
+</div>
+<div>
+<h5 class="font-label-caps mb-md text-primary-fixed">NEWSLETTER</h5>
+<p class="text-xs text-surface-variant mb-md">Subscreva para receber ofertas exclusivas e atualizações.</p>
+<div class="flex gap-0">
+<input class="bg-surface-dim/20 border border-outline-variant/30 px-md py-xs text-white text-sm outline-none w-full" placeholder="Email" type="email"/>
+<button class="bg-primary-container px-md py-xs font-bold text-sm">OK</button>
+</div>
+</div>
+</div>
+<div class="border-t border-outline-variant/20 mt-xl pt-lg flex flex-col md:flex-row justify-between items-center gap-md">
+<p class="text-xs text-surface-variant">© 2024 Ondjila Gold. All rights reserved.</p>
+<div class="flex gap-lg text-xs text-surface-variant">
+<span class="hover:text-white cursor-pointer">Política de Privacidade</span>
+<span class="hover:text-white cursor-pointer">Termos de Serviço</span>
+<span class="hover:text-white cursor-pointer">Política de Envio</span>
+</div>
+</div>
+</div>
+</footer>
+
+</div>

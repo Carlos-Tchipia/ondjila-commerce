@@ -1,1 +1,8 @@
 <router-outlet></router-outlet>
+
+<!-- Global Toast Notification -->
+<div *ngIf="cartService.toastMessage$ | async as message"
+     class="fixed top-24 right-8 bg-[#C8960C] text-white px-6 py-4 rounded-lg shadow-[0_4px_20px_rgba(200,150,12,0.3)] z-[9999] flex items-center gap-3 font-['Inter'] transition-all duration-500 ease-out transform translate-y-0 opacity-100">
+  <span class="material-symbols-outlined" translate="no">check_circle</span>
+  <span class="text-sm font-medium">{{ message }}</span>
+</div>
