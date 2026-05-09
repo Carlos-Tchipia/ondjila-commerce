@@ -3,7 +3,7 @@
 <header class="bg-surface dark:bg-surface border-b border-outline-variant dark:border-outline shadow-sm docked full-width top-0 sticky h-[68px] z-50">
 <div class="flex justify-between items-center w-full px-gutter max-w-container_max mx-auto h-full">
 <div class="flex items-center gap-lg">
-<span class="font-hero-title text-section-title font-black text-primary-container dark:text-primary-fixed uppercase tracking-widest cursor-pointer" routerLink="/">Ondjilacommerce</span>
+<span class="font-hero-title text-section-title font-black text-primary-container dark:text-primary-fixed uppercase tracking-[0.2em] cursor-pointer" routerLink="/">ONDJILA</span>
 <nav class="hidden md:flex gap-md font-body-main text-body-main">
 <a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/">Início</a>
 <a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/categories">Categorias</a>
@@ -13,18 +13,8 @@
 </div>
 <div class="flex items-center gap-md">
 <div class="flex items-center gap-sm">
-<div class="relative group hidden md:flex items-center cursor-pointer mr-sm">
-  <span class="text-[12px] text-on-surface-variant flex items-center">
-    [<span class="material-symbols-outlined text-[14px] mx-1" translate="no">language</span> PT <span class="material-symbols-outlined text-[14px]" translate="no">arrow_drop_down</span>]
-  </span>
-</div>
-<button class="flex items-center gap-xs text-primary-container" routerLink="/login">
-<span class="material-symbols-outlined" data-icon="person" translate="no">person</span>
-<span class="hidden md:inline font-label-caps uppercase text-[10px]">A minha conta</span>
-</button>
 <div class="relative cursor-pointer flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/cart">
   <span class="material-symbols-outlined text-[24px]" translate="no">shopping_cart</span>
-  <span class="hidden md:inline font-label-caps uppercase text-[10px]">Carrinho</span>
   <div *ngIf="(cartService.cartCount$ | async) as count" class="absolute -top-2 -right-2 bg-error text-on-error text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full">
     {{ count }}
   </div>
@@ -49,22 +39,23 @@
 <!-- Form Content -->
 <div class="p-xl space-y-md">
 <div class="text-center space-y-xs mb-md">
-<h1 class="font-section-title text-[24px] text-on-background">{{ isLoginMode ? 'Bem-vindo de volta' : 'Junte-se a nós' }}</h1>
-<p class="font-body-main text-sm text-on-surface-variant">{{ isLoginMode ? 'Aceda à sua conta exclusiva Ondjila.' : 'Crie a sua conta para uma experiência personalizada.' }}</p>
+<h1 class="font-section-title text-[24px] text-on-background uppercase tracking-widest">{{ isLoginMode ? 'Bem-vindo de volta' : 'Junte-se a nós' }}</h1>
+<p class="font-body-main text-sm text-on-surface-variant">{{ isLoginMode ? 'Aceda à sua conta exclusiva ONDJILA.' : 'Crie a sua conta para uma experiência personalizada.' }}</p>
 </div>
 
-<form (submit)="onSubmit()" class="space-y-md">
-<div *ngIf="errorMessage" class="bg-error/10 text-error text-[12px] p-md rounded-lg border border-error/20 font-medium">
+<form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="space-y-md">
+<div *ngIf="errorMessage" class="bg-error/10 text-error text-[10px] p-md rounded-lg border border-error/20 font-bold uppercase tracking-wider text-center">
     {{ errorMessage }}
 </div>
+
 <div *ngIf="!isLoginMode" class="space-y-base">
 <label class="font-label-caps text-[10px] text-on-surface-variant block uppercase tracking-widest">Nome Completo</label>
-<input name="name" [(ngModel)]="name" class="w-full h-12 px-md bg-surface-container-lowest border border-outline-variant rounded-lg focus:outline-none focus:border-primary-container transition-colors text-sm" placeholder="Seu nome" type="text"/>
+<input name="name" [(ngModel)]="name" class="w-full h-12 px-md bg-surface-container-lowest border border-outline-variant/50 rounded-lg focus:outline-none focus:border-primary-container transition-all text-sm" placeholder="Seu nome" type="text"/>
 </div>
 
 <div class="space-y-base">
 <label class="font-label-caps text-[10px] text-on-surface-variant block uppercase tracking-widest">Email</label>
-<input name="email" [(ngModel)]="email" class="w-full h-12 px-md bg-surface-container-lowest border border-outline-variant rounded-lg focus:outline-none focus:border-primary-container transition-colors text-sm" placeholder="exemplo@ondjila.com" type="email"/>
+<input name="email" [(ngModel)]="email" class="w-full h-12 px-md bg-surface-container-lowest border border-outline-variant/50 rounded-lg focus:outline-none focus:border-primary-container transition-all text-sm" placeholder="exemplo@ondjila.com" type="email"/>
 </div>
 
 <div class="space-y-base">
@@ -72,22 +63,22 @@
 <label class="font-label-caps text-[10px] text-on-surface-variant block uppercase tracking-widest">Palavra-passe</label>
 <a *ngIf="isLoginMode" class="text-[10px] font-label-caps text-primary-container uppercase tracking-wider hover:underline cursor-pointer">Esqueci a senha</a>
 </div>
-<input name="password" [(ngModel)]="password" class="w-full h-12 px-md bg-surface-container-lowest border border-outline-variant rounded-lg focus:outline-none focus:border-primary-container transition-colors text-sm" placeholder="••••••••" type="password"/>
+<input name="password" [(ngModel)]="password" class="w-full h-12 px-md bg-surface-container-lowest border border-outline-variant/50 rounded-lg focus:outline-none focus:border-primary-container transition-all text-sm" placeholder="••••••••" type="password"/>
 </div>
 
 <div *ngIf="!isLoginMode" class="space-y-base">
 <label class="font-label-caps text-[10px] text-on-surface-variant block uppercase tracking-widest">Confirmar Palavra-passe</label>
-<input name="password_confirmation" [(ngModel)]="password_confirmation" class="w-full h-12 px-md bg-surface-container-lowest border border-outline-variant rounded-lg focus:outline-none focus:border-primary-container transition-colors text-sm" placeholder="••••••••" type="password"/>
+<input name="password_confirmation" [(ngModel)]="password_confirmation" class="w-full h-12 px-md bg-surface-container-lowest border border-outline-variant/50 rounded-lg focus:outline-none focus:border-primary-container transition-all text-sm" placeholder="••••••••" type="password"/>
 </div>
 
 <div class="pt-md">
-<button class="w-full h-[56px] bg-primary-container text-white font-label-caps text-label-caps uppercase tracking-widest hover:bg-[#A87A09] transition-all gold-shadow" type="submit">
-                            {{ isLoginMode ? 'ENTRAR' : 'CRIAR CONTA' }}
-                        </button>
+<button [disabled]="isLoading" class="w-full h-[56px] bg-primary-container text-white font-label-caps text-label-caps uppercase tracking-widest hover:bg-[#A87A09] transition-all gold-shadow disabled:opacity-50 flex justify-center items-center gap-sm" type="submit">
+    <span *ngIf="isLoading" class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+    {{ isLoginMode ? (isLoading ? 'Entrando...' : 'ENTRAR') : (isLoading ? 'Criando...' : 'CRIAR CONTA') }}
+</button>
 </div>
 </form>
 
-<!-- Social Login -->
 <div class="relative py-md">
 <div class="absolute inset-0 flex items-center">
 <div class="w-full border-t border-outline-variant/30"></div>
@@ -109,12 +100,10 @@
 </div>
 </main>
 
-<footer class="bg-inverse-surface dark:bg-on-background text-white py-xl">
-<div class="max-w-container_max mx-auto px-gutter grid grid-cols-1 md:grid-cols-3 gap-lg text-center md:text-left">
-<div>
-<h4 class="font-hero-title text-[20px] text-primary-container uppercase tracking-tighter mb-md">Ondjilacommerce</h4>
-<p class="text-surface-variant text-[12px]">Excelência e sofisticação em cada detalhe.</p>
-</div>
+<footer class="bg-on-background text-white mt-auto py-xl">
+<div class="max-w-container_max mx-auto px-gutter text-center">
+<h4 class="font-hero-title text-[20px] text-primary-container uppercase font-black mb-md">ONDJILA</h4>
+<p class="text-surface-variant text-[11px] uppercase tracking-widest">© 2026 ONDJILA COMMERCE. TODOS OS DIREITOS RESERVADOS.</p>
 </div>
 </footer>
 

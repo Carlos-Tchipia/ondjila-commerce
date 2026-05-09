@@ -30,9 +30,13 @@ export class Login {
   }
 
   onSubmit() {
+    if (!this.email || !this.password) {
+      this.errorMessage = 'Por favor, preencha todos os campos.';
+      return;
+    }
+
     this.isLoading = true;
     this.errorMessage = '';
-
     const obs = this.isLoginMode 
       ? this.userService.login(this.email, this.password)
       : this.userService.register({ 
@@ -46,11 +50,13 @@ export class Login {
       next: (res) => {
         if (res.success) {
           this.router.navigate(['/']);
+        } else {
+          this.errorMessage = 'Resposta da API sem sucesso.';
         }
         this.isLoading = false;
       },
       error: (err) => {
-        this.errorMessage = err.error?.message || 'Ocorreu um erro. Verifique os seus dados.';
+        this.errorMessage = err.error?.message || 'Erro de ligação ao servidor. Verifique se o XAMPP está ativo.';
         this.isLoading = false;
       }
     });
