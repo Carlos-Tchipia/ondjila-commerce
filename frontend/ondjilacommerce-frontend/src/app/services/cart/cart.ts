@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Product } from '../product/product.service';
 
@@ -11,7 +11,7 @@ export interface CartItem {
   providedIn: 'root'
 })
 export class CartService {
-  private cartItems = new BehaviorSubject<CartItem[]>([]);
+  private cartItems = new BehaviorSubject<CartItem[]>(this.loadCart());
   cartItems$ = this.cartItems.asObservable();
 
   private cartCount = new BehaviorSubject<number>(0);
@@ -20,13 +20,11 @@ export class CartService {
   private toastMessage = new BehaviorSubject<string | null>(null);
   toastMessage$ = this.toastMessage.asObservable();
 
-  constructor() { }
+  constructor() {
+    this.updateCount();
+  }
 
-  addToCart(product?: Product) {
-    if (!product) {
-      // Fallback for old components
-      return;
-    }
+  addToCart(product: Product) {
     const currentItems = this.cartItems.value;
     const existingItem = currentItems.find(item => item.product.id === product.id);
 
@@ -37,6 +35,7 @@ export class CartService {
       this.cartItems.next([...currentItems, { product, quantity: 1 }]);
     }
 
+    this.saveCart();
     this.updateCount();
     this.showToast(`✓ ${product.name} adicionado ao carrinho`);
   }
@@ -45,6 +44,7 @@ export class CartService {
     const currentItems = this.cartItems.value;
     const updatedItems = currentItems.filter(item => item.product.id !== productId);
     this.cartItems.next(updatedItems);
+    this.saveCart();
     this.updateCount();
   }
 
@@ -54,10 +54,28 @@ export class CartService {
     if (item && quantity > 0) {
       item.quantity = quantity;
       this.cartItems.next([...currentItems]);
+      this.saveCart();
       this.updateCount();
     } else if (item && quantity === 0) {
       this.removeFromCart(productId);
     }
+  }
+
+  clearCart() {
+    this.cartItems.next([]);
+    this.saveCart();
+    this.updateCount();
+  }
+
+  getCartTotal(): number {
+    return this.cartItems.value.reduce((acc, item) => {
+      const price = item.product.priceRaw || 0;
+      return acc + (price * item.quantity);
+    }, 0);
+  }
+
+  getCartTotalFormatted(): string {
+    return new Intl.NumberFormat('pt-AO').format(this.getCartTotal()) + ' Kz';
   }
 
   private updateCount() {
@@ -72,12 +90,16 @@ export class CartService {
     }, 3000);
   }
 
-  getTotal(): string {
-    const total = this.cartItems.value.reduce((acc, item) => {
-      const price = parseFloat(item.product.price.replace(/[^\d]/g, '')) / 100; // Assuming prices are formatted as XXX.XXX
-      // This is a bit risky due to formatting, let's do a simpler approach for now
-      return acc + (1000 * item.quantity); // Placeholder logic
-    }, 0);
-    return 'Calculando...'; // I'll fix this later or keep it simple
+  private saveCart() {
+    localStorage.setItem('ondjila_cart', JSON.stringify(this.cartItems.value));
+  }
+
+  private loadCart(): CartItem[] {
+    try {
+      const stored = localStorage.getItem('ondjila_cart');
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
   }
 }

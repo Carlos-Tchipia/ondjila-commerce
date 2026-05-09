@@ -54,9 +54,12 @@
 </div>
 
 <form (submit)="onSubmit()" class="space-y-md">
+<div *ngIf="errorMessage" class="bg-error/10 text-error text-[12px] p-md rounded-lg border border-error/20 font-medium">
+    {{ errorMessage }}
+</div>
 <div *ngIf="!isLoginMode" class="space-y-base">
 <label class="font-label-caps text-[10px] text-on-surface-variant block uppercase tracking-widest">Nome Completo</label>
-<input class="w-full h-12 px-md bg-surface-container-lowest border border-outline-variant rounded-lg focus:outline-none focus:border-primary-container transition-colors text-sm" placeholder="Seu nome" type="text"/>
+<input name="name" [(ngModel)]="name" class="w-full h-12 px-md bg-surface-container-lowest border border-outline-variant rounded-lg focus:outline-none focus:border-primary-container transition-colors text-sm" placeholder="Seu nome" type="text"/>
 </div>
 
 <div class="space-y-base">
@@ -69,7 +72,12 @@
 <label class="font-label-caps text-[10px] text-on-surface-variant block uppercase tracking-widest">Palavra-passe</label>
 <a *ngIf="isLoginMode" class="text-[10px] font-label-caps text-primary-container uppercase tracking-wider hover:underline cursor-pointer">Esqueci a senha</a>
 </div>
-<input class="w-full h-12 px-md bg-surface-container-lowest border border-outline-variant rounded-lg focus:outline-none focus:border-primary-container transition-colors text-sm" placeholder="••••••••" type="password"/>
+<input name="password" [(ngModel)]="password" class="w-full h-12 px-md bg-surface-container-lowest border border-outline-variant rounded-lg focus:outline-none focus:border-primary-container transition-colors text-sm" placeholder="••••••••" type="password"/>
+</div>
+
+<div *ngIf="!isLoginMode" class="space-y-base">
+<label class="font-label-caps text-[10px] text-on-surface-variant block uppercase tracking-widest">Confirmar Palavra-passe</label>
+<input name="password_confirmation" [(ngModel)]="password_confirmation" class="w-full h-12 px-md bg-surface-container-lowest border border-outline-variant rounded-lg focus:outline-none focus:border-primary-container transition-colors text-sm" placeholder="••••••••" type="password"/>
 </div>
 
 <div class="pt-md">

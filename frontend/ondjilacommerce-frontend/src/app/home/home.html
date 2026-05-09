@@ -1,305 +1,172 @@
-<div  class="bg-surface font-body-main text-on-surface">
-
-<!-- TopAppBar -->
+<div class="bg-background text-on-background font-body-main selection:bg-primary-container selection:text-white">
+<!-- Top Navigation -->
 <header class="bg-surface dark:bg-surface border-b border-outline-variant dark:border-outline shadow-sm docked full-width top-0 sticky h-[68px] z-50">
 <div class="flex justify-between items-center w-full px-gutter max-w-container_max mx-auto h-full">
 <div class="flex items-center gap-lg">
-<span class="font-hero-title text-section-title font-black text-primary-container dark:text-primary-fixed uppercase tracking-[0.2em] cursor-pointer" routerLink="/">ONDJILA</span>
+<span class="font-hero-title text-section-title font-black text-primary-container dark:text-primary-fixed uppercase tracking-widest cursor-pointer" routerLink="/">Ondjila</span>
 <nav class="hidden md:flex gap-md font-body-main text-body-main">
-<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/">Início</a>
+<a class="text-primary-container font-medium border-b-2 border-primary-container pb-1" routerLink="/">Início</a>
 <a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/categories">Categorias</a>
 <a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/about">Sobre Nós</a>
 <a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/contact">Contactos</a>
 </nav>
 </div>
 <div class="flex items-center gap-md">
-<div class="relative hidden lg:block">
-<input (input)="onSearch($event)" class="bg-[#F9F8F6] border border-[#E8E4DC] rounded-[6px] py-xs px-md pr-xl focus:border-primary-container outline-none text-sm w-64" placeholder="Pesquisar produtos..." type="text"/>
-<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-sm" data-icon="search" translate="no">search</span>
+<div class="relative group hidden lg:flex items-center">
+<input (input)="onSearch($event)" class="w-64 h-10 pl-10 pr-md bg-surface-container-low rounded-full border border-outline-variant focus:outline-none focus:border-primary-container transition-all text-sm font-body-main" placeholder="O que procura hoje?" type="text"/>
+<span class="material-symbols-outlined absolute left-3 text-on-surface-variant" translate="no">search</span>
 </div>
 <div class="flex items-center gap-sm">
-<button (click)="toggleTheme()" class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary-container transition-colors duration-200">
-  <span class="material-symbols-outlined" translate="no">{{ themeService.isDarkMode() ? 'light_mode' : 'dark_mode' }}</span>
+<button class="flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200" [routerLink]="userService.isLoggedIn() ? '/customer-account' : '/login'">
+<span class="material-symbols-outlined" translate="no">person</span>
+<span class="hidden xl:inline font-label-caps uppercase text-[10px]">{{ userService.isLoggedIn() ? userService.getCurrentUser()?.name : 'Entrar' }}</span>
 </button>
-<div class="relative group hidden md:flex items-center cursor-pointer mr-sm">
-  <span class="text-[12px] text-on-surface-variant flex items-center">
-    [<span class="material-symbols-outlined text-[14px] mx-1" translate="no">language</span> PT <span class="material-symbols-outlined text-[14px]" translate="no">arrow_drop_down</span>]
-  </span>
-  <div class="absolute right-0 top-full mt-1 hidden group-hover:block bg-surface shadow-md rounded-md py-1 min-w-[120px] text-[12px] text-on-surface border border-outline-variant z-50">
-    <div class="px-3 py-2 hover:bg-surface-container-high cursor-pointer font-medium text-primary-container">Português</div>
-    <div class="px-3 py-2 hover:bg-surface-container-high cursor-pointer">English</div>
-  </div>
-</div>
-<button *ngIf="!(userService.currentUser$ | async)" class="flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/login">
-<span class="material-symbols-outlined" data-icon="person" translate="no">person</span>
-<span class="hidden md:inline font-label-caps uppercase text-[10px]">A minha conta</span>
-</button>
-<div *ngIf="userService.currentUser$ | async as user" class="flex items-center gap-xs text-primary-container">
-  <span class="material-symbols-outlined" translate="no">account_circle</span>
-  <span class="hidden md:inline font-label-caps uppercase text-[10px]">{{ user.name }}</span>
-  <button (click)="logout()" class="material-symbols-outlined text-[16px] text-error ml-1" translate="no">logout</button>
-</div>
 <div class="relative cursor-pointer flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/cart">
-  <span class="material-symbols-outlined text-[24px]" translate="no">shopping_cart</span>
-  <span class="hidden md:inline font-label-caps uppercase text-[10px]">Carrinho</span>
-  <div *ngIf="(cartService.cartCount$ | async) as count" class="absolute -top-2 -right-2 bg-error text-on-error text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full">
-    {{ count }}
-  </div>
+<span class="material-symbols-outlined text-[24px]" translate="no">shopping_cart</span>
+<span class="hidden xl:inline font-label-caps uppercase text-[10px]">Carrinho</span>
+<div *ngIf="(cartService.cartCount$ | async) as count" class="absolute -top-2 -right-2 bg-error text-on-error text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full">
+{{ count }}
+</div>
 </div>
 </div>
 </div>
 </div>
 </header>
-<main>
 <!-- Hero Section -->
-<section class="bg-[#F5F2EC] w-full py-24 relative overflow-hidden">
-    <div class="absolute top-0 right-0 w-1/3 h-full bg-primary-container/5 -skew-x-12 translate-x-1/2"></div>
-    
-    <div class="max-w-container_max mx-auto px-gutter grid grid-cols-1 md:grid-cols-2 items-center gap-xl relative z-10">
-        <div class="flex flex-col items-start gap-md">
-            <div class="inline-flex items-center gap-xs px-sm py-1 bg-primary-container/10 rounded-full">
-                <span class="w-2 h-2 bg-primary-container rounded-full animate-pulse"></span>
-                <span class="font-label-caps text-[10px] text-primary-container uppercase tracking-widest font-bold">Excelência em Tecnologia Premium em Angola</span>
-            </div>
-            <h1 class="font-hero-title text-hero-title text-on-surface leading-[1.1] tracking-tighter">
-                Tecnologia de Elite. <br/><span class="text-primary-container">Confiança Ondjila.</span>
-            </h1>
-            <p class="text-on-surface-variant text-body-main max-w-lg leading-relaxed">
-                Selecionamos apenas o topo da eletrónica mundial. Com a ONDJILA, garante produtos 100% originais, entrega segura em todo o país e um suporte dedicado ao seu sucesso.
-            </p>
-            <div class="flex flex-wrap gap-md mt-sm">
-                <button routerLink="/categories" class="bg-primary-container text-white px-xl py-md font-label-caps text-label-caps uppercase tracking-widest hover:bg-[#A87A09] transition-all gold-shadow flex items-center gap-sm">
-                    Ver Todos os Produtos
-                    <span class="material-symbols-outlined text-sm" translate="no">arrow_forward</span>
-                </button>
-            </div>
-            
-            <!-- Mini Trust Signs -->
-            <div class="flex items-center gap-lg mt-md pt-md border-t border-outline-variant w-full">
-                <div class="flex items-center gap-xs">
-                    <span class="material-symbols-outlined text-primary-container text-[18px]" translate="no">verified</span>
-                    <span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Original</span>
-                </div>
-                <div class="flex items-center gap-xs">
-                    <span class="material-symbols-outlined text-primary-container text-[18px]" translate="no">local_shipping</span>
-                    <span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Entrega Angola</span>
-                </div>
-                <div class="flex items-center gap-xs">
-                    <span class="material-symbols-outlined text-primary-container text-[18px]" translate="no">lock</span>
-                    <span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Pagamento Seguro</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="relative group hidden md:block">
-            <div class="absolute inset-0 bg-primary-container/10 rounded-[40px] rotate-3 scale-105 group-hover:rotate-0 transition-transform duration-700"></div>
-            <div class="relative h-[500px] bg-white rounded-[40px] shadow-gold overflow-hidden border border-outline-variant/30">
-                <img alt="Premium Electronics Hero" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="assets/hero_boy_headphones.png"/>
-            </div>
-        </div>
-    </div>
+<section class="relative h-[600px] overflow-hidden bg-surface-container-lowest">
+<div class="max-w-container_max mx-auto h-full px-gutter flex flex-col md:flex-row items-center gap-xl relative z-10">
+<div class="w-full md:w-1/2 space-y-md animate-slide-up">
+<span class="font-label-caps text-primary-container tracking-[0.3em] uppercase">Nova Coleção 2026</span>
+<h1 class="font-hero-title text-hero-title text-on-surface leading-[1.1] mb-md">
+                    Tecnologia com<br/><span class="text-primary-container italic">Alma Angolana</span>
+</h1>
+<p class="text-on-surface-variant text-body-main max-w-[480px] mb-lg leading-relaxed">
+                    Descubra a fusão perfeita entre a inovação global e a identidade local. Peças curadas para quem exige o extraordinário em cada detalhe.
+                </p>
+<div class="flex flex-wrap gap-md pt-md">
+<button class="bg-primary-container text-white px-xl py-md font-label-caps hover:bg-[#A87A09] transition-all gold-shadow uppercase tracking-widest" routerLink="/catalog">Comprar agora</button>
+<button class="border border-on-surface px-xl py-md font-label-caps hover:bg-on-surface hover:text-white transition-all uppercase tracking-widest" routerLink="/discover">Descobrir</button>
+</div>
+</div>
+<div class="w-full md:w-1/2 relative h-full flex items-center justify-center">
+<div class="absolute inset-0 bg-gradient-radial from-primary-container/10 to-transparent rounded-full blur-3xl"></div>
+<img alt="Premium Tech" class="relative z-10 w-full max-h-[500px] object-contain drop-shadow-2xl animate-float" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBljm2Uj-dY4m-XsSKIlr_m1jdaGwz-pl9pfYy1tunk42mrcmYf9soSFeOmOLwKIrvnTRzuyR-nHmmldnznPvy8HaX4HlKVKyRTcvnPMmK9v61pBsP0yovnH86vTLrDte9HerkPzYT5f6gt19e_qg80KvxuPWtggFFdbRyR1_-Ek1kYpCloA5IWZMaLrDO6Kh3hf9BOk3q8U_zNjqeZ_LBqZUtYoxc3fGONh4Nmnq21cGa6D41yjFlVquOqvqmu_U6A1zyF1j4-cas"/>
+</div>
+</div>
 </section>
-<!-- Category Bar -->
-<section class="bg-white py-md border-b border-outline-variant">
-<div class="max-w-container_max mx-auto px-gutter overflow-x-auto">
-<div class="flex gap-lg items-center whitespace-nowrap">
-<button class="flex items-center gap-xs font-label-caps text-primary-container">
-<span class="material-symbols-outlined" data-icon="tune" translate="no">tune</span>Filtros</button>
-<div class="flex gap-md">
-<span class="px-md py-xs rounded-full bg-surface-container-high font-label-caps cursor-pointer hover:bg-primary-container hover:text-white transition-colors">Auscultadores</span>
-<span class="px-md py-xs rounded-full bg-surface-container-low font-label-caps cursor-pointer hover:bg-primary-container hover:text-white transition-colors">Relógios Inteligentes</span>
-<span class="px-md py-xs rounded-full bg-surface-container-low font-label-caps cursor-pointer hover:bg-primary-container hover:text-white transition-colors">Colunas</span>
-<span class="px-md py-xs rounded-full bg-surface-container-low font-label-caps cursor-pointer hover:bg-primary-container hover:text-white transition-colors">Acessórios</span>
-<span class="px-md py-xs rounded-full bg-surface-container-low font-label-caps cursor-pointer hover:bg-primary-container hover:text-white transition-colors">Câmaras</span>
+<!-- Categorias Rápidas -->
+<section class="py-xl bg-surface">
+<div class="max-w-container_max mx-auto px-gutter">
+<div class="flex flex-col md:flex-row justify-between items-center gap-md mb-xl">
+<div class="space-y-xs">
+<h2 class="font-section-title text-section-title text-on-surface">Explorar Universos</h2>
+<p class="text-on-surface-variant text-sm">Categorias selecionadas para o seu estilo de vida.</p>
+</div>
+<div class="flex gap-sm overflow-x-auto pb-2 w-full md:w-auto">
+<span class="px-md py-xs rounded-full bg-surface-container-low font-label-caps cursor-pointer hover:bg-primary-container hover:text-white transition-colors whitespace-nowrap">Smartphones</span>
+<span class="px-md py-xs rounded-full bg-surface-container-low font-label-caps cursor-pointer hover:bg-primary-container hover:text-white transition-colors whitespace-nowrap">Laptops</span>
+<span class="px-md py-xs rounded-full bg-surface-container-low font-label-caps cursor-pointer hover:bg-primary-container hover:text-white transition-colors whitespace-nowrap">Áudio</span>
+<span class="px-md py-xs rounded-full bg-surface-container-low font-label-caps cursor-pointer hover:bg-primary-container hover:text-white transition-colors whitespace-nowrap">Wearables</span>
 </div>
 </div>
 </div>
 </section>
-<!-- Ofertas do Dia -->
+<!-- Featured Products -->
 <section class="py-xl max-w-container_max mx-auto px-gutter">
 <div class="flex justify-between items-end mb-lg">
-<h2 class="font-section-title text-section-title text-on-surface">Ofertas do dia</h2>
-<a class="text-primary-container font-label-caps border-b border-primary-container pb-1" routerLink="/">Ver todas</a>
+<h2 class="font-section-title text-section-title text-on-surface">Destaques Ondjila</h2>
+<a class="text-primary-container font-label-caps border-b border-primary-container pb-1" routerLink="/catalog">Ver todos</a>
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-md">
-<!-- Product Card 1 -->
-<div class="bg-white rounded-card shadow-gold group cursor-pointer overflow-hidden transition-all hover:-translate-y-1" routerLink="/product/bose-qc">
-<div class="h-64 relative bg-[#F9F8F6] p-md">
-<span class="absolute top-3 left-3 bg-error text-white text-[10px] font-bold px-2 py-1 rounded-sm">-20%</span>
-<span class="absolute top-3 right-3 material-symbols-outlined text-outline-variant hover:text-error transition-colors" data-icon="favorite" translate="no">favorite</span>
-<img alt="Wireless Headphones" class="w-full h-full object-contain mix-blend-multiply" data-alt="Close-up studio photograph of premium black wireless headphones on a clean, light-colored background. The lighting is soft and professional, emphasizing the sleek textures and metallic accents. The overall mood is sophisticated and minimal, consistent with high-end technology product photography in a warm white studio setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXbTuD3WWsyEnTsieBaUQjgqcpokqPAicHkz_xMPIBh9NEtT7IRQsSPvRqClQoQ4TMnm4l22d12mVKPNHTIbtZv65pKXvZ5JhmtCK_EuPo1y3yPxfpszs5RsDZgLHpXnFEI6zxQgDnRhC9N_k5r-pmiLJDA0Sn4rnLDse7Da9NUOyNCExlIzPC5DH7w0u5JBjuc4pkEnXAjEXc1L8kNePXND7E6eR4cHYLqbkfRBKh2FmlFDBBsLKF-xHVzmlkTFjTUbz0ZIMwG58"/>
+    <div *ngFor="let product of featuredProducts$ | async" 
+         class="bg-white rounded-card shadow-gold group cursor-pointer overflow-hidden transition-all hover:-translate-y-1" 
+         [routerLink]="['/product', product.id]">
+        <div class="h-64 relative bg-[#F9F8F6] p-md">
+            <span *ngIf="product.discount" class="absolute top-3 left-3 bg-error text-white text-[10px] font-bold px-2 py-1 rounded-sm">-{{ product.discount }}%</span>
+            <span class="absolute top-3 right-3 material-symbols-outlined text-outline-variant hover:text-error transition-colors" translate="no">favorite</span>
+            <img [alt]="product.name" class="w-full h-full object-contain mix-blend-multiply" [src]="product.image"/>
+        </div>
+        <div class="p-md space-y-2">
+            <div class="flex justify-between items-start">
+                <h3 class="font-body-main text-body-main font-medium truncate pr-sm">{{ product.name }}</h3>
+                <span class="font-price-display text-price-display text-primary-container font-bold whitespace-nowrap">{{ product.price }}</span>
+            </div>
+            <p class="text-xs text-on-surface-variant truncate">{{ product.category }}</p>
+            <div class="flex items-center gap-xs">
+                <div class="flex text-primary-container text-[12px]">
+                    <span *ngFor="let i of [1,2,3,4,5]" class="material-symbols-outlined !text-[14px]" 
+                          [style.font-variation-settings]="'\'FILL\' ' + (product.rating && i <= (product.rating || 0) ? 1 : 0)" translate="no">star</span>
+                </div>
+                <span class="text-[10px] text-on-surface-variant">({{ product.reviews_count || 0 }})</span>
+            </div>
+            <button class="w-full border border-primary-container py-2 font-label-caps text-primary-container hover:bg-primary-container hover:text-white transition-all mt-md"
+                    (click)="$event.stopPropagation(); cartService.addToCart(product)">
+                Adicionar ao carrinho
+            </button>
+        </div>
+    </div>
 </div>
-<div class="p-md space-y-2">
-<div class="flex justify-between items-start">
-<h3 class="font-body-main text-body-main font-medium">Bose QuietComfort</h3>
-<span class="font-price-display text-price-display text-primary-container font-bold">45.990,00 <span class="text-sm font-normal">Kz</span></span>
+</section>
+<!-- Branding & Trust -->
+<section class="py-xl bg-surface-container-lowest border-y border-outline-variant/30">
+<div class="max-w-container_max mx-auto px-gutter grid grid-cols-1 md:grid-cols-3 gap-xl">
+<div class="flex flex-col items-center text-center space-y-sm">
+<span class="material-symbols-outlined text-[40px] text-primary-container" translate="no">local_shipping</span>
+<h4 class="font-label-caps text-label-caps uppercase">Entrega em Toda Angola</h4>
+<p class="text-xs text-on-surface-variant">Logística otimizada para todas as províncias com rastreio em tempo real.</p>
 </div>
-<p class="text-xs text-on-surface-variant">Over-Ear Sem Fios com Cancelamento de Ruído</p>
-<div class="flex items-center gap-xs">
-<div class="flex text-primary-container text-[12px]">
-<span class="material-symbols-outlined !text-[14px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;" translate="no">star</span>
-<span class="material-symbols-outlined !text-[14px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;" translate="no">star</span>
-<span class="material-symbols-outlined !text-[14px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;" translate="no">star</span>
-<span class="material-symbols-outlined !text-[14px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;" translate="no">star</span>
-<span class="material-symbols-outlined !text-[14px]" data-icon="star" translate="no">star</span>
+<div class="flex flex-col items-center text-center space-y-sm">
+<span class="material-symbols-outlined text-[40px] text-primary-container" translate="no">verified_user</span>
+<h4 class="font-label-caps text-label-caps uppercase">Garantia Ondjila</h4>
+<p class="text-xs text-on-surface-variant">Todos os produtos são certificados e possuem garantia oficial de 2 anos.</p>
 </div>
-<span class="text-[10px] text-on-surface-variant">(121)</span>
-</div>
-<button class="w-full border border-primary-container py-2 font-label-caps text-primary-container hover:bg-primary-container hover:text-white transition-all mt-md">Adicionar ao carrinho</button>
-</div>
-</div>
-<!-- Product Card 2 -->
-<div class="bg-white rounded-card shadow-gold group cursor-pointer overflow-hidden transition-all hover:-translate-y-1" routerLink="/product/airpods-pro">
-<div class="h-64 relative bg-[#F9F8F6] p-md">
-<span class="absolute top-3 left-3 bg-error text-white text-[10px] font-bold px-2 py-1 rounded-sm">-15%</span>
-<span class="absolute top-3 right-3 material-symbols-outlined text-outline-variant hover:text-error transition-colors" data-icon="favorite" translate="no">favorite</span>
-<img alt="Earbuds" class="w-full h-full object-contain mix-blend-multiply" data-alt="A pair of sleek, modern white wireless earbuds displayed in their charging case against a clean, minimalist background. The photography uses high-key lighting to create a bright, luxury-tech feel. Accents of soft gold shadows provide depth and elegance, mirroring the Ondjila Gold brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPJz3d4Wx7hLp5cl1vSCBzBfsVsxMVMUsXBYyicPYMzLczYjyX99U36fL6YBrgrViH-SNK63u5rJMkD0urX9FJwqpEh2HDK3I_EHPBevIeFseZcZ13yT_2uD1FjOWV4UaTBG3iDARJWc48RvYnd1MY3cZhlLjKGCIN19Vw94dqeiB6CvEULrXpTFN4RB62pB33ys3VFVZZzqnTSM0zVO_OXqIn9vrZCw5Qv6zz4FLNA3EOQu78J_z9YwT3Biupd6p7VUer5xXRqZo"/>
-</div>
-<div class="p-md space-y-2">
-<div class="flex justify-between items-start">
-<h3 class="font-body-main text-body-main font-medium">AirPods Pro</h3>
-<span class="font-price-display text-price-display text-primary-container font-bold">38.500,00 <span class="text-sm font-normal">Kz</span></span>
-</div>
-<p class="text-xs text-on-surface-variant">Caixa de Carregamento MagSafe</p>
-<div class="flex items-center gap-xs">
-<div class="flex text-primary-container text-[12px]">
-<span class="material-symbols-outlined !text-[14px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;" translate="no">star</span>
-<span class="material-symbols-outlined !text-[14px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;" translate="no">star</span>
-<span class="material-symbols-outlined !text-[14px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;" translate="no">star</span>
-<span class="material-symbols-outlined !text-[14px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;" translate="no">star</span>
-<span class="material-symbols-outlined !text-[14px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;" translate="no">star</span>
-</div>
-<span class="text-[10px] text-on-surface-variant">(458)</span>
-</div>
-<button class="w-full border border-primary-container py-2 font-label-caps text-primary-container hover:bg-primary-container hover:text-white transition-all mt-md">Adicionar ao carrinho</button>
-</div>
-</div>
-<!-- Product Card 3 -->
-<div class="bg-white rounded-card shadow-gold group cursor-pointer overflow-hidden transition-all hover:-translate-y-1" routerLink="/product/sony-wh">
-<div class="h-64 relative bg-[#F9F8F6] p-md">
-<span class="absolute top-3 left-3 bg-error text-white text-[10px] font-bold px-2 py-1 rounded-sm">-30%</span>
-<span class="absolute top-3 right-3 material-symbols-outlined text-outline-variant hover:text-error transition-colors" data-icon="favorite" translate="no">favorite</span>
-<img alt="Studio Headphones" class="w-full h-full object-contain mix-blend-multiply" data-alt="Professional over-ear studio headphones in charcoal gray, featuring premium leather cushions. The product is shot in a minimalist layout with soft side-lighting that highlights the high-quality materials and construction. The aesthetic is clean, technical, and expensive, fitting for a curated premium collection." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbzUo3rUt7Rk1uuE8If7FmzbYSAVPwhy5DVd5vjS1N03YlGIZJidv3pBcpNo3vHk_FIzF0AibHQvebRFEDb6CzK-wUJDhPoMPhCTqw_VqnRTRg0ytCQAUYI93exucSscfR9_DWmXKxRX_5Ns8zdple1qJmGEgTjWlwREysEPIFpu1E9-pAZGHQzRdAFY7ZD8pC6hhGO3BPkEyr89jUFWdCzmw72Ka0TU16X36UiZystMWcUyAQHymhVsausNgvf3YIhDfGSFQZ4-0"/>
-</div>
-<div class="p-md space-y-2">
-<div class="flex justify-between items-start">
-<h3 class="font-body-main text-body-main font-medium">Sony WH-1000XM5</h3>
-<span class="font-price-display text-price-display text-primary-container font-bold">61.500,00 <span class="text-sm font-normal">Kz</span></span>
-</div>
-<p class="text-xs text-on-surface-variant">Cancelamento de ruído líder de mercado</p>
-<div class="flex items-center gap-xs">
-<div class="flex text-primary-container text-[12px]">
-<span class="material-symbols-outlined !text-[14px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;" translate="no">star</span>
-<span class="material-symbols-outlined !text-[14px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;" translate="no">star</span>
-<span class="material-symbols-outlined !text-[14px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;" translate="no">star</span>
-<span class="material-symbols-outlined !text-[14px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;" translate="no">star</span>
-<span class="material-symbols-outlined !text-[14px]" data-icon="star" translate="no">star</span>
-</div>
-<span class="text-[10px] text-on-surface-variant">(892)</span>
-</div>
-<button class="w-full border border-primary-container py-2 font-label-caps text-primary-container hover:bg-primary-container hover:text-white transition-all mt-md">Adicionar ao carrinho</button>
-</div>
-</div>
-<!-- Product Card 4 -->
-<div class="bg-white rounded-card shadow-gold group cursor-pointer overflow-hidden transition-all hover:-translate-y-1" routerLink="/product/steelseries">
-<div class="h-64 relative bg-[#F9F8F6] p-md">
-<span class="absolute top-3 left-3 bg-error text-white text-[10px] font-bold px-2 py-1 rounded-sm">-10%</span>
-<span class="absolute top-3 right-3 material-symbols-outlined text-outline-variant hover:text-error transition-colors" data-icon="favorite" translate="no">favorite</span>
-<img alt="Gaming Headset" class="w-full h-full object-contain mix-blend-multiply" data-alt="High-performance gaming headset with an integrated microphone, showcased in a crisp product photography style. The image features neutral, high-key tones and precise focus on the textural details of the earcups. The composition is balanced and airy, emphasizing the premium quality and modern design of the peripheral." src="https://lh3.googleusercontent.com/aida-public/AB6AXuABqvj6gSDnk3P3B_dZAM097bJdB-t1ep9MaknV9nAqTK3MC5u43wE8j9h1yEi1ZWYsVYoCaHHoQEk78O2GdgKxE3kvSTCeT-7OtyZOD6HyKr0yNaiusufYMVokiFOXTEvCtpAyzBuA4nTGAU2c6dobC8ry_nhmqF4T8mdUt1YPHOMb854gygbkuL1YE6LlgYsqq1300xrcMzz6AR15O71zCgsk-pl5_VIB_u5D3JA981RikNvPFWwZ4gRr829jrW8UwbguTdSYLaA"/>
-</div>
-<div class="p-md space-y-2">
-<div class="flex justify-between items-start">
-<h3 class="font-body-main text-body-main font-medium">SteelSeries Arctis</h3>
-<span class="font-price-display text-price-display text-primary-container font-bold">27.500,00 <span class="text-sm font-normal">Kz</span></span>
-</div>
-<p class="text-xs text-on-surface-variant">Sem Fios Lossless + Bluetooth</p>
-<div class="flex items-center gap-xs">
-<div class="flex text-primary-container text-[12px]">
-<span class="material-symbols-outlined !text-[14px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;" translate="no">star</span>
-<span class="material-symbols-outlined !text-[14px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;" translate="no">star</span>
-<span class="material-symbols-outlined !text-[14px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;" translate="no">star</span>
-<span class="material-symbols-outlined !text-[14px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;" translate="no">star</span>
-<span class="material-symbols-outlined !text-[14px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;" translate="no">star</span>
-</div>
-<span class="text-[10px] text-on-surface-variant">(65)</span>
-</div>
-<button class="w-full border border-primary-container py-2 font-label-caps text-primary-container hover:bg-primary-container hover:text-white transition-all mt-md">Adicionar ao carrinho</button>
-</div>
+<div class="flex flex-col items-center text-center space-y-sm">
+<span class="material-symbols-outlined text-[40px] text-primary-container" translate="no">support_agent</span>
+<h4 class="font-label-caps text-label-caps uppercase">Suporte Concierge</h4>
+<p class="text-xs text-on-surface-variant">Atendimento personalizado disponível 24/7 para sua total tranquilidade.</p>
 </div>
 </div>
 </section>
-<!-- Destaque Premium -->
-<section class="py-xl bg-white">
-<div class="max-w-container_max mx-auto px-gutter grid grid-cols-1 md:grid-cols-12 gap-lg items-center">
-<div class="md:col-span-5 relative">
-<div class="absolute -left-6 top-0 w-1 h-full bg-primary-container"></div>
-<div class="pl-gutter">
-<span class="font-label-caps text-primary-container tracking-widest mb-xs block">COLEÇÃO EXCLUSIVA</span>
-<h2 class="font-section-title text-hero-title text-on-surface mb-md leading-tight">Destaque Premium</h2>
-<p class="text-on-surface-variant text-body-main mb-lg">
-                            Nossa curadoria selecionou as peças mais exclusivas para quem não abre mão da excelência. Materiais nobres, acabamento impecável e tecnologia de ponta reunidos em uma experiência única.
-                        </p>
-<button class="border border-on-surface px-lg py-sm font-label-caps hover:bg-on-surface hover:text-white transition-colors">DESCUBRA MAIS</button>
-</div>
-</div>
-<div class="md:col-span-7 grid grid-cols-2 gap-md">
-<img alt="Premium Watch" class="w-full h-80 object-cover rounded-card shadow-gold" data-alt="A macro shot of a minimalist luxury watch resting on a light stone surface. The watch features a clean white face and a light tan leather strap. Soft, diffused lighting creates gentle gold-tinted shadows, emphasizing the surgical precision of the timepiece. The atmosphere is quiet, expensive, and modern." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQLKDDvr5L2X-Ra2Xj5P0CKtyrUsIKfj7jn3qcM0z4oDaor0Y8c-1PuJwdhCz9m3JSSbS61cz5nFFV-KWnLoYpwKvbRMmpcTnu1ulmUWbMLsIp-W1gCvcVF-72YWzi7gz_FiLDFp--tXXEeZkKFHzgklut85ys0lDmeP0HTDczOB3A0tgp-r3pNMHKScmIoi50Ov2C6y1a6vvfbB4eUbmAOVm7pMo9Wbppg7XPyRV-jsKTLE-6uyexsYSRDWnRWQdW-amKht6nx3c"/>
-<img alt="Premium Tablet" class="w-full h-80 object-cover rounded-card shadow-gold mt-lg" data-alt="An elegant presentation of a tablet and a digital pen on a bright, minimalist wooden desk. The composition is clean and organized, with a focus on productivity and high-tech sophistication. The lighting is natural and bright, capturing the sleek metallic finish of the devices in a warm-minimalist aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7dg8yvFEewoxEtdFaWr4ekY_Qq5LCNJvTvrHwZiBU9jgXLeN2JjCzDCaFF9AK-L-kHQTqI3t6mVxEEnfzkUKpWTUOrBYXjzBVxHk4zdnZXlOSA17mleYp_gkTStwKSUnGGerKTBFEcqeNehH7Ef4CidXXbxpyVG7QI5pUm_UtKAd7XlRQAXTxQ6NbIqBYmHW2h7SNAC7qO6wn5FZ0Q6i65yE7SIDu76rjUyUAiL6_cUsyGy5p3dsqSiD3Cc8LqpRX-YDGbNma8c8"/>
-</div>
-</div>
-</section>
-</main>
 <!-- Footer -->
-<footer class="bg-inverse-surface dark:bg-on-background text-white mt-xl">
-<div class="max-w-container_max mx-auto px-gutter py-xl">
-<div class="grid grid-cols-1 md:grid-cols-4 gap-lg">
-<div class="col-span-1 md:col-span-1">
-<h4 class="font-hero-title text-section-title text-primary-container dark:text-primary-fixed uppercase tracking-tighter mb-md">Ondjila Gold</h4>
-<p class="text-surface-variant dark:text-outline-variant text-sm">
-                        Excelência e sofisticação em cada detalhe. A sua referência em compras premium.
-                    </p>
-<div class="flex gap-md mt-lg">
-<span class="material-symbols-outlined cursor-pointer hover:text-primary-container" data-icon="facebook" translate="no">social_leaderboard</span>
-<span class="material-symbols-outlined cursor-pointer hover:text-primary-container" data-icon="language" translate="no">language</span>
-<span class="material-symbols-outlined cursor-pointer hover:text-primary-container" data-icon="alternate_email" translate="no">alternate_email</span>
+<footer class="bg-on-background text-white py-2xl mt-auto">
+<div class="max-w-container_max mx-auto px-gutter">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-xl mb-xl">
+<div class="md:col-span-4 space-y-md">
+<span class="font-hero-title text-[24px] text-primary-container uppercase font-black">Ondjila</span>
+<p class="text-surface-variant text-sm leading-relaxed max-w-[300px]">A Ondjila redefine o conceito de tecnologia premium em Angola, unindo sofisticação global e alma local.</p>
 </div>
+<div class="md:col-span-2 space-y-md">
+<h5 class="font-label-caps text-xs uppercase text-primary-container">Explorar</h5>
+<nav class="flex flex-col gap-sm text-surface-variant text-xs">
+<a class="hover:text-white transition-colors" routerLink="/catalog">Produtos</a>
+<a class="hover:text-white transition-colors" routerLink="/categories">Categorias</a>
+<a class="hover:text-white transition-colors" routerLink="/brands">Marcas</a>
+</nav>
 </div>
-<div>
-<h5 class="font-label-caps mb-md text-primary-fixed">LOJA</h5>
-<ul class="space-y-sm text-surface-variant dark:text-outline-variant text-sm">
-<li class="hover:text-primary-fixed transition-colors cursor-pointer" routerLink="/new-arrivals">Novidades</li>
-<li class="hover:text-primary-fixed transition-colors cursor-pointer" routerLink="/best-sellers" routerLink="/best-sellers">Best Sellers</li>
-<li class="hover:text-primary-fixed transition-colors cursor-pointer">Categorias</li>
-<li class="hover:text-primary-fixed transition-colors cursor-pointer" routerLink="/brands">Marcas</li>
-</ul>
+<div class="md:col-span-2 space-y-md">
+<h5 class="font-label-caps text-xs uppercase text-primary-container">Ajuda</h5>
+<nav class="flex flex-col gap-sm text-surface-variant text-xs">
+<a class="hover:text-white transition-colors" routerLink="/help-center">FAQ</a>
+<a class="hover:text-white transition-colors" routerLink="/shipping-delivery">Envios</a>
+<a class="hover:text-white transition-colors" routerLink="/returns">Devoluções</a>
+</nav>
 </div>
-<div>
-<h5 class="font-label-caps mb-md text-primary-fixed">SUPORTE</h5>
-<ul class="space-y-sm text-surface-variant dark:text-outline-variant text-sm">
-<li class="hover:text-primary-fixed transition-colors cursor-pointer" routerLink="/help-center">Centro de Ajuda</li>
-<li class="hover:text-primary-fixed transition-colors cursor-pointer" routerLink="/shipping-delivery">Envio e Entrega</li>
-<li class="hover:text-primary-fixed transition-colors cursor-pointer" routerLink="/returns">Devoluções</li>
-<li class="hover:text-primary-fixed transition-colors cursor-pointer">Contactos</li>
-</ul>
-</div>
-<div>
-<h5 class="font-label-caps mb-md text-primary-fixed">NEWSLETTER</h5>
-<p class="text-xs text-surface-variant mb-md">Subscreva para receber ofertas exclusivas e atualizações.</p>
-<div class="flex gap-0">
-<input class="bg-surface-dim/20 border border-outline-variant/30 px-md py-xs text-white text-sm outline-none w-full" placeholder="Email" type="email"/>
-<button class="bg-primary-container px-md py-xs font-bold text-sm">OK</button>
+<div class="md:col-span-4 space-y-md">
+<h5 class="font-label-caps text-xs uppercase text-primary-container">Newsletter</h5>
+<p class="text-surface-variant text-xs">Subscreva para receber novidades e ofertas exclusivas.</p>
+<div class="flex">
+<input class="bg-surface-container-high border-none h-10 px-md text-xs w-full focus:ring-1 focus:ring-primary-container outline-none" placeholder="O seu email" type="email"/>
+<button class="bg-primary-container text-white px-md h-10 font-label-caps text-[10px] uppercase">Enviar</button>
 </div>
 </div>
 </div>
-<div class="border-t border-outline-variant/20 mt-xl pt-lg flex flex-col md:flex-row justify-between items-center gap-md">
-<p class="text-surface-variant text-[11px] uppercase tracking-widest">© {{ '2026' }} ONDJILA. Todos os direitos reservados.</p>
-<div class="flex gap-lg text-xs text-surface-variant">
-<span class="hover:text-white cursor-pointer">Política de Privacidade</span>
-<span class="hover:text-white cursor-pointer">Termos de Serviço</span>
-<span class="hover:text-white cursor-pointer">Política de Envio</span>
+<div class="pt-xl border-t border-outline-variant/20 flex flex-col md:flex-row justify-between items-center gap-md">
+<span class="text-[10px] text-surface-variant uppercase tracking-widest">© 2026 ONDJILA COMMERCE. TODOS OS DIREITOS RESERVADOS.</span>
+<div class="flex gap-md">
+<span class="material-symbols-outlined text-surface-variant hover:text-white cursor-pointer" translate="no">facebook</span>
+<span class="material-symbols-outlined text-surface-variant hover:text-white cursor-pointer" translate="no">alternate_email</span>
 </div>
 </div>
 </div>
 </footer>
-
 </div>

@@ -1,0 +1,16 @@
+Options -MultiViews
+RewriteEngine On
+
+# Redirecionar todos os pedidos para index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
+
+# Segurança: bloquear acesso direto a ficheiros sensíveis
+<FilesMatch "^(\.env|composer\.json|composer\.lock)$">
+    Require all denied
+</FilesMatch>
+
+# Cabeçalhos de segurança
+Header always set X-Content-Type-Options "nosniff"
+Header always set X-Frame-Options "DENY"

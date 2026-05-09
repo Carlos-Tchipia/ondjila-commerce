@@ -20,27 +20,34 @@ import { CategoryDetail } from './category-detail/category-detail';
 import { HelpCenter } from './help-center/help-center';
 import { ShippingDelivery } from './shipping-delivery/shipping-delivery';
 import { Returns } from './returns/returns';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-  { path: '', component: Home },
-  { path: 'catalog', component: Catalog },
-  { path: 'product/:id', component: ProductDetail },
-  { path: 'checkout', component: Checkout },
-  { path: 'admin', component: Admin },
-  { path: 'login', component: Login },
-  { path: 'customer-account', component: CustomerAccount },
-  { path: 'cart', component: Cart },
-  { path: 'order-success', component: OrderSuccess },
-  { path: 'about', component: About },
-  { path: 'contact', component: Contact },
-  { path: 'register', component: Register },
-  { path: 'discover', component: Discover },
-  { path: 'new-arrivals', component: NewArrivals },
-  { path: 'best-sellers', component: BestSellers },
-  { path: 'categories', component: Categories },
-  { path: 'brands', component: Brands },
-  { path: 'category/:id', component: CategoryDetail },
-  { path: 'help-center', component: HelpCenter },
+  // Rotas públicas
+  { path: '',              component: Home },
+  { path: 'catalog',       component: Catalog },
+  { path: 'product/:id',   component: ProductDetail },
+  { path: 'about',         component: About },
+  { path: 'contact',       component: Contact },
+  { path: 'login',         component: Login },
+  { path: 'register',      component: Register },
+  { path: 'discover',      component: Discover },
+  { path: 'new-arrivals',  component: NewArrivals },
+  { path: 'best-sellers',  component: BestSellers },
+  { path: 'categories',    component: Categories },
+  { path: 'brands',        component: Brands },
+  { path: 'category/:id',  component: CategoryDetail },
+  { path: 'help-center',   component: HelpCenter },
   { path: 'shipping-delivery', component: ShippingDelivery },
-  { path: 'returns', component: Returns },
+  { path: 'returns',       component: Returns },
+
+  // Rotas protegidas (requerem login)
+  { path: 'cart',             component: Cart,            canActivate: [authGuard] },
+  { path: 'checkout',         component: Checkout,        canActivate: [authGuard] },
+  { path: 'order-success',    component: OrderSuccess,    canActivate: [authGuard] },
+  { path: 'customer-account', component: CustomerAccount, canActivate: [authGuard] },
+  { path: 'admin',            component: Admin,           canActivate: [authGuard] },
+
+  // Fallback
+  { path: '**', redirectTo: '' }
 ];

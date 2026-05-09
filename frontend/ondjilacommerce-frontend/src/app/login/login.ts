@@ -17,14 +17,42 @@ export class Login {
   router = inject(Router);
 
   isLoginMode = true;
+  name = '';
   email = '';
+  password = '';
+  password_confirmation = '';
+  errorMessage = '';
+  isLoading = false;
 
   toggleMode() {
     this.isLoginMode = !this.isLoginMode;
+    this.errorMessage = '';
   }
 
   onSubmit() {
-    this.userService.login(this.email || 'user@ondjila.com');
-    this.router.navigate(['/']);
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    const obs = this.isLoginMode 
+      ? this.userService.login(this.email, this.password)
+      : this.userService.register({ 
+          name: this.name, 
+          email: this.email, 
+          password: this.password, 
+          password_confirmation: this.password_confirmation 
+        });
+
+    obs.subscribe({
+      next: (res) => {
+        if (res.success) {
+          this.router.navigate(['/']);
+        }
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.errorMessage = err.error?.message || 'Ocorreu um erro. Verifique os seus dados.';
+        this.isLoading = false;
+      }
+    });
   }
 }

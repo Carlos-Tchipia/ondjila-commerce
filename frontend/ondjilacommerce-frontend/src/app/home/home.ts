@@ -4,6 +4,7 @@ import { CartService } from '../services/cart/cart';
 import { SearchService } from '../services/search/search.service';
 import { UserService } from '../services/user/user.service';
 import { ThemeService } from '../services/theme/theme.service';
+import { ProductService } from '../services/product/product.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -17,6 +18,9 @@ export class Home {
   searchService = inject(SearchService);
   userService = inject(UserService);
   themeService = inject(ThemeService);
+  productService = inject(ProductService);
+
+  featuredProducts$ = this.productService.getFeaturedProducts();
 
   onSearch(event: any) {
     const query = event.target.value;
