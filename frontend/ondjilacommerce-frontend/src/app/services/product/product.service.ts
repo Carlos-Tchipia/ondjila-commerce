@@ -76,12 +76,18 @@ export class ProductService {
     const numericId = parseInt(id, 10);
     if (!isNaN(numericId)) {
       return this.http.get<ApiResponse<any>>(`${API_URL}/products/${numericId}`).pipe(
-        map(res => this.normalize(res.data)),
+        map(res => res.success ? this.normalize(res.data) : undefined),
         catchError(() => of(this.getFallbackProducts().find(p => p.id === id)))
       );
     }
-    // Fallback para IDs de texto (dados antigos mockados)
     return of(this.getFallbackProducts().find(p => p.id === id));
+  }
+
+  getProductBySlug(slug: string): Observable<Product | undefined> {
+    return this.http.get<ApiResponse<any>>(`${API_URL}/products?slug=${slug}`).pipe(
+      map(res => res.success ? this.normalize(res.data) : undefined),
+      catchError(() => of(this.getFallbackProducts().find(p => p.slug === slug)))
+    );
   }
 
   getFeaturedProducts(): Observable<Product[]> {

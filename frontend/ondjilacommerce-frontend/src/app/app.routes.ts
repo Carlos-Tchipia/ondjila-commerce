@@ -21,12 +21,23 @@ import { HelpCenter } from './help-center/help-center';
 import { ShippingDelivery } from './shipping-delivery/shipping-delivery';
 import { Returns } from './returns/returns';
 import { authGuard } from './guards/auth.guard';
+import { adminGuard } from './guards/admin.guard';
+
+// Admin Pages
+import { AdminDashboard } from './admin/pages/dashboard';
+import { AdminProducts } from './admin/pages/products';
+import { AdminStock } from './admin/pages/stock';
+import { AdminOrders } from './admin/pages/orders';
+import { AdminCustomers } from './admin/pages/customers';
+import { AdminCategories } from './admin/pages/categories';
+import { AdminPromotions } from './admin/pages/promotions';
+import { AdminReports } from './admin/pages/reports';
 
 export const routes: Routes = [
   // Rotas públicas
   { path: '',              component: Home },
   { path: 'catalog',       component: Catalog },
-  { path: 'product/:id',   component: ProductDetail },
+  { path: 'product/:slug', component: ProductDetail },
   { path: 'about',         component: About },
   { path: 'contact',       component: Contact },
   { path: 'login',         component: Login },
@@ -41,12 +52,29 @@ export const routes: Routes = [
   { path: 'shipping-delivery', component: ShippingDelivery },
   { path: 'returns',       component: Returns },
 
-  // Rotas protegidas (requerem login)
+  // Rotas protegidas (CLIENTE)
   { path: 'cart',             component: Cart,            canActivate: [authGuard] },
   { path: 'checkout',         component: Checkout,        canActivate: [authGuard] },
   { path: 'order-success',    component: OrderSuccess,    canActivate: [authGuard] },
   { path: 'customer-account', component: CustomerAccount, canActivate: [authGuard] },
-  { path: 'admin',            component: Admin,           canActivate: [authGuard] },
+
+  // Painel de Administração (ADMIN)
+  { 
+    path: 'admin', 
+    component: Admin, 
+    canActivate: [adminGuard],
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: AdminDashboard },
+      { path: 'products', component: AdminProducts },
+      { path: 'stock', component: AdminStock },
+      { path: 'orders', component: AdminOrders },
+      { path: 'customers', component: AdminCustomers },
+      { path: 'categories', component: AdminCategories },
+      { path: 'promotions', component: AdminPromotions },
+      { path: 'reports', component: AdminReports },
+    ]
+  },
 
   // Fallback
   { path: '**', redirectTo: '' }

@@ -15,6 +15,17 @@ class ProductController
 
     public function index(): void
     {
+        // Se houver um slug, retornar apenas esse produto
+        $slug = $_GET['slug'] ?? null;
+        if ($slug) {
+            $product = $this->products->findBySlug($slug);
+            if ($product) {
+                respond($product->toArray());
+            } else {
+                respondError('Produto não encontrado.', 404);
+            }
+        }
+
         $filters = [
             'category'  => $_GET['category'] ?? null,
             'brand'     => $_GET['brand'] ?? null,

@@ -85,6 +85,11 @@ export class UserService {
     return this.currentUserSubject.value;
   }
 
+  isAdmin(): boolean {
+    const user = this.getCurrentUser();
+    return user?.role === 'admin';
+  }
+
   // ──────────────────────────────────────────────────────
   // Persistência em localStorage
   // ──────────────────────────────────────────────────────

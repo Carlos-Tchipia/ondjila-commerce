@@ -135,9 +135,20 @@
 
 </div>
 
-<div *ngIf="!product" class="min-h-screen flex items-center justify-center bg-surface">
-  <div class="text-center">
-    <h2 class="text-2xl font-bold mb-4">Produto não encontrado</h2>
-    <button class="bg-primary-container text-white px-md py-sm rounded" routerLink="/categories">Voltar às categorias</button>
+<!-- State: Loading -->
+<div *ngIf="isLoading" class="min-h-screen flex flex-col items-center justify-center bg-surface gap-md">
+  <div class="w-12 h-12 border-4 border-primary-container border-t-transparent rounded-full animate-spin"></div>
+  <p class="text-on-surface-variant font-label-caps uppercase text-xs tracking-widest">Carregando detalhes...</p>
+</div>
+
+<!-- State: Not Found -->
+<div *ngIf="!product && !isLoading" class="min-h-screen flex items-center justify-center bg-surface">
+  <div class="text-center space-y-md">
+    <span class="material-symbols-outlined text-6xl text-outline-variant" translate="no">search_off</span>
+    <h2 class="text-2xl font-bold">Produto não encontrado</h2>
+    <p class="text-on-surface-variant max-w-xs mx-auto">Não conseguimos localizar este produto na nossa base de dados.</p>
+    <button class="bg-primary-container text-white px-md py-sm font-label-caps uppercase text-xs tracking-widest hover:bg-[#A87A09] transition-colors" routerLink="/categories">
+        Voltar às categorias
+    </button>
   </div>
 </div>

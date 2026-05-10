@@ -21,6 +21,14 @@
 <span class="material-symbols-outlined" translate="no">person</span>
 <span class="hidden xl:inline font-label-caps uppercase text-[10px]">{{ userService.isLoggedIn() ? userService.getCurrentUser()?.name : 'Entrar' }}</span>
 </button>
+
+<!-- Link administrativo dinâmico -->
+<button *ngIf="userService.isAdmin()" 
+        class="flex items-center gap-xs text-[#C8960C] hover:text-[#A87A09] transition-all bg-[#C8960C]/5 px-3 py-1 rounded-full border border-[#C8960C]/20" 
+        routerLink="/admin">
+  <span class="material-symbols-outlined !text-[18px]" translate="no">admin_panel_settings</span>
+  <span class="hidden xl:inline font-label-caps uppercase text-[10px] font-bold">Painel Admin</span>
+</button>
 <div class="relative cursor-pointer flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/cart">
 <span class="material-symbols-outlined text-[24px]" translate="no">shopping_cart</span>
 <span class="hidden xl:inline font-label-caps uppercase text-[10px]">Carrinho</span>
@@ -80,7 +88,7 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-md">
     <div *ngFor="let product of featuredProducts$ | async" 
          class="bg-white rounded-card shadow-gold group cursor-pointer overflow-hidden transition-all hover:-translate-y-1" 
-         [routerLink]="['/product', product.id]">
+         [routerLink]="['/product', product.slug]">
         <div class="h-64 relative bg-[#F9F8F6] p-md">
             <span *ngIf="product.discount" class="absolute top-3 left-3 bg-error text-white text-[10px] font-bold px-2 py-1 rounded-sm">-{{ product.discount }}%</span>
             <span class="absolute top-3 right-3 material-symbols-outlined text-outline-variant hover:text-error transition-colors" translate="no">favorite</span>

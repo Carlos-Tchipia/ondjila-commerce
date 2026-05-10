@@ -1,106 +1,111 @@
-<div class="bg-[#F5F2EC] font-body-main text-on-surface min-h-screen">
+<div class="bg-[#F5F2EC] font-['Inter'] min-h-screen flex">
+  
+  <!-- Sidebar Fixa -->
+  <aside class="w-[240px] bg-[#1A1814] text-white flex flex-col fixed h-full z-[100] shadow-2xl">
+    <!-- Logo -->
+    <div class="p-8 border-b border-white/5">
+      <h1 class="text-[#C8960C] font-black uppercase tracking-[0.2em] text-sm cursor-pointer" routerLink="/">
+        Ondjilacommerce
+      </h1>
+      <p class="text-[10px] text-gray-500 uppercase tracking-widest mt-1">Painel Admin</p>
+    </div>
 
-<!-- Layout Container -->
-<div class="flex min-h-screen">
-<!-- Sidebar -->
-<aside class="flex flex-col h-screen fixed left-0 top-0 overflow-y-auto bg-on-background docked left-0 h-full w-64 shadow-lg z-50">
-<div class="p-md flex items-center gap-sm">
-<div class="w-10 h-10 bg-primary-container flex items-center justify-center">
-<span class="material-symbols-outlined text-white" translate="no">dashboard</span>
-</div>
-<div>
-<h1 class="font-label-caps text-label-caps text-primary-container block">Admin Panel</h1>
-<p class="text-[10px] text-surface-variant/60 uppercase tracking-widest">Ondjila Commerce</p>
-</div>
-</div>
+    <!-- Navegação -->
+    <nav class="flex-grow py-6 px-4 space-y-1 overflow-y-auto">
+      <a routerLink="/admin/dashboard" routerLinkActive="bg-[#C8960C]/10 text-[#C8960C] border-r-4 border-[#C8960C]" 
+         class="flex items-center gap-4 px-4 py-3 text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-200 group">
+        <span class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform" translate="no">dashboard</span>
+        <span class="font-medium">Dashboard</span>
+      </a>
 
-<nav class="flex-grow flex flex-col p-md gap-xs">
-    <a class="flex items-center gap-sm px-md py-sm bg-primary-container/10 text-primary-container rounded-lg font-medium transition-all" routerLink="/admin">
-        <span class="material-symbols-outlined text-[20px]" translate="no">orders</span>
-        <span class="text-sm">Pedidos</span>
-    </a>
-    <a class="flex items-center gap-sm px-md py-sm text-surface-variant hover:bg-white/5 rounded-lg font-medium transition-all" routerLink="/catalog">
-        <span class="material-symbols-outlined text-[20px]" translate="no">inventory_2</span>
-        <span class="text-sm">Produtos</span>
-    </a>
-    <a class="flex items-center gap-sm px-md py-sm text-surface-variant hover:bg-white/5 rounded-lg font-medium transition-all" routerLink="/">
-        <span class="material-symbols-outlined text-[20px]" translate="no">home</span>
-        <span class="text-sm">Ver Loja</span>
-    </a>
-</nav>
+      <a routerLink="/admin/products" routerLinkActive="bg-[#C8960C]/10 text-[#C8960C] border-r-4 border-[#C8960C]"
+         class="flex items-center gap-4 px-4 py-3 text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-200 group">
+        <span class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform" translate="no">inventory_2</span>
+        <span class="font-medium">Produtos</span>
+      </a>
 
-<div class="p-md border-t border-white/5 flex items-center gap-sm">
-<img alt="Admin" class="w-10 h-10 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1czlisWBg5KFbB6t8iNxpP5_ea0_ZtNYgNvmTbUdXkk-qfERCoYFWZJMRVTlHJoTP4VF7bhCaWeE_nxZVw-2y27o_Uy1Yqfzy-xpfG7fL1O-SW2uY6ceYYRbWnO7BdNTRetOxh-y31F9GigGU6N4vVDFlLwpMcG2T1iuQb9_I2EC5RfiXH4pL9yf91zF7KHMxvcwnIlvKj4nu0JuognyqGs71lloiGbbo5kCRQQ2hFd2EhIOZ0YHyqGlGofUbL_E2h03R_ajvjho"/>
-<div class="overflow-hidden">
-<p class="text-white text-sm font-bold truncate">Admin Ondjila</p>
-<p class="text-surface-variant/60 text-xs truncate">Administrador</p>
-</div>
-</div>
-</aside>
+      <a routerLink="/admin/stock" routerLinkActive="bg-[#C8960C]/10 text-[#C8960C] border-r-4 border-[#C8960C]"
+         class="flex items-center gap-4 px-4 py-3 text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-200 group">
+        <span class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform" translate="no">inventory</span>
+        <span class="font-medium">Stock</span>
+      </a>
 
-<!-- Main Content -->
-<main class="flex-grow ml-64 p-gutter">
-<header class="flex justify-between items-center mb-lg">
-<div>
-<h2 class="font-section-title text-section-title text-on-background">Pedidos Recentes</h2>
-<p class="text-on-surface-variant text-sm">Monitorização de vendas em tempo real.</p>
-</div>
-<div class="flex gap-sm">
-<button (click)="loadOrders()" class="bg-primary-container text-white px-md py-2 text-xs font-bold uppercase tracking-widest hover:bg-[#A87A09] transition-colors flex items-center gap-xs">
-    <span class="material-symbols-outlined text-sm" translate="no">refresh</span>
-    Atualizar
-</button>
-</div>
-</header>
+      <a routerLink="/admin/orders" routerLinkActive="bg-[#C8960C]/10 text-[#C8960C] border-r-4 border-[#C8960C]"
+         class="flex items-center gap-4 px-4 py-3 text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-200 group">
+        <span class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform" translate="no">shopping_bag</span>
+        <span class="font-medium">Pedidos</span>
+      </a>
 
-<!-- Orders Table -->
-<section class="bg-white gold-shadow rounded-xl border border-outline-variant/30 overflow-hidden">
-<div class="overflow-x-auto">
-<table class="w-full text-left">
-<thead class="bg-[#F9F8F6] text-on-surface-variant text-[10px] font-bold uppercase tracking-widest">
-<tr>
-<th class="px-md py-4">ID</th>
-<th class="px-md py-4">Status</th>
-<th class="px-md py-4">Data</th>
-<th class="px-md py-4">Total</th>
-<th class="px-md py-4">Morada</th>
-<th class="px-md py-4 text-right">Ações</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-outline-variant/50 text-sm">
-    <tr *ngIf="isLoading">
-        <td colspan="6" class="px-md py-8 text-center text-on-surface-variant">
-            <span class="inline-block w-6 h-6 border-2 border-primary-container/30 border-t-primary-container rounded-full animate-spin"></span>
-            <p class="mt-2 font-label-caps text-[10px] uppercase tracking-widest">A carregar pedidos...</p>
-        </td>
-    </tr>
+      <a routerLink="/admin/customers" routerLinkActive="bg-[#C8960C]/10 text-[#C8960C] border-r-4 border-[#C8960C]"
+         class="flex items-center gap-4 px-4 py-3 text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-200 group">
+        <span class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform" translate="no">group</span>
+        <span class="font-medium">Clientes</span>
+      </a>
+
+      <a routerLink="/admin/categories" routerLinkActive="bg-[#C8960C]/10 text-[#C8960C] border-r-4 border-[#C8960C]"
+         class="flex items-center gap-4 px-4 py-3 text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-200 group">
+        <span class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform" translate="no">category</span>
+        <span class="font-medium">Categorias</span>
+      </a>
+
+      <a routerLink="/admin/promotions" routerLinkActive="bg-[#C8960C]/10 text-[#C8960C] border-r-4 border-[#C8960C]"
+         class="flex items-center gap-4 px-4 py-3 text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-200 group">
+        <span class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform" translate="no">sell</span>
+        <span class="font-medium">Promoções</span>
+      </a>
+
+      <a routerLink="/admin/reports" routerLinkActive="bg-[#C8960C]/10 text-[#C8960C] border-r-4 border-[#C8960C]"
+         class="flex items-center gap-4 px-4 py-3 text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-200 group">
+        <span class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform" translate="no">analytics</span>
+        <span class="font-medium">Relatórios</span>
+      </a>
+    </nav>
+
+    <!-- Admin Profile & Logout -->
+    <div class="p-6 border-t border-white/5 bg-black/20">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-8 h-8 rounded-full bg-[#C8960C] flex items-center justify-center font-bold text-xs text-black">
+          {{ currentUser?.name?.substring(0,1) }}
+        </div>
+        <div class="overflow-hidden">
+          <p class="text-xs font-bold truncate">{{ currentUser?.name }}</p>
+          <p class="text-[9px] text-gray-500 uppercase">Administrador</p>
+        </div>
+      </div>
+      <button (click)="logout()" class="w-full flex items-center justify-center gap-2 px-4 py-2 text-[10px] uppercase tracking-widest font-bold bg-white/5 hover:bg-red-500/20 hover:text-red-400 rounded transition-all duration-200">
+        <span class="material-symbols-outlined text-sm" translate="no">logout</span>
+        Sair do Painel
+      </button>
+    </div>
+  </aside>
+
+  <!-- Área de Conteúdo Principal -->
+  <main class="flex-grow ml-[240px] flex flex-col min-h-screen">
     
-    <tr *ngFor="let order of orders" class="hover:bg-surface-container/30 transition-colors">
-        <td class="px-md py-4 font-bold text-on-surface">#{{ order.id }}</td>
-        <td class="px-md py-4">
-            <span class="px-2 py-1 bg-primary-container/10 text-primary-container text-[10px] font-bold uppercase tracking-wider rounded">
-                {{ order.status }}
-            </span>
-        </td>
-        <td class="px-md py-4 text-on-surface-variant">{{ formatDate(order.created_at) }}</td>
-        <td class="px-md py-4 font-bold text-primary-container">{{ formatPrice(order.total_amount) }}</td>
-        <td class="px-md py-4 text-on-surface-variant truncate max-w-[200px]">{{ order.shipping_address }}</td>
-        <td class="px-md py-4 text-right">
-            <button class="text-on-surface-variant hover:text-primary-container transition-colors">
-                <span class="material-symbols-outlined" translate="no">visibility</span>
-            </button>
-        </td>
-    </tr>
-    
-    <tr *ngIf="!isLoading && orders.length === 0">
-        <td colspan="6" class="px-md py-8 text-center text-on-surface-variant italic">
-            Nenhum pedido encontrado.
-        </td>
-    </tr>
-</tbody>
-</table>
-</div>
-</section>
-</main>
-</div>
+    <!-- Top Header -->
+    <header class="h-[70px] bg-white border-b border-[#E8E4DC] px-10 flex items-center justify-between sticky top-0 z-[90]">
+      <div class="flex items-center gap-2 text-sm">
+        <span class="text-gray-400">Admin</span>
+        <span class="text-gray-300">/</span>
+        <span class="text-[#201b12] font-semibold uppercase tracking-widest text-[11px]">Sistema de Gestão</span>
+      </div>
+      
+      <div class="flex items-center gap-6">
+        <div class="relative cursor-pointer group">
+          <span class="material-symbols-outlined text-gray-400 group-hover:text-[#C8960C]" translate="no">notifications</span>
+          <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+        </div>
+        <div class="h-8 w-px bg-[#E8E4DC]"></div>
+        <a routerLink="/" class="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-[#C8960C] transition-colors">
+          Ver Loja Pública
+        </a>
+      </div>
+    </header>
+
+    <!-- Router Content -->
+    <div class="p-10 flex-grow bg-[#F5F2EC]">
+      <router-outlet></router-outlet>
+    </div>
+
+  </main>
 </div>

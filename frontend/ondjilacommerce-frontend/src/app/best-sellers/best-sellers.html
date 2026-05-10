@@ -114,16 +114,20 @@
     <h1 class="font-light text-4xl text-[#201b12] mb-12 border-b border-[#E8E4DC] pb-4">Mais Vendidos</h1>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
       <!-- Product Card -->
-      <div class="bg-white rounded-lg p-6 shadow-[0_2px_12px_rgba(200,150,12,0.06)] border border-[#E8E4DC] flex flex-col relative">
-        <div class="absolute top-4 right-4 bg-[#C8960C] text-white text-[10px] uppercase tracking-widest px-2 py-1 rounded">Mais Vendido</div>
-        <div class="bg-[#F5F2EC] h-48 rounded mb-4 flex items-center justify-center">
-          <span class="material-symbols-outlined text-[#C8960C] text-6xl" translate="no">speaker</span>
+      <div *ngFor="let product of products$ | async" 
+           class="bg-white rounded-lg p-6 shadow-[0_2px_12px_rgba(200,150,12,0.06)] border border-[#E8E4DC] flex flex-col cursor-pointer group relative"
+           [routerLink]="['/product', product.slug]">
+        <div class="absolute top-4 right-4 bg-[#C8960C] text-white text-[10px] uppercase tracking-widest px-2 py-1 rounded z-10">Best Seller</div>
+        <div class="bg-[#F5F2EC] h-48 rounded mb-4 flex items-center justify-center overflow-hidden">
+          <img [src]="product.image" [alt]="product.name" class="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-500">
         </div>
         <div class="flex-grow">
-          <h3 class="text-lg text-[#201b12] mt-1 mb-2">Coluna Bass 360</h3>
-          <p class="text-[#C8960C] font-medium text-lg">45.990 Kz</p>
+          <span class="text-[10px] uppercase tracking-widest text-[#4f4634] font-bold">{{ product.category }}</span>
+          <h3 class="text-md text-[#201b12] mt-1 mb-2 font-medium line-clamp-2">{{ product.name }}</h3>
+          <p class="text-[#C8960C] font-bold text-lg">{{ product.price }}</p>
         </div>
-        <button (click)="cartService.addToCart()" class="w-full bg-[#201b12] text-white py-3 mt-6 text-xs uppercase tracking-widest hover:bg-[#C8960C] transition-colors">
+        <button (click)="$event.stopPropagation(); cartService.addToCart(product)" 
+                class="w-full bg-[#201b12] text-white py-3 mt-6 text-[10px] font-bold uppercase tracking-widest hover:bg-[#C8960C] transition-colors">
           Adicionar ao carrinho
         </button>
       </div>

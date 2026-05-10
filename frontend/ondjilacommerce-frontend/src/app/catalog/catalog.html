@@ -4,6 +4,14 @@
 <div class="max-w-container_max mx-auto px-gutter h-full flex justify-between items-center">
 <span class="font-hero-title text-section-title font-black text-primary-container uppercase tracking-widest cursor-pointer" routerLink="/">Ondjila</span>
 <div class="flex items-center gap-md">
+<!-- Link administrativo dinâmico -->
+<button *ngIf="userService.isAdmin()" 
+        class="flex items-center gap-xs text-[#C8960C] hover:text-[#A87A09] transition-all bg-[#C8960C]/5 px-3 py-1 rounded-full border border-[#C8960C]/20" 
+        routerLink="/admin">
+  <span class="material-symbols-outlined !text-[18px]" translate="no">admin_panel_settings</span>
+  <span class="hidden xl:inline font-label-caps uppercase text-[10px] font-bold">Painel Admin</span>
+</button>
+
 <div class="relative cursor-pointer" routerLink="/cart">
 <span class="material-symbols-outlined text-[24px]" translate="no">shopping_cart</span>
 <div *ngIf="(cartService.cartCount$ | async) as count" class="absolute -top-2 -right-2 bg-error text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full">
@@ -45,7 +53,7 @@
                     </span>
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-md">
-<div *ngFor="let product of products$ | async" class="bg-white rounded-card shadow-gold group cursor-pointer overflow-hidden transition-all hover:-translate-y-1" [routerLink]="['/product', product.id]">
+<div *ngFor="let product of products$ | async" class="bg-white rounded-card shadow-gold group cursor-pointer overflow-hidden transition-all hover:-translate-y-1" [routerLink]="['/product', product.slug]">
 <div class="h-64 relative bg-[#F9F8F6] p-md">
 <span *ngIf="product.discount" class="absolute top-3 left-3 bg-error text-white text-[10px] font-bold px-2 py-1 rounded-sm">-{{ product.discount }}%</span>
 <span class="absolute top-3 right-3 material-symbols-outlined text-outline-variant hover:text-error transition-colors" translate="no">favorite</span>
