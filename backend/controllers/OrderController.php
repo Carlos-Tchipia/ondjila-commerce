@@ -35,11 +35,12 @@ class OrderController
         $payload = requireAuth();
         $order   = $this->orders->findById($id);
 
-        if ($order === null || $order->user_id !== $payload->sub) {
+        if ($order === null || (int)$order->user_id !== (int)$payload->sub) {
             respondError('Pedido não encontrado.', 404);
         }
 
         respond($order->toArray());
+        return;
     }
 
     public function store(): void

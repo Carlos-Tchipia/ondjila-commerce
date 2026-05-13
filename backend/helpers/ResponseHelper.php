@@ -46,7 +46,14 @@ function respondCreated(mixed $data, string $message = 'Criado com sucesso.'): v
 function getBody(): array
 {
     $raw = file_get_contents('php://input');
-    $decoded = json_decode($raw, true);
-    $json = is_array($decoded) ? $decoded : [];
+    $json = [];
+
+    if (!empty($raw)) {
+        $decoded = json_decode($raw, true);
+        if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+            $json = $decoded;
+        }
+    }
+
     return array_merge($_POST, $json);
 }

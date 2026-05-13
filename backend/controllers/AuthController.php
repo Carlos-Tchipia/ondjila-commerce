@@ -30,12 +30,14 @@ class AuthController
                 422,
                 $result['errors'] ?? null
             );
+            return;
         }
 
         respondCreated([
             'token' => $result['token'],
             'user'  => $result['user'],
         ], 'Conta criada com sucesso. Bem-vindo à ONDJILA!');
+        return;
     }
 
     public function login(): void
@@ -49,12 +51,14 @@ class AuthController
 
         if (!$result['success']) {
             respondError($result['message'] ?? 'Credenciais inválidas.', 401);
+            return;
         }
 
         respond([
             'token' => $result['token'],
             'user'  => $result['user'],
         ]);
+        return;
     }
 
     public function me(): void

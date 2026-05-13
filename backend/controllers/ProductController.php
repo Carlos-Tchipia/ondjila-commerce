@@ -27,8 +27,10 @@ class ProductController
 
             if ($product) {
                 respond($product->toArray());
+                return;
             } else {
                 respondError('Produto não encontrado.', 404);
+                return;
             }
         }
 
@@ -54,6 +56,7 @@ class ProductController
             'limit'       => $filters['limit'],
             'total_pages' => (int) ceil($total / $filters['limit']),
         ]);
+        return;
     }
 
     public function show(int $id): void

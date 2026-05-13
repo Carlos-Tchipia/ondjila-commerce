@@ -105,12 +105,11 @@ class AdminController
             'recent_orders' => $ultimosPedidos,
             'low_stock_list' => $listaStockBaixo
         ]);
+        return;
     }
 
-    public function listProducts(): void
-    {
-        $stmt = $this->db->query("SELECT * FROM products ORDER BY id DESC");
         respond($stmt->fetchAll(PDO::FETCH_ASSOC));
+        return;
     }
 
     public function listOrders(): void
@@ -138,23 +137,15 @@ class AdminController
         }, $orders);
 
         respond($mappedOrders);
+        return;
     }
 
-    public function listCustomers(): void
-    {
-        $stmt = $this->db->query("
-            SELECT id, name, email, role, phone, address, created_at 
-            FROM users 
-            WHERE role = 'customer' 
-            ORDER BY created_at DESC
-        ");
         respond($stmt->fetchAll(PDO::FETCH_ASSOC));
+        return;
     }
 
-    public function listCategories(): void
-    {
-        $stmt = $this->db->query("SELECT * FROM categories ORDER BY name ASC");
         respond($stmt->fetchAll(PDO::FETCH_ASSOC));
+        return;
     }
 
     public function storeProduct(): void
@@ -179,6 +170,7 @@ class AdminController
         ]);
 
         respondCreated(['id' => $this->db->lastInsertId()], 'Produto criado com sucesso.');
+        return;
     }
 
     public function updateProduct(int $id): void
@@ -205,6 +197,7 @@ class AdminController
         ]);
 
         respond(['message' => 'Produto atualizado com sucesso.']);
+        return;
     }
 
     public function deleteProduct(int $id): void
@@ -212,9 +205,10 @@ class AdminController
         $stmt = $this->db->prepare("DELETE FROM products WHERE id = :id");
         $stmt->execute([':id' => $id]);
         respond(['message' => 'Produto eliminado com sucesso.']);
+        return;
     }
 
-    public function updateStatus(): void
+    public function updateStatus(int $id): void
     {
         $data = getBody();
         $statusMap = [
@@ -230,10 +224,11 @@ class AdminController
         $stmt = $this->db->prepare("UPDATE orders SET status = :status WHERE id = :id");
         $stmt->execute([
             ':status' => $status,
-            ':id'     => $data['order_id']
+            ':id'     => $id
         ]);
 
         respond(['message' => 'Estado do pedido atualizado.']);
+        return;
     }
 
     public function updateStock(): void
@@ -245,6 +240,7 @@ class AdminController
             ':id'    => $data['product_id']
         ]);
         respond(['message' => 'Stock atualizado.']);
+        return;
     }
 
     private function slugify(string $text): string
