@@ -1,4 +1,5 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
@@ -30,6 +31,7 @@ const USER_KEY = 'ondjila_user';
 export class UserService {
   private http = inject(HttpClient);
   private router = inject(Router);
+  private platformId = inject(PLATFORM_ID);
 
   private currentUserSubject = new BehaviorSubject<User | null>(
     this.loadUserFromStorage()
@@ -62,9 +64,19 @@ export class UserService {
       );
   }
 
+  forgotPassword(email: string): Observable<{success: boolean, data: {message: string}}> {
+    return this.http.post<{success: boolean, data: {message: string}}>(`${API_URL}/auth/forgot-password`, { email });
+  }
+
+  resetPassword(email: string, token: string, password: string): Observable<{success: boolean, data: {message: string}}> {
+    return this.http.post<{success: boolean, data: {message: string}}>(`${API_URL}/auth/reset-password`, { email, token, password });
+  }
+
   logout(): void {
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(USER_KEY);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem(TOKEN_KEY);
+      localStorage.removeItem(USER_KEY);
+    }
     this.currentUserSubject.next(null);
     this.router.navigate(['/']);
   }
@@ -78,6 +90,7 @@ export class UserService {
   }
 
   getToken(): string | null {
+    if (!isPlatformBrowser(this.platformId)) return null;
     return localStorage.getItem(TOKEN_KEY);
   }
 
@@ -95,13 +108,16 @@ export class UserService {
   // ──────────────────────────────────────────────────────
 
   private persistSession(token: string, user: User): void {
-    localStorage.setItem(TOKEN_KEY, token);
-    localStorage.setItem(USER_KEY, JSON.stringify(user));
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem(TOKEN_KEY, token);
+      localStorage.setItem(USER_KEY, JSON.stringify(user));
+    }
     this.currentUserSubject.next(user);
   }
 
   private loadUserFromStorage(): User | null {
     try {
+      if (typeof localStorage === 'undefined') return null;
       const stored = localStorage.getItem(USER_KEY);
       return stored ? JSON.parse(stored) : null;
     } catch {

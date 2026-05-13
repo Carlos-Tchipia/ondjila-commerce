@@ -27,8 +27,8 @@ import { AdminService } from '../../services/admin/admin.service';
           <h3 class="font-black text-sm uppercase tracking-widest text-[#1A1814]">Vendas por Período</h3>
           <p class="text-xs text-gray-500">Resumo financeiro detalhado.</p>
           <div class="flex gap-2 w-full pt-4">
-            <button class="flex-grow py-2 bg-gray-100 hover:bg-gray-200 text-[9px] font-black uppercase tracking-widest rounded transition-colors">CSV</button>
-            <button class="flex-grow py-2 bg-gray-100 hover:bg-gray-200 text-[9px] font-black uppercase tracking-widest rounded transition-colors">PDF</button>
+            <button (click)="downloadCsv('sales')" class="flex-grow py-2 bg-gray-100 hover:bg-[#C8960C] hover:text-white text-gray-700 text-[9px] font-black uppercase tracking-widest rounded transition-colors">CSV</button>
+            <button (click)="notImplemented()" class="flex-grow py-2 bg-gray-100 hover:bg-gray-200 text-gray-400 cursor-not-allowed text-[9px] font-black uppercase tracking-widest rounded transition-colors">PDF</button>
           </div>
         </div>
 
@@ -40,8 +40,8 @@ import { AdminService } from '../../services/admin/admin.service';
           <h3 class="font-black text-sm uppercase tracking-widest text-[#1A1814]">Produtos Mais Vendidos</h3>
           <p class="text-xs text-gray-500">Ranking de performance de itens.</p>
           <div class="flex gap-2 w-full pt-4">
-            <button class="flex-grow py-2 bg-gray-100 hover:bg-gray-200 text-[9px] font-black uppercase tracking-widest rounded transition-colors">CSV</button>
-            <button class="flex-grow py-2 bg-gray-100 hover:bg-gray-200 text-[9px] font-black uppercase tracking-widest rounded transition-colors">PDF</button>
+            <button (click)="downloadCsv('products')" class="flex-grow py-2 bg-gray-100 hover:bg-blue-500 hover:text-white text-gray-700 text-[9px] font-black uppercase tracking-widest rounded transition-colors">CSV</button>
+            <button (click)="notImplemented()" class="flex-grow py-2 bg-gray-100 hover:bg-gray-200 text-gray-400 cursor-not-allowed text-[9px] font-black uppercase tracking-widest rounded transition-colors">PDF</button>
           </div>
         </div>
 
@@ -53,8 +53,8 @@ import { AdminService } from '../../services/admin/admin.service';
           <h3 class="font-black text-sm uppercase tracking-widest text-[#1A1814]">Estado Atual de Stock</h3>
           <p class="text-xs text-gray-500">Auditoria completa de inventário.</p>
           <div class="flex gap-2 w-full pt-4">
-            <button class="flex-grow py-2 bg-gray-100 hover:bg-gray-200 text-[9px] font-black uppercase tracking-widest rounded transition-colors">CSV</button>
-            <button class="flex-grow py-2 bg-gray-100 hover:bg-gray-200 text-[9px] font-black uppercase tracking-widest rounded transition-colors">PDF</button>
+            <button (click)="downloadCsv('products')" class="flex-grow py-2 bg-gray-100 hover:bg-yellow-500 hover:text-white text-gray-700 text-[9px] font-black uppercase tracking-widest rounded transition-colors">CSV</button>
+            <button (click)="notImplemented()" class="flex-grow py-2 bg-gray-100 hover:bg-gray-200 text-gray-400 cursor-not-allowed text-[9px] font-black uppercase tracking-widest rounded transition-colors">PDF</button>
           </div>
         </div>
 
@@ -66,8 +66,8 @@ import { AdminService } from '../../services/admin/admin.service';
           <h3 class="font-black text-sm uppercase tracking-widest text-[#1A1814]">Base de Clientes</h3>
           <p class="text-xs text-gray-500">Listagem de perfis e contactos.</p>
           <div class="flex gap-2 w-full pt-4">
-            <button class="flex-grow py-2 bg-gray-100 hover:bg-gray-200 text-[9px] font-black uppercase tracking-widest rounded transition-colors">CSV</button>
-            <button class="flex-grow py-2 bg-gray-100 hover:bg-gray-200 text-[9px] font-black uppercase tracking-widest rounded transition-colors">PDF</button>
+            <button (click)="downloadCsv('customers')" class="flex-grow py-2 bg-gray-100 hover:bg-purple-500 hover:text-white text-gray-700 text-[9px] font-black uppercase tracking-widest rounded transition-colors">CSV</button>
+            <button (click)="notImplemented()" class="flex-grow py-2 bg-gray-100 hover:bg-gray-200 text-gray-400 cursor-not-allowed text-[9px] font-black uppercase tracking-widest rounded transition-colors">PDF</button>
           </div>
         </div>
 
@@ -91,4 +91,14 @@ import { AdminService } from '../../services/admin/admin.service';
     </div>
   `
 })
-export class AdminReports {}
+export class AdminReports {
+  adminService = inject(AdminService);
+
+  downloadCsv(type: string) {
+    this.adminService.downloadReport(type);
+  }
+
+  notImplemented() {
+    alert('A exportação para PDF será implementada na próxima versão. Use a exportação CSV por agora.');
+  }
+}

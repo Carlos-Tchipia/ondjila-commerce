@@ -5,29 +5,32 @@
 <div class="flex items-center gap-lg">
 <span class="font-hero-title text-section-title font-black text-primary-container dark:text-primary-fixed uppercase tracking-widest cursor-pointer" routerLink="/">Ondjilacommerce</span>
 <nav class="hidden md:flex gap-md font-body-main text-body-main">
-<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/">Início</a>
-<a class="text-primary-container" routerLink="/categories">Categorias</a>
-<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/about">Sobre Nós</a>
-<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/contact">Contactos</a>
+<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/">{{ 'HOME.NAV.HOME' | translate }}</a>
+<a class="text-primary-container font-medium border-b-2 border-primary-container pb-1" routerLink="/categories">{{ 'HOME.NAV.CATEGORIES' | translate }}</a>
+<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/about">{{ 'HOME.NAV.ABOUT' | translate }}</a>
+<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/contact">{{ 'HOME.NAV.CONTACT' | translate }}</a>
 </nav>
 </div>
 <div class="flex items-center gap-md">
 <div class="relative hidden lg:block">
-<input (input)="onSearch($event)" [value]="searchQuery" class="bg-[#F9F8F6] border border-[#E8E4DC] rounded-[6px] py-xs px-md pr-xl focus:border-primary-container outline-none text-sm w-64" placeholder="Pesquisar produtos..." type="text"/>
-<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-sm" data-icon="search" translate="no">search</span>
+<input (input)="onSearch($event)" [value]="searchQuery" class="bg-[#F9F8F6] border border-[#E8E4DC] rounded-[6px] py-xs px-md pr-xl focus:border-primary-container outline-none text-sm w-64" [placeholder]="'HOME.SEARCH_PLACEHOLDER' | translate" type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-sm" data-icon="search">search</span>
 </div>
 <div class="flex items-center gap-sm">
-<button *ngIf="!(userService.currentUser$ | async)" class="flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/login">
-<span class="material-symbols-outlined" data-icon="person" translate="no">person</span>
-<span class="hidden md:inline font-label-caps uppercase text-[10px]">A minha conta</span>
+<button class="flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200" [routerLink]="userService.isLoggedIn() ? '/customer-account' : '/login'">
+<span class="material-symbols-outlined">person</span>
+<span class="hidden xl:inline font-label-caps uppercase text-[10px]">{{ userService.isLoggedIn() ? userService.getCurrentUser()?.name : ('HOME.HEADER.LOGIN' | translate) }}</span>
 </button>
-<div *ngIf="userService.currentUser$ | async as user" class="flex items-center gap-xs text-primary-container">
-  <span class="material-symbols-outlined" translate="no">account_circle</span>
-  <span class="hidden md:inline font-label-caps uppercase text-[10px]">{{ user.name }}</span>
-  <button (click)="logout()" class="material-symbols-outlined text-[16px] text-error ml-1" translate="no">logout</button>
-</div>
+
+<button (click)="toggleLanguage()" class="flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200 font-label-caps uppercase text-[10px] font-bold">
+  {{ translate.currentLang }}
+</button>
+
+<button (click)="toggleTheme()" class="flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200">
+  <span class="material-symbols-outlined">{{ themeService.isDarkMode() ? 'light_mode' : 'dark_mode' }}</span>
+</button>
 <div class="relative cursor-pointer flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/cart">
-  <span class="material-symbols-outlined text-[24px]" translate="no">shopping_cart</span>
+  <span class="material-symbols-outlined text-[24px]">shopping_cart</span>
   <span class="hidden md:inline font-label-caps uppercase text-[10px]">Carrinho</span>
   <div *ngIf="(cartService.cartCount$ | async) as count" class="absolute -top-2 -right-2 bg-error text-on-error text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full">
     {{ count }}
@@ -46,8 +49,8 @@
 <h3 class="font-label-caps text-label-caps text-primary-container uppercase tracking-widest border-b border-outline-variant pb-base mb-md">Coleções</h3>
 <ul class="space-y-sm">
 <li *ngFor="let cat of categories" (click)="selectCategory(cat)" [class.text-primary-container]="selectedCategory === cat" [class.font-bold]="selectedCategory === cat" class="text-on-surface-variant hover:text-primary-container cursor-pointer transition-colors text-sm flex items-center justify-between">
-{{ cat }}
-<span *ngIf="selectedCategory === cat" class="material-symbols-outlined text-[16px]" translate="no">chevron_right</span>
+{{ 'HOME.CATEGORIES.' + cat | translate }}
+<span *ngIf="selectedCategory === cat" class="material-symbols-outlined text-[16px]">chevron_right</span>
 </li>
 </ul>
 </div>
@@ -67,33 +70,33 @@
 <!-- Products Grid -->
 <div class="lg:col-span-9">
 <div class="flex justify-between items-center mb-xl">
-<h2 class="font-section-title text-[24px] text-on-background uppercase tracking-widest">{{ selectedCategory }}</h2>
+<h2 class="font-section-title text-[24px] text-on-background uppercase tracking-widest">{{ 'HOME.CATEGORIES.' + selectedCategory | translate }}</h2>
 <div class="flex items-center gap-base text-on-surface-variant text-[12px] font-label-caps">
 <span>{{ filteredProducts.length }} PRODUTOS ENCONTRADOS</span>
-<span class="material-symbols-outlined" translate="no">filter_list</span>
+<span class="material-symbols-outlined">filter_list</span>
 </div>
 </div>
 
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-md">
 <!-- Dynamic Product Card -->
-<div *ngFor="let product of filteredProducts" class="bg-white rounded-card shadow-gold group cursor-pointer overflow-hidden transition-all hover:-translate-y-1 p-xs" [routerLink]="['/product', product.id]">
+<div *ngFor="let product of filteredProducts" class="bg-white rounded-card shadow-gold group cursor-pointer overflow-hidden transition-all hover:-translate-y-1 p-xs" [routerLink]="['/product', product.slug]">
 <div class="relative aspect-[4/5] bg-surface-container overflow-hidden rounded-lg mb-sm">
 <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" [src]="product.image"/>
 <div class="absolute top-sm right-sm">
 <button class="w-10 h-10 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center text-primary-container shadow-sm hover:bg-primary-container hover:text-white transition-colors">
-<span class="material-symbols-outlined" translate="no">favorite</span>
+<span class="material-symbols-outlined">favorite</span>
 </button>
 </div>
 </div>
 <div class="px-sm pb-sm">
-<span class="font-label-caps text-[10px] text-primary-container mb-xs block uppercase tracking-wider">{{ product.category }}</span>
+<span class="font-label-caps text-[10px] text-primary-container mb-xs block uppercase tracking-wider">{{ 'HOME.CATEGORIES.' + product.category | translate }}</span>
 <h3 class="font-body-main text-sm font-medium text-on-background mb-base truncate">{{ product.name }}</h3>
 <p class="font-price-display text-price-display text-primary-container font-bold">{{ product.price }}</p>
 </div>
 </div>
 
 <div *ngIf="filteredProducts.length === 0" class="col-span-3 py-xl text-center space-y-md">
-  <span class="material-symbols-outlined text-[64px] text-outline-variant" translate="no">search_off</span>
+  <span class="material-symbols-outlined text-[64px] text-outline-variant">search_off</span>
   <p class="text-on-surface-variant">Nenhum produto encontrado para a sua seleção.</p>
   <button (click)="selectCategory('Todos')" class="text-primary-container font-label-caps uppercase tracking-widest hover:underline">Ver todos os produtos</button>
 </div>

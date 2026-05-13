@@ -30,7 +30,7 @@ import { AdminService } from '../../services/admin/admin.service';
         </div>
         <select [(ngModel)]="selectedCategory" class="bg-[#F5F2EC] px-4 py-2 rounded text-sm outline-none border border-transparent focus:border-[#C8960C]">
           <option value="">Todas as Categorias</option>
-          <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+          <option *ngFor="let cat of categories" [value]="cat.name">{{ cat.name }}</option>
         </select>
       </div>
 
@@ -108,8 +108,8 @@ import { AdminService } from '../../services/admin/admin.service';
               </div>
               <div class="space-y-1">
                 <label class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Categoria</label>
-                <select [(ngModel)]="formProduct.category_id" class="w-full bg-[#F5F2EC] px-4 py-3 rounded outline-none border border-transparent focus:border-[#C8960C]">
-                  <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+                <select [(ngModel)]="formProduct.category" class="w-full bg-[#F5F2EC] px-4 py-3 rounded outline-none border border-transparent focus:border-[#C8960C]">
+                  <option *ngFor="let cat of categories" [value]="cat.name">{{ cat.name }}</option>
                 </select>
               </div>
               <div class="space-y-1">
@@ -121,8 +121,9 @@ import { AdminService } from '../../services/admin/admin.service';
                 <input type="number" [(ngModel)]="formProduct.stock" class="w-full bg-[#F5F2EC] px-4 py-3 rounded outline-none border border-transparent focus:border-[#C8960C]">
               </div>
               <div class="space-y-1">
-                <label class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Caminho da Imagem Local</label>
-                <input type="text" [(ngModel)]="formProduct.image_url" placeholder="assets/images/products/..." class="w-full bg-[#F5F2EC] px-4 py-3 rounded outline-none border border-transparent focus:border-[#C8960C]">
+                <label class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Imagem do Produto</label>
+                <input type="file" accept="image/*" (change)="onFileSelected($event)" class="w-full bg-[#F5F2EC] px-4 py-2 rounded outline-none border border-transparent focus:border-[#C8960C] text-sm">
+                <p *ngIf="formProduct.image_url" class="text-[9px] text-gray-400 mt-1 truncate">Atual: {{ formProduct.image_url }}</p>
               </div>
             </div>
             <div class="space-y-1">
@@ -156,12 +157,13 @@ export class AdminProducts implements OnInit {
   formProduct: any = {
     name: '',
     brand: '',
-    category_id: '',
+    category: '',
     price: 0,
     stock: 0,
     image_url: '',
     description: ''
   };
+  selectedFile: File | null = null;
 
   ngOnInit() {
     this.loadData();
@@ -176,7 +178,7 @@ export class AdminProducts implements OnInit {
     return this.products.filter(p => {
       const matchesSearch = p.name.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
                            p.brand.toLowerCase().includes(this.searchQuery.toLowerCase());
-      const matchesCat = this.selectedCategory ? p.category_id == this.selectedCategory : true;
+      const matchesCat = this.selectedCategory ? p.category == this.selectedCategory : true;
       return matchesSearch && matchesCat;
     });
   }
@@ -187,8 +189,9 @@ export class AdminProducts implements OnInit {
       this.formProduct = { ...product };
     } else {
       this.editingProduct = null;
-      this.formProduct = { name: '', brand: '', category_id: this.categories[0]?.id || '', price: 0, stock: 0, image_url: '', description: '' };
+      this.formProduct = { name: '', brand: '', category: this.categories[0]?.name || '', price: 0, stock: 0, image_url: '', description: '' };
     }
+    this.selectedFile = null;
     this.showModal = true;
   }
 
@@ -196,10 +199,31 @@ export class AdminProducts implements OnInit {
     this.showModal = false;
   }
 
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+    }
+  }
+
   saveProduct() {
+    const formData = new FormData();
+    formData.append('name', this.formProduct.name);
+    formData.append('brand', this.formProduct.brand);
+    formData.append('category', this.formProduct.category);
+    formData.append('price', this.formProduct.price.toString());
+    formData.append('stock', this.formProduct.stock.toString());
+    formData.append('description', this.formProduct.description);
+    
+    if (this.selectedFile) {
+      formData.append('image', this.selectedFile);
+    } else if (this.formProduct.image_url) {
+      formData.append('image_url', this.formProduct.image_url);
+    }
+
     const obs = this.editingProduct 
-      ? this.adminService.updateProduct(this.editingProduct.id, this.formProduct)
-      : this.adminService.createProduct(this.formProduct);
+      ? this.adminService.updateProduct(this.editingProduct.id, formData)
+      : this.adminService.createProduct(formData);
 
     obs.subscribe(() => {
       this.loadData();

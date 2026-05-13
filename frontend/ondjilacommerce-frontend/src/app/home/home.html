@@ -5,33 +5,41 @@
 <div class="flex items-center gap-lg">
 <span class="font-hero-title text-section-title font-black text-primary-container dark:text-primary-fixed uppercase tracking-widest cursor-pointer" routerLink="/">Ondjila</span>
 <nav class="hidden md:flex gap-md font-body-main text-body-main">
-<a class="text-primary-container font-medium border-b-2 border-primary-container pb-1" routerLink="/">Início</a>
-<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/categories">Categorias</a>
-<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/about">Sobre Nós</a>
-<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/contact">Contactos</a>
+<a class="text-primary-container font-medium border-b-2 border-primary-container pb-1" routerLink="/">{{ 'HOME.NAV.HOME' | translate }}</a>
+<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/categories">{{ 'HOME.NAV.CATEGORIES' | translate }}</a>
+<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/about">{{ 'HOME.NAV.ABOUT' | translate }}</a>
+<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/contact">{{ 'HOME.NAV.CONTACT' | translate }}</a>
 </nav>
 </div>
 <div class="flex items-center gap-md">
 <div class="relative group hidden lg:flex items-center">
-<input (input)="onSearch($event)" class="w-64 h-10 pl-10 pr-md bg-surface-container-low rounded-full border border-outline-variant focus:outline-none focus:border-primary-container transition-all text-sm font-body-main" placeholder="O que procura hoje?" type="text"/>
-<span class="material-symbols-outlined absolute left-3 text-on-surface-variant" translate="no">search</span>
+<input (input)="onSearch($event)" class="w-64 h-10 pl-10 pr-md bg-surface-container-low rounded-full border border-outline-variant focus:outline-none focus:border-primary-container transition-all text-sm font-body-main" [placeholder]="'HOME.SEARCH_PLACEHOLDER' | translate" type="text"/>
+<span class="material-symbols-outlined absolute left-3 text-on-surface-variant">search</span>
 </div>
 <div class="flex items-center gap-sm">
 <button class="flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200" [routerLink]="userService.isLoggedIn() ? '/customer-account' : '/login'">
-<span class="material-symbols-outlined" translate="no">person</span>
-<span class="hidden xl:inline font-label-caps uppercase text-[10px]">{{ userService.isLoggedIn() ? userService.getCurrentUser()?.name : 'Entrar' }}</span>
+<span class="material-symbols-outlined">person</span>
+<span class="hidden xl:inline font-label-caps uppercase text-[10px]">{{ userService.isLoggedIn() ? userService.getCurrentUser()?.name : ('HOME.HEADER.LOGIN' | translate) }}</span>
+</button>
+
+<button (click)="toggleLanguage()" class="flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200 font-label-caps uppercase text-[10px] font-bold">
+  {{ translate.currentLang }}
+</button>
+
+<button (click)="toggleTheme()" class="flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200">
+  <span class="material-symbols-outlined">{{ themeService.isDarkMode() ? 'light_mode' : 'dark_mode' }}</span>
 </button>
 
 <!-- Link administrativo dinâmico -->
 <button *ngIf="userService.isAdmin()" 
         class="flex items-center gap-xs text-[#C8960C] hover:text-[#A87A09] transition-all bg-[#C8960C]/5 px-3 py-1 rounded-full border border-[#C8960C]/20" 
         routerLink="/admin">
-  <span class="material-symbols-outlined !text-[18px]" translate="no">admin_panel_settings</span>
-  <span class="hidden xl:inline font-label-caps uppercase text-[10px] font-bold">Painel Admin</span>
+  <span class="material-symbols-outlined !text-[18px]">admin_panel_settings</span>
+  <span class="hidden xl:inline font-label-caps uppercase text-[10px] font-bold">{{ 'HOME.HEADER.ADMIN' | translate }}</span>
 </button>
 <div class="relative cursor-pointer flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/cart">
-<span class="material-symbols-outlined text-[24px]" translate="no">shopping_cart</span>
-<span class="hidden xl:inline font-label-caps uppercase text-[10px]">Carrinho</span>
+<span class="material-symbols-outlined text-[24px]">shopping_cart</span>
+<span class="hidden xl:inline font-label-caps uppercase text-[10px]">{{ 'HOME.HEADER.CART' | translate }}</span>
 <div *ngIf="(cartService.cartCount$ | async) as count" class="absolute -top-2 -right-2 bg-error text-on-error text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full">
 {{ count }}
 </div>
@@ -44,16 +52,16 @@
 <section class="relative h-[600px] overflow-hidden bg-surface-container-lowest">
 <div class="max-w-container_max mx-auto h-full px-gutter flex flex-col md:flex-row items-center gap-xl relative z-10">
 <div class="w-full md:w-1/2 space-y-md animate-slide-up">
-<span class="font-label-caps text-primary-container tracking-[0.3em] uppercase">Nova Coleção 2026</span>
+<span class="font-label-caps text-primary-container tracking-[0.3em] uppercase">{{ 'HOME.HERO.BADGE' | translate }}</span>
 <h1 class="font-hero-title text-hero-title text-on-surface leading-[1.1] mb-md">
-                    Tecnologia com<br/><span class="text-primary-container italic">Alma Angolana</span>
+                    {{ 'HOME.HERO.TITLE1' | translate }}<br/><span class="text-primary-container italic">{{ 'HOME.HERO.TITLE2' | translate }}</span>
 </h1>
 <p class="text-on-surface-variant text-body-main max-w-[480px] mb-lg leading-relaxed">
-                    Descubra a fusão perfeita entre a inovação global e a identidade local. Peças curadas para quem exige o extraordinário em cada detalhe.
+                    {{ 'HOME.HERO.DESC' | translate }}
                 </p>
 <div class="flex flex-wrap gap-md pt-md">
-<button class="bg-primary-container text-white px-xl py-md font-label-caps hover:bg-[#A87A09] transition-all gold-shadow uppercase tracking-widest" routerLink="/catalog">Comprar agora</button>
-<button class="border border-on-surface px-xl py-md font-label-caps hover:bg-on-surface hover:text-white transition-all uppercase tracking-widest" routerLink="/discover">Descobrir</button>
+<button class="bg-primary-container text-white px-xl py-md font-label-caps hover:bg-[#A87A09] transition-all gold-shadow uppercase tracking-widest" routerLink="/catalog">{{ 'HOME.HERO.BUY_NOW' | translate }}</button>
+<button class="border border-on-surface px-xl py-md font-label-caps hover:bg-on-surface hover:text-white transition-all uppercase tracking-widest" routerLink="/discover">{{ 'HOME.HERO.DISCOVER' | translate }}</button>
 </div>
 </div>
 <div class="w-full md:w-1/2 relative h-full flex items-center justify-center">
@@ -71,10 +79,10 @@
 <p class="text-on-surface-variant text-sm">Categorias selecionadas para o seu estilo de vida.</p>
 </div>
 <div class="flex gap-sm overflow-x-auto pb-2 w-full md:w-auto">
-<span class="px-md py-xs rounded-full bg-surface-container-low font-label-caps cursor-pointer hover:bg-primary-container hover:text-white transition-colors whitespace-nowrap">Smartphones</span>
-<span class="px-md py-xs rounded-full bg-surface-container-low font-label-caps cursor-pointer hover:bg-primary-container hover:text-white transition-colors whitespace-nowrap">Laptops</span>
-<span class="px-md py-xs rounded-full bg-surface-container-low font-label-caps cursor-pointer hover:bg-primary-container hover:text-white transition-colors whitespace-nowrap">Áudio</span>
-<span class="px-md py-xs rounded-full bg-surface-container-low font-label-caps cursor-pointer hover:bg-primary-container hover:text-white transition-colors whitespace-nowrap">Wearables</span>
+<span class="px-md py-xs rounded-full bg-surface-container-low font-label-caps cursor-pointer hover:bg-primary-container hover:text-white transition-colors whitespace-nowrap" routerLink="/categories" [queryParams]="{category: 'Smartphones'}">{{ 'HOME.CATEGORIES.Smartphones' | translate }}</span>
+<span class="px-md py-xs rounded-full bg-surface-container-low font-label-caps cursor-pointer hover:bg-primary-container hover:text-white transition-colors whitespace-nowrap" routerLink="/categories" [queryParams]="{category: 'Laptops'}">{{ 'HOME.CATEGORIES.Laptops' | translate }}</span>
+<span class="px-md py-xs rounded-full bg-surface-container-low font-label-caps cursor-pointer hover:bg-primary-container hover:text-white transition-colors whitespace-nowrap" routerLink="/categories" [queryParams]="{category: 'Auscultadores'}">{{ 'HOME.CATEGORIES.Auscultadores' | translate }}</span>
+<span class="px-md py-xs rounded-full bg-surface-container-low font-label-caps cursor-pointer hover:bg-primary-container hover:text-white transition-colors whitespace-nowrap" routerLink="/categories" [queryParams]="{category: 'Smartwatches'}">{{ 'HOME.CATEGORIES.Smartwatches' | translate }}</span>
 </div>
 </div>
 </div>
@@ -91,7 +99,7 @@
          [routerLink]="['/product', product.slug]">
         <div class="h-64 relative bg-[#F9F8F6] p-md">
             <span *ngIf="product.discount" class="absolute top-3 left-3 bg-error text-white text-[10px] font-bold px-2 py-1 rounded-sm">-{{ product.discount }}%</span>
-            <span class="absolute top-3 right-3 material-symbols-outlined text-outline-variant hover:text-error transition-colors" translate="no">favorite</span>
+            <span class="absolute top-3 right-3 material-symbols-outlined text-outline-variant hover:text-error transition-colors">favorite</span>
             <img [alt]="product.name" class="w-full h-full object-contain mix-blend-multiply" [src]="product.image"/>
         </div>
         <div class="p-md space-y-2">
@@ -99,11 +107,11 @@
                 <h3 class="font-body-main text-body-main font-medium truncate pr-sm">{{ product.name }}</h3>
                 <span class="font-price-display text-price-display text-primary-container font-bold whitespace-nowrap">{{ product.price }}</span>
             </div>
-            <p class="text-xs text-on-surface-variant truncate">{{ product.category }}</p>
+            <p class="text-xs text-on-surface-variant truncate">{{ 'HOME.CATEGORIES.' + product.category | translate }}</p>
             <div class="flex items-center gap-xs">
                 <div class="flex text-primary-container text-[12px]">
                     <span *ngFor="let i of [1,2,3,4,5]" class="material-symbols-outlined !text-[14px]" 
-                          [style.font-variation-settings]="'\'FILL\' ' + (product.rating && i <= (product.rating || 0) ? 1 : 0)" translate="no">star</span>
+                          [style.font-variation-settings]="'\'FILL\' ' + (product.rating && i <= (product.rating || 0) ? 1 : 0)">star</span>
                 </div>
                 <span class="text-[10px] text-on-surface-variant">({{ product.reviews_count || 0 }})</span>
             </div>
@@ -119,17 +127,17 @@
 <section class="py-xl bg-surface-container-lowest border-y border-outline-variant/30">
 <div class="max-w-container_max mx-auto px-gutter grid grid-cols-1 md:grid-cols-3 gap-xl">
 <div class="flex flex-col items-center text-center space-y-sm">
-<span class="material-symbols-outlined text-[40px] text-primary-container" translate="no">local_shipping</span>
+<span class="material-symbols-outlined text-[40px] text-primary-container">local_shipping</span>
 <h4 class="font-label-caps text-label-caps uppercase">Entrega em Toda Angola</h4>
 <p class="text-xs text-on-surface-variant">Logística otimizada para todas as províncias com rastreio em tempo real.</p>
 </div>
 <div class="flex flex-col items-center text-center space-y-sm">
-<span class="material-symbols-outlined text-[40px] text-primary-container" translate="no">verified_user</span>
+<span class="material-symbols-outlined text-[40px] text-primary-container">verified_user</span>
 <h4 class="font-label-caps text-label-caps uppercase">Garantia Ondjila</h4>
 <p class="text-xs text-on-surface-variant">Todos os produtos são certificados e possuem garantia oficial de 2 anos.</p>
 </div>
 <div class="flex flex-col items-center text-center space-y-sm">
-<span class="material-symbols-outlined text-[40px] text-primary-container" translate="no">support_agent</span>
+<span class="material-symbols-outlined text-[40px] text-primary-container">support_agent</span>
 <h4 class="font-label-caps text-label-caps uppercase">Suporte Concierge</h4>
 <p class="text-xs text-on-surface-variant">Atendimento personalizado disponível 24/7 para sua total tranquilidade.</p>
 </div>
@@ -171,8 +179,8 @@
 <div class="pt-xl border-t border-outline-variant/20 flex flex-col md:flex-row justify-between items-center gap-md">
 <span class="text-[10px] text-surface-variant uppercase tracking-widest">© 2026 ONDJILA COMMERCE. TODOS OS DIREITOS RESERVADOS.</span>
 <div class="flex gap-md">
-<span class="material-symbols-outlined text-surface-variant hover:text-white cursor-pointer" translate="no">facebook</span>
-<span class="material-symbols-outlined text-surface-variant hover:text-white cursor-pointer" translate="no">alternate_email</span>
+<span class="material-symbols-outlined text-surface-variant hover:text-white cursor-pointer">facebook</span>
+<span class="material-symbols-outlined text-surface-variant hover:text-white cursor-pointer">alternate_email</span>
 </div>
 </div>
 </div>

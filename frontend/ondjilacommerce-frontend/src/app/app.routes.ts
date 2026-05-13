@@ -5,6 +5,7 @@ import { ProductDetail } from './product-detail/product-detail';
 import { Checkout } from './checkout/checkout';
 import { Admin } from './admin/admin';
 import { Login } from './login/login';
+import { ResetPassword } from './login/reset-password';
 import { CustomerAccount } from './customer-account/customer-account';
 import { Cart } from './cart/cart';
 import { OrderSuccess } from './order-success/order-success';
@@ -41,6 +42,7 @@ export const routes: Routes = [
   { path: 'about',         component: About },
   { path: 'contact',       component: Contact },
   { path: 'login',         component: Login },
+  { path: 'reset-password',component: ResetPassword },
   { path: 'register',      component: Register },
   { path: 'discover',      component: Discover },
   { path: 'new-arrivals',  component: NewArrivals },

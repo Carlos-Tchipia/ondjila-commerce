@@ -1,4 +1,5 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject } from 'rxjs';
 import { Product } from '../product/product.service';
 
@@ -11,6 +12,8 @@ export interface CartItem {
   providedIn: 'root'
 })
 export class CartService {
+  private platformId = inject(PLATFORM_ID);
+
   private cartItems = new BehaviorSubject<CartItem[]>(this.loadCart());
   cartItems$ = this.cartItems.asObservable();
 
@@ -91,11 +94,14 @@ export class CartService {
   }
 
   private saveCart() {
-    localStorage.setItem('ondjila_cart', JSON.stringify(this.cartItems.value));
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('ondjila_cart', JSON.stringify(this.cartItems.value));
+    }
   }
 
   private loadCart(): CartItem[] {
     try {
+      if (typeof localStorage === 'undefined') return [];
       const stored = localStorage.getItem('ondjila_cart');
       return stored ? JSON.parse(stored) : [];
     } catch {

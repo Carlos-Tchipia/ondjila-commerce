@@ -62,6 +62,8 @@ try {
     elseif ($path === '/auth/login' && $method === 'POST') (new App\Controllers\AuthController())->login();
     elseif ($path === '/auth/logout' && $method === 'POST') (new App\Controllers\AuthController())->logout();
     elseif ($path === '/auth/me' && $method === 'GET') (new App\Controllers\AuthController())->me();
+    elseif ($path === '/auth/forgot-password' && $method === 'POST') (new App\Controllers\AuthController())->forgotPassword();
+    elseif ($path === '/auth/reset-password' && $method === 'POST') (new App\Controllers\AuthController())->resetPassword();
 
     // PRODUCTS
     elseif ($path === '/products' && $method === 'GET') (new App\Controllers\ProductController())->index();
@@ -78,6 +80,7 @@ try {
 
     // ADMIN ENDPOINTS (Protegidos por requireAdmin no controller)
     elseif ($path === '/admin/stats' && $method === 'GET') (new App\Controllers\AdminController())->getStats();
+    elseif ($path === '/admin/export' && $method === 'GET') (new App\Controllers\AdminController())->exportReport();
     elseif ($path === '/admin/products' && $method === 'GET') (new App\Controllers\AdminController())->listProducts();
     elseif ($path === '/admin/products/create' && $method === 'POST') (new App\Controllers\AdminController())->storeProduct();
     elseif (preg_match('#^/admin/products/update/(\d+)$#', $path, $m) && $method === 'POST') (new App\Controllers\AdminController())->updateProduct((int)$m[1]);

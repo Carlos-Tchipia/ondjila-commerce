@@ -47,5 +47,6 @@ function getBody(): array
 {
     $raw = file_get_contents('php://input');
     $decoded = json_decode($raw, true);
-    return is_array($decoded) ? $decoded : [];
+    $json = is_array($decoded) ? $decoded : [];
+    return array_merge($_POST, $json);
 }

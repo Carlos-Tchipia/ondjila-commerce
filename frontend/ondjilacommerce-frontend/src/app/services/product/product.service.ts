@@ -100,6 +100,12 @@ export class ProductService {
   // ──────────────────────────────────────────────────────
   private normalize(p: any): Product {
     const priceFormatted = new Intl.NumberFormat('pt-AO').format(p.price) + ' Kz';
+    let imageUrl = p.image_url || 'assets/images/products/smartphones_1.jpg';
+    // Removemos a barra inicial para garantir que o Angular resolva o caminho relativo aos assets
+    if (imageUrl && imageUrl.startsWith('/')) {
+      imageUrl = imageUrl.substring(1);
+    }
+
     return {
       id:             String(p.id),
       name:           p.name,
@@ -111,9 +117,9 @@ export class ProductService {
       category:       p.category,
       brand:          p.brand,
       description:    p.description,
-      image:          p.image_url || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800',
-      image_url:      p.image_url,
-      thumbnails:     p.image_url ? [p.image_url] : [],
+      image:          imageUrl,
+      image_url:      imageUrl,
+      thumbnails:     imageUrl ? [imageUrl] : [],
       rating:         p.rating,
       reviews_count:  p.reviews_count,
       stock:          p.stock,
@@ -130,33 +136,33 @@ export class ProductService {
     return [
       {
         id: '1', name: 'Apple iPhone 15 Pro Max 256GB', price: '749.000 Kz', priceRaw: 749000,
-        category: 'Smartphones', brand: 'Apple', description: 'O iPhone mais avançado da Apple com chip A17 Pro e câmera de 48MP.',
-        image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=800', thumbnails: [], rating: 4.8, stock: 15, is_featured: true
+        category: 'Smartphones', brand: 'Apple', description: 'O iPhone mais avançado da Apple.',
+        image: 'assets/images/products/smartphones_1.jpg', thumbnails: [], rating: 4.8, stock: 15, is_featured: true
       },
       {
         id: '2', name: 'Samsung Galaxy S24 Ultra 512GB', price: '689.000 Kz', priceRaw: 689000,
         category: 'Smartphones', brand: 'Samsung', description: 'Galaxy com S Pen, câmera de 200MP e IA integrada.',
-        image: 'https://images.unsplash.com/photo-1706184526866-3e24c8fa7c47?w=800', thumbnails: [], rating: 4.7, stock: 12, is_featured: true
+        image: 'assets/images/products/smartphones_2.jpg', thumbnails: [], rating: 4.7, stock: 12, is_featured: true
       },
       {
-        id: '7', name: 'Apple MacBook Pro 14" M3 Pro', price: '1.450.000 Kz', priceRaw: 1450000,
-        category: 'Laptops', brand: 'Apple', description: 'MacBook Pro com chip M3 Pro e bateria de 18 horas.',
-        image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800', thumbnails: [], rating: 4.9, stock: 8, is_featured: true
+        id: '5', name: 'Apple MacBook Pro 14" M3 Pro', price: '1.450.000 Kz', priceRaw: 1450000,
+        category: 'Laptops', brand: 'Apple', description: 'MacBook Pro com chip M3 Pro.',
+        image: 'assets/images/products/laptops_1.jpg', thumbnails: [], rating: 4.9, stock: 8, is_featured: true
       },
       {
-        id: '11', name: 'Apple AirPods Pro 2ª Geração', price: '145.000 Kz', priceRaw: 145000,
+        id: '14', name: 'Apple AirPods Pro 2 (USB-C)', price: '145.000 Kz', priceRaw: 145000,
         category: 'Auscultadores', brand: 'Apple', description: 'Cancelamento de ruído adaptativo com chip H2.',
-        image: 'https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=800', thumbnails: [], rating: 4.7, stock: 35, is_featured: true
+        image: 'assets/images/products/auscultadores_2.jpg', thumbnails: [], rating: 4.7, stock: 35, is_featured: true
       },
       {
-        id: '12', name: 'Sony WH-1000XM5', price: '129.000 Kz', priceRaw: 129000,
+        id: '13', name: 'Sony WH-1000XM5 Over-Ear ANC', price: '129.000 Kz', priceRaw: 129000,
         category: 'Auscultadores', brand: 'Sony', description: '8 microfones e o melhor ANC do mercado. 30h de bateria.',
-        image: 'https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=800', thumbnails: [], rating: 4.8, stock: 22, is_featured: true
+        image: 'assets/images/products/auscultadores_1.jpg', thumbnails: [], rating: 4.8, stock: 22, is_featured: true
       },
       {
-        id: '10', name: 'Apple Watch Ultra 2 49mm', price: '489.000 Kz', priceRaw: 489000,
+        id: '9', name: 'Apple Watch Ultra 2 49mm', price: '489.000 Kz', priceRaw: 489000,
         category: 'Smartwatches', brand: 'Apple', description: 'O smartwatch mais robusto e avançado da Apple.',
-        image: 'https://images.unsplash.com/photo-1694959937341-6e7ad20b31ef?w=800', thumbnails: [], rating: 4.8, stock: 10, is_featured: true
+        image: 'assets/images/products/smartwatches_1.jpg', thumbnails: [], rating: 4.8, stock: 10, is_featured: true
       },
     ];
   }

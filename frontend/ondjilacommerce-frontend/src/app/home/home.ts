@@ -6,10 +6,11 @@ import { UserService } from '../services/user/user.service';
 import { ThemeService } from '../services/theme/theme.service';
 import { ProductService } from '../services/product/product.service';
 import { CommonModule } from '@angular/common';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, TranslateModule],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
@@ -19,6 +20,7 @@ export class Home {
   userService = inject(UserService);
   themeService = inject(ThemeService);
   productService = inject(ProductService);
+  translate = inject(TranslateService);
 
   featuredProducts$ = this.productService.getFeaturedProducts();
 
@@ -33,5 +35,10 @@ export class Home {
 
   toggleTheme() {
     this.themeService.toggleTheme();
+  }
+
+  toggleLanguage() {
+    const currentLang = this.translate.currentLang;
+    this.translate.use(currentLang === 'pt' ? 'en' : 'pt');
   }
 }

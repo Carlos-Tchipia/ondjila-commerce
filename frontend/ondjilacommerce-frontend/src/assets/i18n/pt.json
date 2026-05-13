@@ -1,0 +1,33 @@
+{
+  "HOME": {
+    "NAV": {
+      "HOME": "Início",
+      "CATEGORIES": "Categorias",
+      "ABOUT": "Sobre Nós",
+      "CONTACT": "Contactos"
+    },
+    "SEARCH_PLACEHOLDER": "O que procura hoje?",
+    "HEADER": {
+      "LOGIN": "Entrar",
+      "CART": "Carrinho",
+      "ADMIN": "Painel Admin"
+    },
+    "HERO": {
+      "BADGE": "Nova Coleção 2026",
+      "TITLE1": "Tecnologia com",
+      "TITLE2": "Alma Angolana",
+      "DESC": "Descubra a fusão perfeita entre a inovação global e a identidade local. Peças curadas para quem exige o extraordinário em cada detalhe.",
+      "BUY_NOW": "Comprar agora",
+      "DISCOVER": "Descobrir"
+    },
+    "CATEGORIES": {
+      "Todos": "Todos",
+      "Smartphones": "Telemóveis",
+      "Laptops": "Portáteis",
+      "Smartwatches": "Relógios",
+      "Auscultadores": "Auscultadores",
+      "Tablets": "Tablets",
+      "Cameras": "Câmaras"
+    }
+  }
+}

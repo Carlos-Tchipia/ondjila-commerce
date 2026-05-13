@@ -1,0 +1,24 @@
+{
+  "HOME": {
+    "NAV": {
+      "HOME": "Home",
+      "CATEGORIES": "Categories",
+      "ABOUT": "About Us",
+      "CONTACT": "Contact"
+    },
+    "SEARCH_PLACEHOLDER": "What are you looking for?",
+    "HEADER": {
+      "LOGIN": "Log in",
+      "CART": "Cart",
+      "ADMIN": "Admin Panel"
+    },
+    "HERO": {
+      "BADGE": "New Collection 2026",
+      "TITLE1": "Technology with",
+      "TITLE2": "Angolan Soul",
+      "DESC": "Discover the perfect fusion between global innovation and local identity. Curated pieces for those who demand the extraordinary in every detail.",
+      "BUY_NOW": "Shop now",
+      "DISCOVER": "Discover"
+    }
+  }
+}

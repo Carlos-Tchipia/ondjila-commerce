@@ -19,6 +19,12 @@ class ProductController
         $slug = $_GET['slug'] ?? null;
         if ($slug) {
             $product = $this->products->findBySlug($slug);
+            
+            // Fallback: se não encontrar por slug, tentar por ID (caso o frontend envie ID por engano)
+            if (!$product && is_numeric($slug)) {
+                $product = $this->products->findById((int)$slug);
+            }
+
             if ($product) {
                 respond($product->toArray());
             } else {

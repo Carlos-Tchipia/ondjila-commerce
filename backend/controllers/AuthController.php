@@ -71,8 +71,45 @@ class AuthController
 
     public function logout(): void
     {
-        // JWT é stateless: o frontend apaga o token localmente.
         // Aqui confirmamos apenas o sucesso da operação.
         respond(['message' => 'Sessão terminada com sucesso.']);
+    }
+
+    public function forgotPassword(): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            respondError('Método não permitido.', 405);
+        }
+
+        $data = getBody();
+        $email = $data['email'] ?? '';
+
+        $result = $this->auth->forgotPassword($email);
+
+        if (!$result['success']) {
+            respondError($result['message'], 400);
+        }
+
+        respond(['message' => $result['message']]);
+    }
+
+    public function resetPassword(): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            respondError('Método não permitido.', 405);
+        }
+
+        $data = getBody();
+        $email = $data['email'] ?? '';
+        $token = $data['token'] ?? '';
+        $newPassword = $data['password'] ?? '';
+
+        $result = $this->auth->resetPassword($email, $token, $newPassword);
+
+        if (!$result['success']) {
+            respondError($result['message'], 400);
+        }
+
+        respond(['message' => $result['message']]);
     }
 }

@@ -57,4 +57,8 @@ export class AdminService {
     if (endDate) url += `&end_date=${endDate}`;
     return this.http.get(url);
   }
+
+  downloadReport(type: string): void {
+    window.open(`${API_URL}/admin/export?type=${type}`, '_blank');
+  }
 }

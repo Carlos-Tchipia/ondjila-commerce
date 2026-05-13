@@ -101,4 +101,80 @@ class AuthService
 
         return $errors;
     }
+
+    public function forgotPassword(string $email): array
+    {
+        $email = strtolower(trim($email));
+        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return ['success' => false, 'message' => 'Email inválido.'];
+        }
+
+        $user = $this->users->findByEmail($email);
+        if ($user === null) {
+            // Retornamos sucesso mesmo se não existir para evitar enumeração de emails
+            return ['success' => true, 'message' => 'Se o email existir, receberá um link de recuperação.'];
+        }
+
+        $token = bin2hex(random_bytes(32));
+        $expires = date('Y-m-d H:i:s', strtotime('+1 hour'));
+
+        $db = \App\Config\Database::getConnection();
+        
+        // Limpar tokens antigos
+        $stmt = $db->prepare("DELETE FROM password_resets WHERE email = :email");
+        $stmt->execute([':email' => $email]);
+
+        // Inserir novo
+        $stmt = $db->prepare("INSERT INTO password_resets (email, token, expires_at) VALUES (:email, :token, :expires)");
+        $stmt->execute([
+            ':email' => $email,
+            ':token' => $token,
+            ':expires' => $expires
+        ]);
+
+        $mail = new \App\Helpers\MailHelper();
+        $sent = $mail->sendPasswordResetEmail($user->email, $user->name, $token);
+
+        if (!$sent) {
+            return ['success' => false, 'message' => 'Erro ao enviar o e-mail de recuperação. Tente novamente mais tarde.'];
+        }
+
+        return ['success' => true, 'message' => 'Se o email existir, receberá um link de recuperação.'];
+    }
+
+    public function resetPassword(string $email, string $token, string $newPassword): array
+    {
+        $email = strtolower(trim($email));
+        
+        if (strlen($newPassword) < 6) {
+            return ['success' => false, 'message' => 'A senha deve ter pelo menos 6 caracteres.'];
+        }
+
+        $db = \App\Config\Database::getConnection();
+        
+        // Verificar token
+        $stmt = $db->prepare("SELECT * FROM password_resets WHERE email = :email AND token = :token AND expires_at > NOW()");
+        $stmt->execute([':email' => $email, ':token' => $token]);
+        $resetRecord = $stmt->fetch();
+
+        if (!$resetRecord) {
+            return ['success' => false, 'message' => 'Link de recuperação inválido ou expirado.'];
+        }
+
+        // Atualizar senha
+        $user = $this->users->findByEmail($email);
+        if ($user) {
+            $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
+            $stmt = $db->prepare("UPDATE users SET password = :password WHERE email = :email");
+            $stmt->execute([':password' => $hashedPassword, ':email' => $email]);
+            
+            // Apagar token usado
+            $stmt = $db->prepare("DELETE FROM password_resets WHERE email = :email");
+            $stmt->execute([':email' => $email]);
+
+            return ['success' => true, 'message' => 'Palavra-passe alterada com sucesso! Já pode iniciar sessão.'];
+        }
+
+        return ['success' => false, 'message' => 'Utilizador não encontrado.'];
+    }
 }

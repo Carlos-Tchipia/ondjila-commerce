@@ -4,14 +4,29 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root'
 })
 export class ThemeService {
-  isDarkMode = signal(false);
+  isDarkMode = signal(typeof window !== 'undefined' ? localStorage.getItem('theme') === 'dark' : false);
+
+  constructor() {
+    if (typeof window !== 'undefined') {
+      this.applyTheme();
+    }
+  }
 
   toggleTheme() {
     this.isDarkMode.set(!this.isDarkMode());
-    if (this.isDarkMode()) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('theme', this.isDarkMode() ? 'dark' : 'light');
+      this.applyTheme();
+    }
+  }
+
+  private applyTheme() {
+    if (typeof window !== 'undefined') {
+      if (this.isDarkMode()) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
     }
   }
 }

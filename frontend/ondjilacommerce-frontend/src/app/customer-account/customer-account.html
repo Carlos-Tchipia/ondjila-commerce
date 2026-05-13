@@ -22,28 +22,35 @@
           <a routerLink="/customer-account/orders" class="text-[#4f4634] hover:text-[#C8960C] transition-colors pl-3 border-l-2 border-transparent">Histórico de Encomendas</a>
           <a routerLink="/customer-account/addresses" class="text-[#4f4634] hover:text-[#C8960C] transition-colors pl-3 border-l-2 border-transparent">Moradas</a>
           <a routerLink="/customer-account/details" class="text-[#4f4634] hover:text-[#C8960C] transition-colors pl-3 border-l-2 border-transparent">Detalhes da Conta</a>
-          <a routerLink="/login" class="text-red-600 hover:text-red-700 transition-colors pl-3 border-l-2 border-transparent mt-4">Sair</a>
+          <button (click)="logout()" class="text-left text-red-600 hover:text-red-700 transition-colors pl-3 border-l-2 border-transparent mt-4">Sair</button>
         </nav>
       </div>
     </aside>
 
     <section class="md:col-span-3 space-y-8">
-      <h2 class="text-3xl font-light text-[#201b12]">Bem-vindo(a), Goro!</h2>
+      <h2 class="text-3xl font-light text-[#201b12]">Bem-vindo(a), {{ currentUser?.name || 'Cliente' }}!</h2>
       
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div class="bg-white p-8 rounded-lg shadow-[0_2px_12px_rgba(200,150,12,0.06)] border border-[#E8E4DC]">
           <h3 class="text-xs uppercase tracking-widest text-[#4f4634] mb-4">Última Encomenda</h3>
-          <p class="text-[#201b12] mb-2 font-medium">Auscultadores Ondjila Pro V2</p>
-          <p class="text-[#C8960C] text-lg mb-4">61.500 Kz</p>
-          <div class="inline-block bg-[#f7ecde] text-[#C8960C] px-3 py-1 text-xs uppercase tracking-wider rounded-md">Em Processamento</div>
+          
+          <ng-container *ngIf="latestOrder; else noOrders">
+            <p class="text-[#201b12] mb-2 font-medium">Encomenda #{{ latestOrder.id }}</p>
+            <p class="text-[#C8960C] text-lg mb-4">{{ formatPrice(latestOrder.total_amount) }}</p>
+            <div class="inline-block bg-[#f7ecde] text-[#C8960C] px-3 py-1 text-xs uppercase tracking-wider rounded-md">{{ latestOrder.status }}</div>
+          </ng-container>
+          
+          <ng-template #noOrders>
+            <p class="text-[#201b12] text-sm">Ainda não efetuou nenhuma encomenda.</p>
+          </ng-template>
         </div>
 
         <div class="bg-white p-8 rounded-lg shadow-[0_2px_12px_rgba(200,150,12,0.06)] border border-[#E8E4DC]">
           <h3 class="text-xs uppercase tracking-widest text-[#4f4634] mb-4">Morada Principal</h3>
           <p class="text-[#201b12] text-sm leading-relaxed">
-            Goro Maromba<br>
-            Rua da Mansão, Nº 10<br>
-            Luanda, Angola
+            {{ currentUser?.name }}<br>
+            {{ currentUser?.address || 'Nenhuma morada registada.' }}<br>
+            Angola
           </p>
           <button class="mt-4 text-[#C8960C] text-xs uppercase tracking-widest hover:underline">Editar</button>
         </div>

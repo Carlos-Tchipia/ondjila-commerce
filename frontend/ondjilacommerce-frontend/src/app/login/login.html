@@ -27,7 +27,8 @@
 <main class="flex-grow flex items-center justify-center w-full px-gutter py-xl">
 <div class="bg-white w-full max-w-[480px] rounded-card shadow-gold overflow-hidden border border-outline-variant/30">
 <!-- Tab Switcher -->
-<div class="flex border-b border-outline-variant/30">
+<!-- Tab Switcher -->
+<div *ngIf="!isRecoveryMode" class="flex border-b border-outline-variant/30">
 <button (click)="isLoginMode = true" [class.border-primary-container]="isLoginMode" [class.text-primary-container]="isLoginMode" class="flex-1 py-md font-label-caps text-label-caps text-on-surface-variant border-b-2 border-transparent transition-all uppercase tracking-widest">
                     Entrar
                 </button>
@@ -39,16 +40,23 @@
 <!-- Form Content -->
 <div class="p-xl space-y-md">
 <div class="text-center space-y-xs mb-md">
-<h1 class="font-section-title text-[24px] text-on-background uppercase tracking-widest">{{ isLoginMode ? 'Bem-vindo de volta' : 'Junte-se a nós' }}</h1>
-<p class="font-body-main text-sm text-on-surface-variant">{{ isLoginMode ? 'Aceda à sua conta exclusiva ONDJILA.' : 'Crie a sua conta para uma experiência personalizada.' }}</p>
+<h1 class="font-section-title text-[24px] text-on-background uppercase tracking-widest">
+    {{ isRecoveryMode ? 'Recuperar Senha' : (isLoginMode ? 'Bem-vindo de volta' : 'Junte-se a nós') }}
+</h1>
+<p class="font-body-main text-sm text-on-surface-variant">
+    {{ isRecoveryMode ? 'Introduza o seu e-mail para receber as instruções.' : (isLoginMode ? 'Aceda à sua conta exclusiva ONDJILA.' : 'Crie a sua conta para uma experiência personalizada.') }}
+</p>
 </div>
 
 <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="space-y-md">
 <div *ngIf="errorMessage" class="bg-error/10 text-error text-[10px] p-md rounded-lg border border-error/20 font-bold uppercase tracking-wider text-center">
     {{ errorMessage }}
 </div>
+<div *ngIf="successMessage" class="bg-green-100 text-green-700 text-[10px] p-md rounded-lg border border-green-300 font-bold uppercase tracking-wider text-center">
+    {{ successMessage }}
+</div>
 
-<div *ngIf="!isLoginMode" class="space-y-base">
+<div *ngIf="!isLoginMode && !isRecoveryMode" class="space-y-base">
 <label class="font-label-caps text-[10px] text-on-surface-variant block uppercase tracking-widest">Nome Completo</label>
 <input name="name" [(ngModel)]="name" class="w-full h-12 px-md bg-surface-container-lowest border border-outline-variant/50 rounded-lg focus:outline-none focus:border-primary-container transition-all text-sm" placeholder="Seu nome" type="text"/>
 </div>
@@ -58,15 +66,15 @@
 <input name="email" [(ngModel)]="email" class="w-full h-12 px-md bg-surface-container-lowest border border-outline-variant/50 rounded-lg focus:outline-none focus:border-primary-container transition-all text-sm" placeholder="exemplo@ondjila.com" type="email"/>
 </div>
 
-<div class="space-y-base">
+<div *ngIf="!isRecoveryMode" class="space-y-base">
 <div class="flex justify-between items-center">
 <label class="font-label-caps text-[10px] text-on-surface-variant block uppercase tracking-widest">Palavra-passe</label>
-<a *ngIf="isLoginMode" class="text-[10px] font-label-caps text-primary-container uppercase tracking-wider hover:underline cursor-pointer">Esqueci a senha</a>
+<a *ngIf="isLoginMode" (click)="toggleRecovery()" class="text-[10px] font-label-caps text-primary-container uppercase tracking-wider hover:underline cursor-pointer">Esqueci a senha</a>
 </div>
 <input name="password" [(ngModel)]="password" class="w-full h-12 px-md bg-surface-container-lowest border border-outline-variant/50 rounded-lg focus:outline-none focus:border-primary-container transition-all text-sm" placeholder="••••••••" type="password"/>
 </div>
 
-<div *ngIf="!isLoginMode" class="space-y-base">
+<div *ngIf="!isLoginMode && !isRecoveryMode" class="space-y-base">
 <label class="font-label-caps text-[10px] text-on-surface-variant block uppercase tracking-widest">Confirmar Palavra-passe</label>
 <input name="password_confirmation" [(ngModel)]="password_confirmation" class="w-full h-12 px-md bg-surface-container-lowest border border-outline-variant/50 rounded-lg focus:outline-none focus:border-primary-container transition-all text-sm" placeholder="••••••••" type="password"/>
 </div>
@@ -74,11 +82,16 @@
 <div class="pt-md">
 <button [disabled]="isLoading" class="w-full h-[56px] bg-primary-container text-white font-label-caps text-label-caps uppercase tracking-widest hover:bg-[#A87A09] transition-all gold-shadow disabled:opacity-50 flex justify-center items-center gap-sm" type="submit">
     <span *ngIf="isLoading" class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
-    {{ isLoginMode ? (isLoading ? 'Entrando...' : 'ENTRAR') : (isLoading ? 'Criando...' : 'CRIAR CONTA') }}
+    {{ isRecoveryMode ? (isLoading ? 'Enviando...' : 'ENVIAR E-MAIL') : (isLoginMode ? (isLoading ? 'Entrando...' : 'ENTRAR') : (isLoading ? 'Criando...' : 'CRIAR CONTA')) }}
 </button>
+</div>
+
+<div *ngIf="isRecoveryMode" class="text-center pt-4">
+<a (click)="toggleRecovery()" class="text-[10px] font-label-caps text-on-surface-variant uppercase tracking-wider hover:text-primary-container cursor-pointer transition-colors">Voltar ao Login</a>
 </div>
 </form>
 
+<div *ngIf="!isRecoveryMode">
 <div class="relative py-md">
 <div class="absolute inset-0 flex items-center">
 <div class="w-full border-t border-outline-variant/30"></div>
@@ -95,6 +108,7 @@
 <button class="flex items-center justify-center gap-xs h-12 border border-outline-variant hover:bg-surface-container-low transition-colors font-label-caps text-[10px] uppercase tracking-wider">
 <span class="material-symbols-outlined text-[18px]" translate="no">smartphone</span> Apple
 </button>
+</div>
 </div>
 </div>
 </div>
