@@ -3,6 +3,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 export interface User {
   id: number;
@@ -21,7 +22,7 @@ interface AuthResponse {
   };
 }
 
-const API_URL = 'http://localhost/ondjila-commerce/backend/api';
+const API_URL = environment.apiUrl;
 const TOKEN_KEY = 'ondjila_token';
 const USER_KEY = 'ondjila_user';
 
@@ -64,12 +65,23 @@ export class UserService {
       );
   }
 
-  forgotPassword(email: string): Observable<{success: boolean, data: {message: string}}> {
-    return this.http.post<{success: boolean, data: {message: string}}>(`${API_URL}/auth/forgot-password`, { email });
+  forgotPassword(email: string): Observable<{success: boolean, data: {message: string; reset_url?: string | null}}> {
+    return this.http.post<{success: boolean, data: {message: string; reset_url?: string | null}}>(`${API_URL}/auth/forgot-password`, { email });
   }
 
   resetPassword(email: string, token: string, password: string): Observable<{success: boolean, data: {message: string}}> {
     return this.http.post<{success: boolean, data: {message: string}}>(`${API_URL}/auth/reset-password`, { email, token, password });
+  }
+
+  updateProfile(data: { name: string; phone?: string | null; address?: string | null }): Observable<{success: boolean, data: {user: User; message: string}}> {
+    return this.http.post<{success: boolean, data: {user: User; message: string}}>(`${API_URL}/auth/me/update`, data)
+      .pipe(
+        tap(res => {
+          if (res.success && res.data?.user) {
+            this.persistUser(res.data.user);
+          }
+        })
+      );
   }
 
   logout(): void {
@@ -110,6 +122,13 @@ export class UserService {
   private persistSession(token: string, user: User): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem(TOKEN_KEY, token);
+      localStorage.setItem(USER_KEY, JSON.stringify(user));
+    }
+    this.currentUserSubject.next(user);
+  }
+
+  private persistUser(user: User): void {
+    if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem(USER_KEY, JSON.stringify(user));
     }
     this.currentUserSubject.next(user);

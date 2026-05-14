@@ -6,13 +6,16 @@
 USE `ondjila_commerce`;
 
 -- ------------------------------------------------------------
--- Admin + Utilizador de Teste
--- Senha: Admin@2026  (hash bcrypt)
+-- Perfis de teste
+-- Admin: Admin@2026!
+-- Clientes: Cliente@2026!
 -- ------------------------------------------------------------
-INSERT INTO `users` (`name`, `email`, `password`, `role`) VALUES
-('Carlos Tchipia', 'carlos@ondjila.ao',  '$2y$12$q8u4Vm1nM9pP3JaK.gSCeORfGRGlJCn0qm0I6F.4jEO7XBXwVmGQy', 'admin'),
-('Ana Mbala',      'ana@gmail.com',      '$2y$12$q8u4Vm1nM9pP3JaK.gSCeORfGRGlJCn0qm0I6F.4jEO7XBXwVmGQy', 'customer'),
-('Pedro Lopes',    'pedro@gmail.com',    '$2y$12$q8u4Vm1nM9pP3JaK.gSCeORfGRGlJCn0qm0I6F.4jEO7XBXwVmGQy', 'customer');
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`) VALUES
+(1, 'Carlos Ondjila',  'carlos@ondjila.ao',  '$2y$10$Ktdefl/3KMFLAcEz6hgLe.VJ2hbvhyNDGddCdVdCNbky0LwDFuGWC', 'admin'),
+(2, 'Ana Mbala',       'ana@gmail.com',       '$2y$10$2FkbsQLOjRydBV94PxCKf.tq1fURLA4vtgWnpR4FnBMl6JFRJv0xy', 'customer'),
+(3, 'Pedro Lopes',     'pedro@gmail.com',     '$2y$10$2FkbsQLOjRydBV94PxCKf.tq1fURLA4vtgWnpR4FnBMl6JFRJv0xy', 'customer'),
+(4, 'Jose Tala',       'jose@ondjila.ao',     '$2y$10$2FkbsQLOjRydBV94PxCKf.tq1fURLA4vtgWnpR4FnBMl6JFRJv0xy', 'customer'),
+(5, 'Cliente Ondjila', 'cliente@ondjila.ao',  '$2y$10$2FkbsQLOjRydBV94PxCKf.tq1fURLA4vtgWnpR4FnBMl6JFRJv0xy', 'customer');
 
 -- ------------------------------------------------------------
 -- Categorias

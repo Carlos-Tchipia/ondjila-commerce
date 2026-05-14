@@ -69,6 +69,35 @@ class AuthController
         respond($user->toArray());
     }
 
+    public function updateMe(): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            respondError('Metodo nao permitido.', 405);
+        }
+
+        $payload = requireAuth();
+        $data = getBody();
+        $name = trim((string) ($data['name'] ?? ''));
+
+        if ($name === '' || strlen($name) < 2) {
+            respondError('O nome deve ter pelo menos 2 caracteres.', 422, ['name' => 'Nome invalido.']);
+        }
+
+        $repo = new \App\Repositories\UserRepository();
+        $updated = $repo->updateProfile((int) $payload->sub, [
+            'name' => $name,
+            'phone' => trim((string) ($data['phone'] ?? '')) ?: null,
+            'address' => trim((string) ($data['address'] ?? '')) ?: null,
+        ]);
+
+        if (!$updated) {
+            respondError('Nao foi possivel atualizar a conta.', 500);
+        }
+
+        $user = $repo->findById((int) $payload->sub);
+        respond(['user' => $user?->toArray(), 'message' => 'Conta atualizada com sucesso.']);
+    }
+
     public function logout(): void
     {
         // Aqui confirmamos apenas o sucesso da operação.
@@ -90,7 +119,10 @@ class AuthController
             respondError($result['message'], 400);
         }
 
-        respond(['message' => $result['message']]);
+        respond([
+            'message' => $result['message'],
+            'reset_url' => $result['reset_url'] ?? null,
+        ]);
     }
 
     public function resetPassword(): void

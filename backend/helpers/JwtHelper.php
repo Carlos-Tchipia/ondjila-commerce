@@ -31,7 +31,10 @@ function validateJwt(string $token): ?object
 
 function extractBearerToken(): ?string
 {
-    $header = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
+    $header = $_SERVER['HTTP_AUTHORIZATION']
+        ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION']
+        ?? $_SERVER['Authorization']
+        ?? '';
     if (preg_match('/Bearer\s+(.+)/', $header, $matches)) {
         return $matches[1];
     }

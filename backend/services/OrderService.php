@@ -5,27 +5,32 @@ namespace App\Services;
 use App\Models\Order;
 use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
+use App\Repositories\UserRepository;
 
 class OrderService
 {
     private OrderRepository $orders;
     private ProductRepository $products;
+    private UserRepository $users;
+    private StripePaymentService $payments;
+    private TransactionalEmailService $emails;
 
     public function __construct()
     {
         $this->orders   = new OrderRepository();
         $this->products = new ProductRepository();
+        $this->users    = new UserRepository();
+        $this->payments = new StripePaymentService();
+        $this->emails   = new TransactionalEmailService();
     }
 
     /**
-     * Cria um pedido e simula o processamento de pagamento.
-     * Em produção, aqui seria feita a chamada ao Stripe ou outro gateway.
+     * Cria o pedido como pendente, reserva stock, processa pagamento e confirma o pedido.
      */
     public function createOrder(int $userId, array $data): array
     {
-        // Validação dos items
         if (empty($data['items'])) {
-            return ['success' => false, 'message' => 'O carrinho está vazio.'];
+            return ['success' => false, 'message' => 'O carrinho esta vazio.'];
         }
 
         $items    = [];
@@ -34,47 +39,39 @@ class OrderService
         foreach ($data['items'] as $item) {
             $product = $this->products->findById((int) $item['product_id']);
             if ($product === null) {
-                return ['success' => false, 'message' => "Produto ID {$item['product_id']} não encontrado."];
+                return ['success' => false, 'message' => "Produto ID {$item['product_id']} nao encontrado."];
             }
-            if ($product->stock < $item['quantity']) {
+            $quantity = max(1, (int) ($item['quantity'] ?? 1));
+            if ($product->stock < $quantity) {
                 return ['success' => false, 'message' => "Stock insuficiente para: {$product->name}"];
             }
 
-            $lineTotal = $product->price * $item['quantity'];
+            $lineTotal = $product->price * $quantity;
             $subtotal += $lineTotal;
 
             $items[] = [
                 'product_id'  => $product->id,
                 'product_name'=> $product->name,
                 'price'       => $product->price,
-                'quantity'    => (int) $item['quantity'],
+                'quantity'    => $quantity,
                 'total'       => $lineTotal,
             ];
         }
 
-        $shipping = $subtotal >= 100000 ? 0.0 : 2500.0; // Envio grátis acima de 100.000 Kz
+        $shipping = $subtotal >= 100000 ? 0.0 : 2500.0;
         $total    = $subtotal + $shipping;
 
-        // ============================================================
-        // PAYMENT STUB — Simulação de Pagamento
-        // Em produção: substituir por chamada à API do Stripe/PayGate
-        // ============================================================
-        $paymentResult = $this->simulatePayment($total, $data['payment_method'] ?? 'card');
-
-        if (!$paymentResult['success']) {
-            return ['success' => false, 'message' => 'Pagamento recusado. Tente novamente.'];
-        }
-
-        // Criar o pedido na BD
         $order = new Order(
             id:               null,
             user_id:          $userId,
-            status:           'processing',
+            status:           'pending',
             subtotal:         $subtotal,
             shipping:         $shipping,
             total:            $total,
-            payment_status:   'paid',
+            payment_status:   'pending',
             payment_method:   $data['payment_method'] ?? 'card',
+            currency:         'AOA',
+            exchange_rate:    1.0,
             shipping_address: $data['shipping_address'] ?? null,
             notes:            $data['notes'] ?? null,
             items:            $items,
@@ -82,12 +79,46 @@ class OrderService
 
         $orderId = $this->orders->create($order, $items);
 
-        // Decrementar stock
         foreach ($items as $item) {
-            $this->products->decrementStock($item['product_id'], $item['quantity']);
+            if (!$this->products->decrementStock($item['product_id'], $item['quantity'])) {
+                $this->restoreStock($items);
+                $this->orders->updatePayment($orderId, 'failed', 'pending', null, 'stock');
+                return ['success' => false, 'message' => "Stock indisponível para: {$item['product_name']}"];
+            }
         }
 
+        $paymentResult = $this->payments->chargeOrder($orderId, $total, 'AOA');
+
+        if (!$paymentResult['success']) {
+            $this->restoreStock($items);
+            $this->orders->updatePayment(
+                $orderId,
+                'failed',
+                'pending',
+                $paymentResult['reference'] ?? null,
+                $paymentResult['provider'] ?? null
+            );
+
+            return ['success' => false, 'message' => $paymentResult['error'] ?? 'Pagamento recusado. Tente novamente.'];
+        }
+
+        $this->orders->updatePayment(
+            $orderId,
+            'paid',
+            'processing',
+            $paymentResult['reference'] ?? null,
+            $paymentResult['provider'] ?? null
+        );
+
         $createdOrder = $this->orders->findById($orderId);
+        if ($createdOrder === null) {
+            return ['success' => false, 'message' => 'Pedido criado, mas nao foi possivel carregar os dados finais.'];
+        }
+
+        $user = $this->users->findById($userId);
+        if ($user !== null) {
+            $this->emails->sendOrderConfirmation($user->email, $user->name, $createdOrder->toArray());
+        }
 
         return [
             'success'          => true,
@@ -96,22 +127,10 @@ class OrderService
         ];
     }
 
-    /**
-     * Simulação do gateway de pagamento.
-     * Retorna sempre sucesso com uma referência fictícia.
-     * TODO: Integrar Stripe em produção.
-     */
-    private function simulatePayment(float $amount, string $method): array
+    private function restoreStock(array $items): void
     {
-        // Simular um ligeiro delay de processamento
-        usleep(200000); // 200ms
-
-        return [
-            'success'   => true,
-            'reference' => 'ONDJILA-' . strtoupper(bin2hex(random_bytes(6))),
-            'amount'    => $amount,
-            'method'    => $method,
-            'timestamp' => date('c'),
-        ];
+        foreach ($items as $item) {
+            $this->products->incrementStock($item['product_id'], $item['quantity']);
+        }
     }
 }

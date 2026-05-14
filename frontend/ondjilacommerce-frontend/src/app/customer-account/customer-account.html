@@ -1,15 +1,15 @@
 <div class="min-h-screen bg-[#F5F2EC] flex flex-col font-['Inter']">
   <header class="w-full bg-white h-[80px] flex items-center justify-between px-8 border-b border-[#E8E4DC]">
-    <div class="font-light text-2xl tracking-widest text-[#C8960C] uppercase">Ondjila Gold</div>
+    <a routerLink="/" class="font-light text-2xl tracking-widest text-[#C8960C] uppercase">Ondjila Gold</a>
     <nav class="hidden md:flex gap-md font-body-main text-body-main">
-<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/">Início</a>
-<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/categories">Categorias</a>
-<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/about">Sobre Nós</a>
-<a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/contact">Contactos</a>
-</nav>
+      <a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/">Inicio</a>
+      <a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/categories">Categorias</a>
+      <a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/about">Sobre Nos</a>
+      <a class="text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/contact">Contactos</a>
+    </nav>
     <div class="flex items-center gap-4">
-      <a routerLink="/customer-account" class="material-symbols-outlined text-[#C8960C]">person</a>
-      <a routerLink="/cart" class="material-symbols-outlined text-[#201b12] hover:text-[#C8960C]">shopping_cart</a>
+      <a routerLink="/customer-account" class="material-symbols-outlined text-[#C8960C]" translate="no">person</a>
+      <a routerLink="/cart" class="material-symbols-outlined text-[#201b12] hover:text-[#C8960C]" translate="no">shopping_cart</a>
     </div>
   </header>
 
@@ -18,43 +18,118 @@
       <div class="bg-white p-6 rounded-lg shadow-[0_2px_12px_rgba(200,150,12,0.06)] border border-[#E8E4DC]">
         <h3 class="text-xl text-[#201b12] font-light mb-6">A Minha Conta</h3>
         <nav class="flex flex-col gap-4 text-sm">
-          <a routerLink="/customer-account" class="text-[#C8960C] font-medium border-l-2 border-[#C8960C] pl-3">Resumo</a>
-          <a routerLink="/customer-account/orders" class="text-[#4f4634] hover:text-[#C8960C] transition-colors pl-3 border-l-2 border-transparent">Histórico de Encomendas</a>
-          <a routerLink="/customer-account/addresses" class="text-[#4f4634] hover:text-[#C8960C] transition-colors pl-3 border-l-2 border-transparent">Moradas</a>
-          <a routerLink="/customer-account/details" class="text-[#4f4634] hover:text-[#C8960C] transition-colors pl-3 border-l-2 border-transparent">Detalhes da Conta</a>
+          <button type="button" (click)="setTab('summary')" [ngClass]="activeTab === 'summary' ? 'text-[#C8960C] border-[#C8960C] font-medium' : 'text-[#4f4634] border-transparent'" class="text-left hover:text-[#C8960C] transition-colors pl-3 border-l-2">Resumo</button>
+          <button type="button" (click)="setTab('orders')" [ngClass]="activeTab === 'orders' ? 'text-[#C8960C] border-[#C8960C] font-medium' : 'text-[#4f4634] border-transparent'" class="text-left hover:text-[#C8960C] transition-colors pl-3 border-l-2">Historico de Encomendas</button>
+          <button type="button" (click)="setTab('addresses')" [ngClass]="activeTab === 'addresses' ? 'text-[#C8960C] border-[#C8960C] font-medium' : 'text-[#4f4634] border-transparent'" class="text-left hover:text-[#C8960C] transition-colors pl-3 border-l-2">Moradas</button>
+          <button type="button" (click)="setTab('details')" [ngClass]="activeTab === 'details' ? 'text-[#C8960C] border-[#C8960C] font-medium' : 'text-[#4f4634] border-transparent'" class="text-left hover:text-[#C8960C] transition-colors pl-3 border-l-2">Detalhes da Conta</button>
           <button (click)="logout()" class="text-left text-red-600 hover:text-red-700 transition-colors pl-3 border-l-2 border-transparent mt-4">Sair</button>
         </nav>
       </div>
     </aside>
 
     <section class="md:col-span-3 space-y-8">
-      <h2 class="text-3xl font-light text-[#201b12]">Bem-vindo(a), {{ currentUser?.name || 'Cliente' }}!</h2>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div class="bg-white p-8 rounded-lg shadow-[0_2px_12px_rgba(200,150,12,0.06)] border border-[#E8E4DC]">
-          <h3 class="text-xs uppercase tracking-widest text-[#4f4634] mb-4">Última Encomenda</h3>
-          
-          <ng-container *ngIf="latestOrder; else noOrders">
-            <p class="text-[#201b12] mb-2 font-medium">Encomenda #{{ latestOrder.id }}</p>
-            <p class="text-[#C8960C] text-lg mb-4">{{ formatPrice(latestOrder.total_amount) }}</p>
-            <div class="inline-block bg-[#f7ecde] text-[#C8960C] px-3 py-1 text-xs uppercase tracking-wider rounded-md">{{ latestOrder.status }}</div>
-          </ng-container>
-          
-          <ng-template #noOrders>
-            <p class="text-[#201b12] text-sm">Ainda não efetuou nenhuma encomenda.</p>
-          </ng-template>
+      <div>
+        <h2 class="text-3xl font-light text-[#201b12]">Bem-vindo(a), {{ currentUser?.name || 'Cliente' }}!</h2>
+        <p class="text-sm text-[#4f4634] mt-2">Acompanhe compras, moradas e dados da sua conta.</p>
+      </div>
+
+      <div *ngIf="errorMessage" role="alert" class="bg-red-50 text-red-700 border border-red-200 rounded-lg p-4 text-sm">
+        {{ errorMessage }}
+      </div>
+      <div *ngIf="successMessage" role="alert" class="bg-green-50 text-green-700 border border-green-200 rounded-lg p-4 text-sm">
+        {{ successMessage }}
+      </div>
+
+      <ng-container *ngIf="activeTab === 'summary'">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-white p-6 rounded-lg shadow-[0_2px_12px_rgba(200,150,12,0.06)] border border-[#E8E4DC]">
+            <h3 class="text-xs uppercase tracking-widest text-[#4f4634] mb-3">Total de Compras</h3>
+            <p class="text-3xl font-light text-[#201b12]">{{ orders.length }}</p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow-[0_2px_12px_rgba(200,150,12,0.06)] border border-[#E8E4DC]">
+            <h3 class="text-xs uppercase tracking-widest text-[#4f4634] mb-3">Ultima Encomenda</h3>
+            <p class="text-lg text-[#201b12]">{{ latestOrder ? ('#' + latestOrder.id) : 'Sem encomendas' }}</p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow-[0_2px_12px_rgba(200,150,12,0.06)] border border-[#E8E4DC]">
+            <h3 class="text-xs uppercase tracking-widest text-[#4f4634] mb-3">Morada</h3>
+            <p class="text-sm text-[#201b12]">{{ currentUser?.address || 'Nenhuma morada registada.' }}</p>
+          </div>
         </div>
 
         <div class="bg-white p-8 rounded-lg shadow-[0_2px_12px_rgba(200,150,12,0.06)] border border-[#E8E4DC]">
-          <h3 class="text-xs uppercase tracking-widest text-[#4f4634] mb-4">Morada Principal</h3>
-          <p class="text-[#201b12] text-sm leading-relaxed">
-            {{ currentUser?.name }}<br>
-            {{ currentUser?.address || 'Nenhuma morada registada.' }}<br>
-            Angola
-          </p>
-          <button class="mt-4 text-[#C8960C] text-xs uppercase tracking-widest hover:underline">Editar</button>
+          <h3 class="text-xs uppercase tracking-widest text-[#4f4634] mb-4">Ultima Encomenda</h3>
+          <ng-container *ngIf="latestOrder; else noOrders">
+            <p class="text-[#201b12] mb-2 font-medium">Encomenda #{{ latestOrder.id }}</p>
+            <p class="text-[#C8960C] text-lg mb-4">{{ formatPrice(latestOrder.total) }}</p>
+            <div class="inline-block bg-[#f7ecde] text-[#C8960C] px-3 py-1 text-xs uppercase tracking-wider rounded-md">{{ statusLabel(latestOrder.status) }}</div>
+          </ng-container>
+          <ng-template #noOrders>
+            <p class="text-[#201b12] text-sm">Ainda nao efetuou nenhuma encomenda.</p>
+          </ng-template>
         </div>
-      </div>
+      </ng-container>
+
+      <ng-container *ngIf="activeTab === 'orders'">
+        <div class="bg-white rounded-lg shadow-[0_2px_12px_rgba(200,150,12,0.06)] border border-[#E8E4DC] overflow-hidden">
+          <div class="p-6 border-b border-[#E8E4DC] flex items-center justify-between">
+            <h3 class="text-lg font-light text-[#201b12]">Historico de Encomendas</h3>
+            <button type="button" (click)="loadOrders()" class="text-[#C8960C] text-xs uppercase tracking-widest hover:underline">Atualizar</button>
+          </div>
+          <div *ngIf="isLoadingOrders" class="p-6 text-sm text-[#4f4634]">A carregar encomendas...</div>
+          <div *ngIf="!isLoadingOrders && orders.length === 0" class="p-6 text-sm text-[#4f4634]">Ainda nao existem encomendas.</div>
+          <div *ngFor="let order of orders" class="p-6 border-b border-[#E8E4DC] last:border-b-0">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <p class="font-medium text-[#201b12]">Encomenda #{{ order.id }}</p>
+                <p class="text-xs text-[#4f4634]">{{ order.created_at }} · {{ order.payment_status }}</p>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="bg-[#f7ecde] text-[#C8960C] px-3 py-1 text-xs uppercase tracking-wider rounded-md">{{ statusLabel(order.status) }}</span>
+                <strong class="text-[#201b12]">{{ formatPrice(order.total) }}</strong>
+                <button *ngIf="canCancel(order)" type="button" (click)="cancelOrder(order.id)" class="border border-red-200 text-red-600 px-3 py-1 text-xs uppercase tracking-widest rounded hover:bg-red-50">Cancelar</button>
+              </div>
+            </div>
+            <div *ngIf="order.items?.length" class="mt-4 grid gap-2">
+              <div *ngFor="let item of order.items" class="text-sm text-[#4f4634] flex justify-between gap-4">
+                <span>{{ item.product_name }} x{{ item.quantity }}</span>
+                <span>{{ formatPrice(item.total) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="activeTab === 'addresses'">
+        <form (ngSubmit)="saveProfile()" class="bg-white p-8 rounded-lg shadow-[0_2px_12px_rgba(200,150,12,0.06)] border border-[#E8E4DC] space-y-4">
+          <h3 class="text-lg font-light text-[#201b12]">Morada Principal</h3>
+          <label class="block text-xs uppercase tracking-widest text-[#4f4634]">Morada de entrega</label>
+          <textarea [(ngModel)]="profileForm.address" name="address" rows="4" class="w-full border border-[#E8E4DC] rounded-lg p-3 text-sm outline-none focus:border-[#C8960C]" placeholder="Ex: Rua, bairro, municipio, provincia"></textarea>
+          <button type="submit" [disabled]="isSavingProfile" class="bg-[#C8960C] text-white px-6 py-3 text-xs uppercase tracking-widest rounded hover:bg-[#A87A09] disabled:opacity-50">
+            {{ isSavingProfile ? 'A guardar...' : 'Guardar Morada' }}
+          </button>
+        </form>
+      </ng-container>
+
+      <ng-container *ngIf="activeTab === 'details'">
+        <form (ngSubmit)="saveProfile()" class="bg-white p-8 rounded-lg shadow-[0_2px_12px_rgba(200,150,12,0.06)] border border-[#E8E4DC] space-y-4">
+          <h3 class="text-lg font-light text-[#201b12]">Detalhes da Conta</h3>
+          <div>
+            <label class="block text-xs uppercase tracking-widest text-[#4f4634] mb-2">Nome</label>
+            <input [(ngModel)]="profileForm.name" name="name" class="w-full border border-[#E8E4DC] rounded-lg p-3 text-sm outline-none focus:border-[#C8960C]" />
+          </div>
+          <div>
+            <label class="block text-xs uppercase tracking-widest text-[#4f4634] mb-2">Email</label>
+            <input [value]="currentUser?.email" disabled class="w-full border border-[#E8E4DC] rounded-lg p-3 text-sm bg-gray-50 text-gray-500" />
+          </div>
+          <div>
+            <label class="block text-xs uppercase tracking-widest text-[#4f4634] mb-2">Telefone</label>
+            <input [(ngModel)]="profileForm.phone" name="phone" class="w-full border border-[#E8E4DC] rounded-lg p-3 text-sm outline-none focus:border-[#C8960C]" placeholder="+244..." />
+          </div>
+          <button type="submit" [disabled]="isSavingProfile" class="bg-[#C8960C] text-white px-6 py-3 text-xs uppercase tracking-widest rounded hover:bg-[#A87A09] disabled:opacity-50">
+            {{ isSavingProfile ? 'A guardar...' : 'Guardar Detalhes' }}
+          </button>
+        </form>
+      </ng-container>
     </section>
   </main>
 

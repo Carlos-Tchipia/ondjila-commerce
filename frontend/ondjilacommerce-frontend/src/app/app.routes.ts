@@ -59,6 +59,9 @@ export const routes: Routes = [
   { path: 'checkout',         component: Checkout,        canActivate: [authGuard] },
   { path: 'order-success',    component: OrderSuccess,    canActivate: [authGuard] },
   { path: 'customer-account', component: CustomerAccount, canActivate: [authGuard] },
+  { path: 'customer-account/orders', component: CustomerAccount, canActivate: [authGuard] },
+  { path: 'customer-account/addresses', component: CustomerAccount, canActivate: [authGuard] },
+  { path: 'customer-account/details', component: CustomerAccount, canActivate: [authGuard] },
 
   // Painel de Administração (ADMIN)
   { 

@@ -19,8 +19,8 @@ class MailHelper
             $this->mail->isSMTP();
             $this->mail->Host       = $_ENV['MAIL_HOST'] ?? 'sandbox.smtp.mailtrap.io';
             $this->mail->SMTPAuth   = true;
-            $this->mail->Username   = $_ENV['MAIL_USERNAME'] ?? ''; // Configurar no .env
-            $this->mail->Password   = $_ENV['MAIL_PASSWORD'] ?? ''; // Configurar no .env
+            $this->mail->Username   = $_ENV['MAIL_USERNAME'] ?? $_ENV['MAIL_USER'] ?? '';
+            $this->mail->Password   = $_ENV['MAIL_PASSWORD'] ?? $_ENV['MAIL_PASS'] ?? '';
             $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $this->mail->Port       = (int)($_ENV['MAIL_PORT'] ?? 2525);
 
@@ -39,7 +39,8 @@ class MailHelper
             $this->mail->clearAddresses();
             $this->mail->addAddress($toEmail, $toName);
 
-            $resetUrl = "http://localhost:4200/reset-password?token={$token}&email=" . urlencode($toEmail);
+            $frontendUrl = rtrim($_ENV['FRONTEND_URL'] ?? $_ENV['APP_FRONTEND_URL'] ?? 'http://localhost:4200', '/');
+            $resetUrl = "{$frontendUrl}/reset-password?token={$token}&email=" . urlencode($toEmail);
 
             $this->mail->Subject = 'Recuperação de Palavra-passe - Ondjila Commerce';
             

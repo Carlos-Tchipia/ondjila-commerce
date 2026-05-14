@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface OrderItem {
   product_id: number;
@@ -14,7 +15,7 @@ export interface OrderRequest {
   payment_method: string;
 }
 
-const API_URL = 'http://localhost/ondjila-commerce/backend/api';
+const API_URL = environment.apiUrl;
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +33,9 @@ export class OrderService {
 
   getOrderById(id: number): Observable<any> {
     return this.http.get(`${API_URL}/orders/${id}`);
+  }
+
+  cancelOrder(id: number): Observable<any> {
+    return this.http.post(`${API_URL}/orders/${id}/cancel`, {});
   }
 }

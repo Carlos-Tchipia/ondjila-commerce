@@ -21,19 +21,23 @@ class OrderRepository
 
         try {
             $stmt = $this->db->prepare(
-                'INSERT INTO orders (user_id, status, subtotal, shipping, total, payment_status, payment_method, shipping_address, notes)
-                 VALUES (:user_id, :status, :subtotal, :shipping, :total, :payment_status, :payment_method, :shipping_address, :notes)'
+                'INSERT INTO orders (user_id, status, subtotal, shipping, total, payment_status, payment_method, currency, exchange_rate, payment_reference, payment_provider, shipping_address, notes)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
             );
             $stmt->execute([
-                ':user_id'          => $order->user_id,
-                ':status'           => $order->status,
-                ':subtotal'         => $order->subtotal,
-                ':shipping'         => $order->shipping,
-                ':total'            => $order->total,
-                ':payment_status'   => $order->payment_status,
-                ':payment_method'   => $order->payment_method,
-                ':shipping_address' => $order->shipping_address,
-                ':notes'            => $order->notes,
+                $order->user_id,
+                $order->status,
+                $order->subtotal,
+                $order->shipping,
+                $order->total,
+                $order->payment_status,
+                $order->payment_method,
+                $order->currency,
+                $order->exchange_rate,
+                $order->payment_reference,
+                $order->payment_provider,
+                $order->shipping_address,
+                $order->notes,
             ]);
 
             $orderId = (int) $this->db->lastInsertId();
@@ -96,6 +100,20 @@ class OrderRepository
         return $stmt->execute([':status' => $status, ':id' => $id]);
     }
 
+    public function updatePayment(int $id, string $paymentStatus, string $orderStatus, ?string $reference, ?string $provider): bool
+    {
+        $stmt = $this->db->prepare(
+            'UPDATE orders
+             SET payment_status = ?,
+                 status = ?,
+                 payment_reference = ?,
+                 payment_provider = ?
+             WHERE id = ?'
+        );
+
+        return $stmt->execute([$paymentStatus, $orderStatus, $reference, $provider, $id]);
+    }
+
     private function getItems(int $orderId): array
     {
         $stmt = $this->db->prepare('SELECT * FROM order_items WHERE order_id = :order_id');
@@ -114,6 +132,10 @@ class OrderRepository
             total:            (float) $row['total'],
             payment_status:   $row['payment_status'],
             payment_method:   $row['payment_method'],
+            currency:         $row['currency'] ?? 'AOA',
+            exchange_rate:    (float) ($row['exchange_rate'] ?? 1),
+            payment_reference:$row['payment_reference'] ?? null,
+            payment_provider: $row['payment_provider'] ?? null,
             shipping_address: $row['shipping_address'],
             notes:            $row['notes'],
             created_at:       $row['created_at'],

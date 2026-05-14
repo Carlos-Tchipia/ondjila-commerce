@@ -49,10 +49,10 @@
 </div>
 
 <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="space-y-md">
-<div *ngIf="errorMessage" class="bg-error/10 text-error text-[10px] p-md rounded-lg border border-error/20 font-bold uppercase tracking-wider text-center">
+<div *ngIf="errorMessage" role="alert" class="bg-error/10 text-error text-[10px] p-md rounded-lg border border-error/20 font-bold uppercase tracking-wider text-center">
     {{ errorMessage }}
 </div>
-<div *ngIf="successMessage" class="bg-green-100 text-green-700 text-[10px] p-md rounded-lg border border-green-300 font-bold uppercase tracking-wider text-center">
+<div *ngIf="successMessage" role="alert" class="bg-green-100 text-green-700 text-[10px] p-md rounded-lg border border-green-300 font-bold uppercase tracking-wider text-center">
     {{ successMessage }}
 </div>
 

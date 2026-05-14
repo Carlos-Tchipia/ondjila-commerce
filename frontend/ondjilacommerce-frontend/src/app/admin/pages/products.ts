@@ -123,7 +123,7 @@ import { AdminService } from '../../services/admin/admin.service';
               <div class="space-y-1">
                 <label class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Imagem do Produto</label>
                 <input type="file" accept="image/*" (change)="onFileSelected($event)" class="w-full bg-[#F5F2EC] px-4 py-2 rounded outline-none border border-transparent focus:border-[#C8960C] text-sm">
-                <p *ngIf="formProduct.image_url" class="text-[9px] text-gray-400 mt-1 truncate">Atual: {{ formProduct.image_url }}</p>
+                <input type="url" [(ngModel)]="formProduct.image_url" placeholder="Ou cole uma URL externa da imagem" class="w-full bg-[#F5F2EC] px-4 py-3 rounded outline-none border border-transparent focus:border-[#C8960C] text-sm mt-2">
               </div>
             </div>
             <div class="space-y-1">

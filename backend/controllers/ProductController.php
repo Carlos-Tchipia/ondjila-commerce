@@ -40,8 +40,8 @@ class ProductController
             'max_price' => $_GET['max_price'] ?? null,
             'featured'  => $_GET['featured'] ?? null,
             'sort'      => $_GET['sort'] ?? 'newest',
-            'page'      => (int) ($_GET['page'] ?? 1),
-            'limit'     => (int) ($_GET['limit'] ?? 20),
+            'page'      => max(1, (int) ($_GET['page'] ?? 1)),
+            'limit'     => max(1, min((int) ($_GET['limit'] ?? 20), 100)),
         ];
 
         $items = $this->products->findAll($filters);

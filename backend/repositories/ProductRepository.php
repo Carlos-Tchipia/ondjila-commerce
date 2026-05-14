@@ -17,49 +17,21 @@ class ProductRepository
 
     public function findAll(array $filters = []): array
     {
-        $conditions = ['p.is_active = 1'];
-        $params     = [];
+        [$conditions, $params] = $this->buildFilterConditions($filters);
 
-        if (!empty($filters['category'])) {
-            $conditions[] = 'p.category = :category';
-            $params[':category'] = $filters['category'];
-        }
-
-        if (!empty($filters['brand'])) {
-            $conditions[] = 'p.brand = :brand';
-            $params[':brand'] = $filters['brand'];
-        }
-
-        if (!empty($filters['search'])) {
-            $conditions[] = '(p.name LIKE :search OR p.brand LIKE :search OR p.description LIKE :search)';
-            $params[':search'] = '%' . $filters['search'] . '%';
-        }
-
-        if (!empty($filters['min_price'])) {
-            $conditions[] = 'p.price >= :min_price';
-            $params[':min_price'] = (float) $filters['min_price'];
-        }
-
-        if (!empty($filters['max_price'])) {
-            $conditions[] = 'p.price <= :max_price';
-            $params[':max_price'] = (float) $filters['max_price'];
-        }
-
-        if (!empty($filters['featured'])) {
-            $conditions[] = 'p.is_featured = 1';
-        }
-
-        $where   = implode(' AND ', $conditions);
+        $where = implode(' AND ', $conditions);
         $orderBy = match ($filters['sort'] ?? 'newest') {
             'price_asc'  => 'p.price ASC',
             'price_desc' => 'p.price DESC',
             'rating'     => 'p.rating DESC',
             'name'       => 'p.name ASC',
+            'featured'   => 'p.is_featured DESC, p.created_at DESC',
             default      => 'p.created_at DESC',
         };
 
-        $limit  = min((int) ($filters['limit'] ?? 20), 100);
-        $offset = ((int) ($filters['page'] ?? 1) - 1) * $limit;
+        $limit  = max(1, min((int) ($filters['limit'] ?? 20), 100));
+        $page   = max(1, (int) ($filters['page'] ?? 1));
+        $offset = ($page - 1) * $limit;
 
         $sql = "SELECT p.* FROM products p
                 WHERE {$where}
@@ -74,21 +46,12 @@ class ProductRepository
 
     public function count(array $filters = []): int
     {
-        $conditions = ['p.is_active = 1'];
-        $params     = [];
-
-        if (!empty($filters['category'])) {
-            $conditions[] = 'p.category = :category';
-            $params[':category'] = $filters['category'];
-        }
-        if (!empty($filters['search'])) {
-            $conditions[] = '(p.name LIKE :search OR p.brand LIKE :search)';
-            $params[':search'] = '%' . $filters['search'] . '%';
-        }
+        [$conditions, $params] = $this->buildFilterConditions($filters);
 
         $where = implode(' AND ', $conditions);
-        $stmt  = $this->db->prepare("SELECT COUNT(*) FROM products p WHERE {$where}");
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM products p WHERE {$where}");
         $stmt->execute($params);
+
         return (int) $stmt->fetchColumn();
     }
 
@@ -97,6 +60,7 @@ class ProductRepository
         $stmt = $this->db->prepare('SELECT * FROM products WHERE id = :id AND is_active = 1');
         $stmt->execute([':id' => $id]);
         $row = $stmt->fetch();
+
         return $row ? $this->hydrate($row) : null;
     }
 
@@ -105,15 +69,77 @@ class ProductRepository
         $stmt = $this->db->prepare('SELECT * FROM products WHERE slug = :slug AND is_active = 1');
         $stmt->execute([':slug' => $slug]);
         $row = $stmt->fetch();
+
         return $row ? $this->hydrate($row) : null;
     }
 
-    public function decrementStock(int $id, int $qty): void
+    public function decrementStock(int $id, int $qty): bool
     {
-        $stmt = $this->db->prepare(
-            'UPDATE products SET stock = stock - :qty WHERE id = :id AND stock >= :qty'
-        );
-        $stmt->execute([':qty' => $qty, ':id' => $id]);
+        $stmt = $this->db->prepare('UPDATE products SET stock = stock - ? WHERE id = ? AND stock >= ?');
+        $stmt->execute([$qty, $id, $qty]);
+
+        return $stmt->rowCount() === 1;
+    }
+
+    public function incrementStock(int $id, int $qty): bool
+    {
+        $stmt = $this->db->prepare('UPDATE products SET stock = stock + ? WHERE id = ?');
+        $stmt->execute([$qty, $id]);
+
+        return $stmt->rowCount() === 1;
+    }
+
+    private function buildFilterConditions(array $filters): array
+    {
+        $conditions = ['p.is_active = 1'];
+        $params = [];
+
+        if (!empty($filters['category'])) {
+            $conditions[] = 'LOWER(p.category) = LOWER(:category)';
+            $params[':category'] = $this->normalizeCategory((string) $filters['category']);
+        }
+
+        if (!empty($filters['brand'])) {
+            $conditions[] = 'LOWER(p.brand) = LOWER(:brand)';
+            $params[':brand'] = (string) $filters['brand'];
+        }
+
+        if (!empty($filters['search'])) {
+            $conditions[] = '(p.name LIKE :search OR p.brand LIKE :search OR p.description LIKE :search)';
+            $params[':search'] = '%' . trim((string) $filters['search']) . '%';
+        }
+
+        if (isset($filters['min_price']) && is_numeric($filters['min_price'])) {
+            $conditions[] = 'p.price >= :min_price';
+            $params[':min_price'] = (float) $filters['min_price'];
+        }
+
+        if (isset($filters['max_price']) && is_numeric($filters['max_price'])) {
+            $conditions[] = 'p.price <= :max_price';
+            $params[':max_price'] = (float) $filters['max_price'];
+        }
+
+        if (!empty($filters['featured'])) {
+            $conditions[] = 'p.is_featured = 1';
+        }
+
+        return [$conditions, $params];
+    }
+
+    private function normalizeCategory(string $category): string
+    {
+        $map = [
+            'audio' => 'auscultadores',
+            'wearables' => 'smartwatches',
+            'cameras' => 'cameras',
+        ];
+
+        $category = trim($category);
+        $normalized = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $category);
+        $normalized = $normalized === false ? $category : $normalized;
+        $key = strtolower($normalized);
+
+        return $map[$key] ?? $category;
     }
 
     private function hydrate(array $row): Product

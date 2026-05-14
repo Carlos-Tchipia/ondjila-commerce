@@ -35,7 +35,8 @@ class OrderController
         $payload = requireAuth();
         $order   = $this->orders->findById($id);
 
-        if ($order === null || $order->user_id !== $payload->sub) {
+        $isAdmin = ($payload->role ?? 'customer') === 'admin';
+        if ($order === null || (!$isAdmin && $order->user_id !== $payload->sub)) {
             respondError('Pedido não encontrado.', 404);
         }
 

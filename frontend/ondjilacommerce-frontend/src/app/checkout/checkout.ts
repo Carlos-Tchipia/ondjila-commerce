@@ -5,6 +5,8 @@ import { UserService } from '../services/user/user.service';
 import { OrderService, OrderRequest } from '../services/order/order.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { finalize, take, timeout } from 'rxjs/operators';
+import { apiErrorMessage } from '../shared/api-feedback';
 
 @Component({
   selector: 'app-checkout',
@@ -20,7 +22,7 @@ export class Checkout {
 
   address = '';
   city = 'Luanda';
-  paymentMethod = 'stub'; // Simulação
+  paymentMethod = 'stub';
   isLoading = false;
   errorMessage = '';
 
@@ -33,9 +35,9 @@ export class Checkout {
     this.isLoading = true;
     this.errorMessage = '';
 
-    this.cartService.cartItems$.subscribe(items => {
+    this.cartService.cartItems$.pipe(take(1)).subscribe(items => {
       if (items.length === 0) {
-        this.errorMessage = 'O seu carrinho está vazio.';
+        this.errorMessage = 'O seu carrinho esta vazio.';
         this.isLoading = false;
         return;
       }
@@ -50,19 +52,25 @@ export class Checkout {
         payment_method: this.paymentMethod
       };
 
-      this.orderService.createOrder(orderRequest).subscribe({
+      this.orderService.createOrder(orderRequest).pipe(
+        timeout(20000),
+        finalize(() => {
+          this.isLoading = false;
+        })
+      ).subscribe({
         next: (res) => {
           if (res.success) {
             this.cartService.clearCart();
             this.router.navigate(['/order-success']);
+            return;
           }
-          this.isLoading = false;
+
+          this.errorMessage = 'Nao foi possivel confirmar o pedido. Tente novamente.';
         },
         error: (err) => {
-          this.errorMessage = err.error?.message || 'Falha ao processar o pedido. Tente novamente.';
-          this.isLoading = false;
+          this.errorMessage = apiErrorMessage(err, 'Falha ao processar o pedido. Tente novamente.');
         }
       });
-    }).unsubscribe();
+    });
   }
 }

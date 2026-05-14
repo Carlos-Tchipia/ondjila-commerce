@@ -1,6 +1,10 @@
 Options -MultiViews
 RewriteEngine On
 
+# Preservar o header Authorization para autenticação Bearer/JWT no PHP
+SetEnvIf Authorization "(.+)" HTTP_AUTHORIZATION=$1
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
 # Redirecionar todos os pedidos para index.php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

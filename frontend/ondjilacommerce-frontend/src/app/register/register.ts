@@ -4,6 +4,8 @@ import { UserService } from '../services/user/user.service';
 import { CartService } from '../services/cart/cart';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { finalize, timeout } from 'rxjs/operators';
+import { apiErrorMessage } from '../shared/api-feedback';
 
 @Component({
   selector: 'app-register',
@@ -20,7 +22,7 @@ export class Register {
   email = '';
   password = '';
   password_confirmation = '';
-  
+
   isLoading = false;
   errorMessage = '';
   errors: any = {};
@@ -37,17 +39,23 @@ export class Register {
       password_confirmation: this.password_confirmation
     };
 
-    this.userService.register(data).subscribe({
+    this.userService.register(data).pipe(
+      timeout(15000),
+      finalize(() => {
+        this.isLoading = false;
+      })
+    ).subscribe({
       next: (res) => {
         if (res.success) {
           this.router.navigate(['/']);
+          return;
         }
-        this.isLoading = false;
+
+        this.errorMessage = 'Nao foi possivel criar a conta. Verifique os dados.';
       },
       error: (err) => {
-        this.errorMessage = err.error?.message || 'Falha ao criar conta. Verifique os dados.';
-        this.errors = err.error?.data || {};
-        this.isLoading = false;
+        this.errorMessage = apiErrorMessage(err, 'Falha ao criar conta. Verifique os dados.');
+        this.errors = err.error?.errors || {};
       }
     });
   }

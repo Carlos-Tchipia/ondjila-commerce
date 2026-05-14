@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { UserService } from '../services/user/user.service';
+import { finalize, timeout } from 'rxjs/operators';
+import { apiErrorMessage } from '../shared/api-feedback';
 
 @Component({
   selector: 'app-reset-password',
@@ -27,7 +29,7 @@ export class ResetPassword implements OnInit {
       this.token = params['token'] || '';
 
       if (!this.email || !this.token) {
-        this.errorMessage = 'Link de recuperação inválido ou incompleto.';
+        this.errorMessage = 'Link de recuperacao invalido ou incompleto.';
       }
     });
   }
@@ -39,21 +41,24 @@ export class ResetPassword implements OnInit {
     }
 
     if (!this.email || !this.token) {
-      this.errorMessage = 'Link de recuperação inválido.';
+      this.errorMessage = 'Link de recuperacao invalido.';
       return;
     }
 
     this.isLoading = true;
     this.errorMessage = '';
-    
-    this.userService.resetPassword(this.email, this.token, this.password).subscribe({
+
+    this.userService.resetPassword(this.email, this.token, this.password).pipe(
+      timeout(15000),
+      finalize(() => {
+        this.isLoading = false;
+      })
+    ).subscribe({
       next: (res) => {
         this.successMessage = res.data?.message || 'Palavra-passe alterada com sucesso!';
-        this.isLoading = false;
       },
       error: (err) => {
-        this.errorMessage = err.error?.message || 'Ocorreu um erro. O link pode ter expirado.';
-        this.isLoading = false;
+        this.errorMessage = apiErrorMessage(err, 'Ocorreu um erro. O link pode ter expirado.');
       }
     });
   }

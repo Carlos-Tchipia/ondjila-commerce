@@ -27,18 +27,16 @@ export class ProductDetail implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((params) => {
       const slug = params['slug'];
-      console.log('[ProductDetail] Procurando por slug:', slug);
       if (slug) {
         this.isLoading = true;
         this.productService.getProductBySlug(slug).subscribe({
           next: (p) => {
-            console.log('[ProductDetail] Produto recebido:', p);
             this.product = p;
             this.isLoading = false;
             this.cdr.detectChanges();
           },
           error: (err) => {
-            console.error('[ProductDetail] Erro ao carregar produto:', err);
+            console.error('Erro ao carregar produto:', err);
             this.isLoading = false;
             this.cdr.detectChanges();
           }

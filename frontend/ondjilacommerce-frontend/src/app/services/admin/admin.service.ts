@@ -1,8 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
-const API_URL = 'http://localhost/ondjila-commerce/backend/api';
+const API_URL = environment.apiUrl;
 
 @Injectable({
   providedIn: 'root'
@@ -58,7 +59,10 @@ export class AdminService {
     return this.http.get(url);
   }
 
-  downloadReport(type: string): void {
-    window.open(`${API_URL}/admin/export?type=${type}`, '_blank');
+  downloadReport(type: string, format: 'csv' | 'pdf' = 'csv'): Observable<Blob> {
+    return this.http.get(`${API_URL}/admin/export`, {
+      params: { type, format },
+      responseType: 'blob'
+    });
   }
 }
