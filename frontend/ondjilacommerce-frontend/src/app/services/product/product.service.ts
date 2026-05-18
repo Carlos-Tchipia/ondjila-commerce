@@ -109,7 +109,7 @@ export class ProductService {
     return {
       id:             String(p.id),
       name:           p.name,
-      slug:           p.slug,
+      slug:           p.slug || this.slugify(`${p.name}-${p.id}`),
       price:          priceFormatted,
       priceRaw:       p.price,
       original_price: p.original_price,
@@ -135,35 +135,44 @@ export class ProductService {
   private getFallbackProducts(): Product[] {
     return [
       {
-        id: '1', name: 'Apple iPhone 15 Pro Max 256GB', price: '749.000 Kz', priceRaw: 749000,
+        id: '1', slug: 'apple-iphone-15-pro-max-256gb-1', name: 'Apple iPhone 15 Pro Max 256GB', price: '749.000 Kz', priceRaw: 749000,
         category: 'Smartphones', brand: 'Apple', description: 'O iPhone mais avançado da Apple.',
         image: 'assets/images/products/smartphones_1.jpg', thumbnails: [], rating: 4.8, stock: 15, is_featured: true
       },
       {
-        id: '2', name: 'Samsung Galaxy S24 Ultra 512GB', price: '689.000 Kz', priceRaw: 689000,
+        id: '2', slug: 'samsung-galaxy-s24-ultra-512gb-2', name: 'Samsung Galaxy S24 Ultra 512GB', price: '689.000 Kz', priceRaw: 689000,
         category: 'Smartphones', brand: 'Samsung', description: 'Galaxy com S Pen, câmera de 200MP e IA integrada.',
         image: 'assets/images/products/smartphones_2.jpg', thumbnails: [], rating: 4.7, stock: 12, is_featured: true
       },
       {
-        id: '5', name: 'Apple MacBook Pro 14" M3 Pro', price: '1.450.000 Kz', priceRaw: 1450000,
+        id: '5', slug: 'apple-macbook-pro-14-m3-pro-5', name: 'Apple MacBook Pro 14" M3 Pro', price: '1.450.000 Kz', priceRaw: 1450000,
         category: 'Laptops', brand: 'Apple', description: 'MacBook Pro com chip M3 Pro.',
         image: 'assets/images/products/laptops_1.jpg', thumbnails: [], rating: 4.9, stock: 8, is_featured: true
       },
       {
-        id: '14', name: 'Apple AirPods Pro 2 (USB-C)', price: '145.000 Kz', priceRaw: 145000,
+        id: '14', slug: 'apple-airpods-pro-2-usb-c-14', name: 'Apple AirPods Pro 2 (USB-C)', price: '145.000 Kz', priceRaw: 145000,
         category: 'Auscultadores', brand: 'Apple', description: 'Cancelamento de ruído adaptativo com chip H2.',
         image: 'assets/images/products/auscultadores_2.jpg', thumbnails: [], rating: 4.7, stock: 35, is_featured: true
       },
       {
-        id: '13', name: 'Sony WH-1000XM5 Over-Ear ANC', price: '129.000 Kz', priceRaw: 129000,
+        id: '13', slug: 'sony-wh-1000xm5-over-ear-anc-13', name: 'Sony WH-1000XM5 Over-Ear ANC', price: '129.000 Kz', priceRaw: 129000,
         category: 'Auscultadores', brand: 'Sony', description: '8 microfones e o melhor ANC do mercado. 30h de bateria.',
         image: 'assets/images/products/auscultadores_1.jpg', thumbnails: [], rating: 4.8, stock: 22, is_featured: true
       },
       {
-        id: '9', name: 'Apple Watch Ultra 2 49mm', price: '489.000 Kz', priceRaw: 489000,
+        id: '9', slug: 'apple-watch-ultra-2-49mm-9', name: 'Apple Watch Ultra 2 49mm', price: '489.000 Kz', priceRaw: 489000,
         category: 'Smartwatches', brand: 'Apple', description: 'O smartwatch mais robusto e avançado da Apple.',
         image: 'assets/images/products/smartwatches_1.jpg', thumbnails: [], rating: 4.8, stock: 10, is_featured: true
       },
     ];
+  }
+
+  private slugify(value: string): string {
+    return value
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
   }
 }

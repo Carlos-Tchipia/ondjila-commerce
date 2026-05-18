@@ -124,22 +124,32 @@ class AuthService
         $stmt = $db->prepare("DELETE FROM password_resets WHERE email = :email");
         $stmt->execute([':email' => $email]);
 
-        // Inserir novo
+        // Inserir novo token
         $stmt = $db->prepare("INSERT INTO password_resets (email, token, expires_at) VALUES (:email, :token, :expires)");
         $stmt->execute([
-            ':email' => $email,
-            ':token' => $token,
-            ':expires' => $expires
+            ':email'   => $email,
+            ':token'   => $token,
+            ':expires' => $expires,
         ]);
 
-        $mail = new \App\Helpers\MailHelper();
-        $sent = $mail->sendPasswordResetEmail($user->email, $user->name, $token);
-
-        if (!$sent) {
-            return ['success' => false, 'message' => 'Erro ao enviar o e-mail de recuperação. Tente novamente mais tarde.'];
+        // Em desenvolvimento, não enviar email (sem SMTP configurado)
+        $mailEnabled = filter_var($_ENV['MAIL_ENABLED'] ?? 'false', FILTER_VALIDATE_BOOLEAN);
+        if ($mailEnabled) {
+            $mail = new \App\Helpers\MailHelper();
+            $mail->sendPasswordResetEmail($user->email, $user->name, $token);
         }
 
-        return ['success' => true, 'message' => 'Se o email existir, receberá um link de recuperação.'];
+        $isDev = ($_ENV['APP_ENV'] ?? 'development') === 'development';
+        $message = 'Se o email existir, receberá um link de recuperação.';
+        $response = ['success' => true, 'message' => $message];
+        
+        // Em modo dev, devolver o token para facilitar testes
+        if ($isDev) {
+            $response['debug_token'] = $token;
+            $response['debug_email'] = $email;
+        }
+
+        return $response;
     }
 
     public function resetPassword(string $email, string $token, string $newPassword): array

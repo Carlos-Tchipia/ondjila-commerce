@@ -4,6 +4,7 @@ import { CartService } from '../services/cart/cart';
 import { UserService } from '../services/user/user.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -52,27 +53,29 @@ export class Login {
 
     this.isLoading = true;
     this.errorMessage = '';
-    const obs = this.isLoginMode 
-      ? this.userService.login(this.email, this.password)
-      : this.userService.register({ 
-          name: this.name, 
-          email: this.email, 
-          password: this.password, 
-          password_confirmation: this.password_confirmation 
-        });
 
-    obs.subscribe({
+    const request$ = this.isLoginMode
+      ? this.userService.login(this.email, this.password)
+      : this.userService.register({
+        name: this.name,
+        email: this.email,
+        password: this.password,
+        password_confirmation: this.password_confirmation
+      });
+
+    request$.pipe(
+      finalize(() => this.isLoading = false)
+    ).subscribe({
       next: (res) => {
         if (res.success) {
           this.router.navigate(['/']);
-        } else {
-          this.errorMessage = 'Resposta da API sem sucesso.';
+          return;
         }
-        this.isLoading = false;
+
+        this.errorMessage = 'Resposta da API sem sucesso.';
       },
       error: (err) => {
-        this.errorMessage = err.error?.message || 'Erro de ligação ao servidor. Verifique se o XAMPP está ativo.';
-        this.isLoading = false;
+        this.errorMessage = this.getErrorMessage(err);
       }
     });
   }
@@ -87,15 +90,23 @@ export class Login {
     this.errorMessage = '';
     this.successMessage = '';
 
-    this.userService.forgotPassword(this.email).subscribe({
+    this.userService.forgotPassword(this.email).pipe(
+      finalize(() => this.isLoading = false)
+    ).subscribe({
       next: (res) => {
-        this.successMessage = res.data?.message || 'E-mail de recuperação enviado com sucesso.';
-        this.isLoading = false;
+        this.successMessage = res.data?.message || 'E-mail de recuperacao enviado com sucesso.';
       },
       error: (err) => {
-        this.errorMessage = err.error?.message || 'Erro ao enviar e-mail. Verifique a sua ligação.';
-        this.isLoading = false;
+        this.errorMessage = this.getErrorMessage(err);
       }
     });
+  }
+
+  private getErrorMessage(err: any): string {
+    if (err?.name === 'TimeoutError') {
+      return 'O servidor demorou a responder. Confirme se o Apache e o MySQL estao ligados e tente novamente.';
+    }
+
+    return err?.error?.message || err?.message || 'Erro de ligacao ao servidor. Verifique se o XAMPP esta ativo.';
   }
 }

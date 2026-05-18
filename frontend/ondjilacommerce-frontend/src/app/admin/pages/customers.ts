@@ -1,6 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminService } from '../../services/admin/admin.service';
+import { Router } from '@angular/router';
+import { UserService } from '../../services/user/user.service';
 
 @Component({
   selector: 'app-admin-customers',
@@ -48,10 +50,25 @@ import { AdminService } from '../../services/admin/admin.service';
 })
 export class AdminCustomers implements OnInit {
   adminService = inject(AdminService);
+  userService = inject(UserService);
+  router = inject(Router);
   customers: any[] = [];
 
   ngOnInit() {
-    this.adminService.getCustomers().subscribe(res => this.customers = res.data || []);
+    this.loadCustomers();
+  }
+
+  loadCustomers() {
+    this.adminService.getCustomers().subscribe({
+      next: res => this.customers = res.data || [],
+      error: err => {
+        this.customers = [];
+        if (err?.status === 401 || err?.status === 403) {
+          this.userService.logout();
+          this.router.navigate(['/login']);
+        }
+      }
+    });
   }
 
   formatDate(dateStr: string) {

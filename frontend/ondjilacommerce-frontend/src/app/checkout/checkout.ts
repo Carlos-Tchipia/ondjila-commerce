@@ -5,6 +5,7 @@ import { UserService } from '../services/user/user.service';
 import { OrderService, OrderRequest } from '../services/order/order.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-checkout',
@@ -33,7 +34,7 @@ export class Checkout {
     this.isLoading = true;
     this.errorMessage = '';
 
-    this.cartService.cartItems$.subscribe(items => {
+    this.cartService.cartItems$.pipe(take(1)).subscribe(items => {
       if (items.length === 0) {
         this.errorMessage = 'O seu carrinho está vazio.';
         this.isLoading = false;
@@ -55,6 +56,8 @@ export class Checkout {
           if (res.success) {
             this.cartService.clearCart();
             this.router.navigate(['/order-success']);
+          } else {
+            this.errorMessage = res.message || 'Falha ao processar o pedido. Tente novamente.';
           }
           this.isLoading = false;
         },
@@ -63,6 +66,6 @@ export class Checkout {
           this.isLoading = false;
         }
       });
-    }).unsubscribe();
+    });
   }
 }

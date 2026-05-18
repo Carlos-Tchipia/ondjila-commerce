@@ -1,4 +1,4 @@
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Component, inject, OnInit } from '@angular/core';
 import { CartService } from '../services/cart/cart';
 import { ProductService, Product } from '../services/product/product.service';
@@ -23,6 +23,7 @@ export class Categories implements OnInit {
   userService = inject(UserService);
   translate = inject(TranslateService);
   themeService = inject(ThemeService);
+  private route = inject(ActivatedRoute);
 
   products: Product[] = [];
   filteredProducts: Product[] = [];
@@ -33,6 +34,13 @@ export class Categories implements OnInit {
   categories = ['Todos', 'Smartphones', 'Laptops', 'Smartwatches', 'Auscultadores', 'Tablets', 'Cameras'];
 
   ngOnInit() {
+    this.route.queryParamMap.subscribe(params => {
+      const category = params.get('category');
+      if (category && this.categories.includes(category)) {
+        this.selectCategory(category);
+      }
+    });
+
     this.loadProducts();
     this.searchService.searchQuery$.subscribe(query => {
       this.searchQuery = query;

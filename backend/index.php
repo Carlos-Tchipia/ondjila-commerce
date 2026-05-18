@@ -85,6 +85,7 @@ try {
     elseif ($path === '/admin/products' && $method === 'GET') (new App\Controllers\AdminController())->listProducts();
     elseif ($path === '/admin/products' && $method === 'POST') (new App\Controllers\AdminController())->storeProduct();
     elseif (preg_match('#^/admin/products/(\d+)$#', $path, $m) && $method === 'PUT') (new App\Controllers\AdminController())->updateProduct((int)$m[1]);
+    elseif (preg_match('#^/admin/products/(\d+)$#', $path, $m) && $method === 'POST') (new App\Controllers\AdminController())->updateProduct((int)$m[1]);
     elseif (preg_match('#^/admin/products/(\d+)$#', $path, $m) && $method === 'DELETE') (new App\Controllers\AdminController())->deleteProduct((int)$m[1]);
     elseif ($path === '/admin/orders' && $method === 'GET') (new App\Controllers\AdminController())->listOrders();
     elseif (preg_match('#^/admin/orders/(\d+)/status$#', $path, $m) && $method === 'PUT') (new App\Controllers\AdminController())->updateStatus((int)$m[1]);

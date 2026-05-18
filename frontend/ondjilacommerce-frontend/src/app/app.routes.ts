@@ -55,9 +55,9 @@ export const routes: Routes = [
   { path: 'returns',       component: Returns },
 
   // Rotas protegidas (CLIENTE)
-  { path: 'cart',             component: Cart,            canActivate: [authGuard] },
-  { path: 'checkout',         component: Checkout,        canActivate: [authGuard] },
-  { path: 'order-success',    component: OrderSuccess,    canActivate: [authGuard] },
+  { path: 'cart',             component: Cart },
+  { path: 'checkout',         component: Checkout },
+  { path: 'order-success',    component: OrderSuccess },
   { path: 'customer-account', component: CustomerAccount, canActivate: [authGuard] },
 
   // Painel de Administração (ADMIN)

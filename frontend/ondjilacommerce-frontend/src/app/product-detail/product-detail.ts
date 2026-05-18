@@ -1,4 +1,4 @@
-import { RouterLink, ActivatedRoute } from '@angular/router';
+import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CartService } from '../services/cart/cart';
 import { ProductService, Product } from '../services/product/product.service';
@@ -20,6 +20,7 @@ export class ProductDetail implements OnInit {
   searchService = inject(SearchService);
   private cdr = inject(ChangeDetectorRef);
   userService = inject(UserService);
+  private router = inject(Router);
 
   product: Product | undefined;
   isLoading = true;
@@ -50,6 +51,13 @@ export class ProductDetail implements OnInit {
   addToCart() {
     if (this.product) {
       this.cartService.addToCart(this.product);
+    }
+  }
+
+  buyNow() {
+    if (this.product) {
+      this.cartService.addToCart(this.product);
+      this.router.navigate(['/checkout']);
     }
   }
 

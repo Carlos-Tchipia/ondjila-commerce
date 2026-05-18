@@ -108,6 +108,27 @@ class AdminController
         return;
     }
 
+    public function listProducts(): void
+    {
+        $category = $_GET['category'] ?? null;
+
+        if ($category) {
+            $stmt = $this->db->prepare("
+                SELECT *
+                FROM products
+                WHERE is_active = 1 AND category = :category
+                ORDER BY created_at DESC
+            ");
+            $stmt->execute([':category' => $category]);
+        } else {
+            $stmt = $this->db->query("
+                SELECT *
+                FROM products
+                WHERE is_active = 1
+                ORDER BY created_at DESC
+            ");
+        }
+
         respond($stmt->fetchAll(PDO::FETCH_ASSOC));
         return;
     }
@@ -140,9 +161,31 @@ class AdminController
         return;
     }
 
+    public function listCustomers(): void
+    {
+        $stmt = $this->db->query("
+            SELECT id, name, email, phone, address, role, created_at
+            FROM users
+            WHERE role = 'customer'
+            ORDER BY created_at DESC
+        ");
+
         respond($stmt->fetchAll(PDO::FETCH_ASSOC));
         return;
     }
+
+    public function listCategories(): void
+    {
+        $stmt = $this->db->query("
+            SELECT
+                category AS name,
+                LOWER(REPLACE(category, ' ', '-')) AS slug,
+                COUNT(*) AS products_count
+            FROM products
+            WHERE is_active = 1
+            GROUP BY category
+            ORDER BY category ASC
+        ");
 
         respond($stmt->fetchAll(PDO::FETCH_ASSOC));
         return;

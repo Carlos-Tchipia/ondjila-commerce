@@ -26,7 +26,7 @@
     <div class="px-3 py-2 hover:bg-surface-container-high cursor-pointer">English</div>
   </div>
 </div>
-<button class="flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200" routerLink="/login">
+<button class="flex items-center gap-xs text-on-surface-variant hover:text-primary-container transition-colors duration-200" [routerLink]="userService.isLoggedIn() ? '/customer-account' : '/login'">
 <span class="material-symbols-outlined" data-icon="person" translate="no">person</span>
 <span class="hidden md:inline font-label-caps uppercase text-[10px]">A minha conta</span>
 </button>
@@ -97,7 +97,7 @@
 <button (click)="addToCart()" class="w-full py-md bg-primary-container text-white font-bold uppercase tracking-widest hover:bg-[#A87A09] transition-colors duration-300">
                         Adicionar ao carrinho
                     </button>
-<button class="w-full py-md bg-inverse-surface text-white font-bold uppercase tracking-widest hover:bg-black transition-colors duration-300">
+<button (click)="buyNow()" class="w-full py-md bg-inverse-surface text-white font-bold uppercase tracking-widest hover:bg-black transition-colors duration-300">
                         Comprar agora
                     </button>
 </div>

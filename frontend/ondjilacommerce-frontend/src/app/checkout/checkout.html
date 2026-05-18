@@ -47,7 +47,7 @@
     {{ errorMessage }}
 </div>
 
-<form (submit)="onSubmit()" class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<form (ngSubmit)="onSubmit()" class="grid grid-cols-1 md:grid-cols-2 gap-md">
     <div class="col-span-2 space-y-base">
         <label class="font-label-caps text-[10px] text-on-surface-variant block uppercase tracking-widest">Endereço de Entrega</label>
         <input name="address" [(ngModel)]="address" class="w-full h-12 px-md bg-surface-container-lowest border border-outline-variant rounded-lg focus:outline-none focus:border-primary-container transition-colors text-sm" placeholder="Ex: Rua Direita da Samba, Edifício Ondjila, 4º Andar" type="text" required/>
